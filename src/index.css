@@ -78,6 +78,61 @@ body {
 .neon-title {
   font-family: 'Cinzel Decorative', serif;
   font-weight: 900;
+  color: #FFE566;
+  -webkit-text-stroke: 1.5px #C8A96E;
   paint-order: stroke fill;
-  animation: neon-3d 5s ease-in-out infinite;
+  text-shadow:
+    0 1px 0 #E8C060,
+    0 2px 0 #D4A840,
+    0 3px 0 #C09030,
+    0 4px 0 #AA7820,
+    0 5px 0 #966010,
+    0 6px 0 #804800,
+    0 7px 0 #6A3800,
+    0 8px 12px rgba(0,0,0,0.6),
+    0 0 20px #C8A96E55,
+    0 0 40px #C8A96E22;
+}
+
+@keyframes ribbon-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ribbon-track {
+  display: flex;
+  gap: 16px;
+  animation: ribbon-scroll 40s linear infinite;
+  width: max-content;
+}
+
+.ribbon-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes card-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px #C8A96E22, 0 0 16px #C8A96E11, inset 0 0 0 1px #C8A96E44;
+  }
+  50% {
+    box-shadow: 0 0 20px #C8A96E88, 0 0 40px #C8A96E44, inset 0 0 0 1px #C8A96Eaa;
+  }
+}
+
+.ribbon-card {
+  animation: card-pulse 3s ease-in-out infinite;
+}
+
+.ribbon-card:nth-child(2n)   { animation-delay: 0.5s; }
+.ribbon-card:nth-child(3n)   { animation-delay: 1s; }
+.ribbon-card:nth-child(4n)   { animation-delay: 1.5s; }
+.ribbon-card:nth-child(5n)   { animation-delay: 2s; }
+
+@keyframes empty-pulse {
+  0%, 100% { border-color: #3B1060; }
+  50%       { border-color: #6633AA55; }
+}
+
+.ribbon-card-empty {
+  animation: empty-pulse 4s ease-in-out infinite;
 }
