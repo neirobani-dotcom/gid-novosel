@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { companies } from './data/companies'
 import GridCard from './components/GridCard'
-import ActivationModal from './components/ActivationModal'
 import GiftsPage from './pages/GiftsPage'
+import CompanyPage from './pages/CompanyPage'
 import './index.css'
 
 const EMPTY_COUNT = 38
@@ -26,9 +26,13 @@ export default function App() {
     return (
       <GiftsPage
         onBack={() => setPage('home')}
-        onSelect={c => { setSelected(c); setPage('home') }}
+        onSelect={c => { setSelected(c); setPage('company') }}
       />
     )
+  }
+
+  if (page === 'company' && selected) {
+    return <CompanyPage company={selected} onBack={() => setPage('home')} />
   }
 
   return (
@@ -95,7 +99,13 @@ export default function App() {
       <div className="px-4 pb-16 max-w-2xl mx-auto">
         <div className="grid grid-cols-2 gap-4">
           {visibleSlots.map((company, i) => (
-            <GridCard key={i} company={company} index={i} onClick={setSelected} />
+            <div key={i} className="fade-up-card" style={{ animationDelay: `${Math.min(i, 10) * 0.04}s` }}>
+              <GridCard
+                company={company}
+                index={i}
+                onClick={c => { setSelected(c); setPage('company') }}
+              />
+            </div>
           ))}
         </div>
       </div>
@@ -105,10 +115,6 @@ export default function App() {
         <div className="w-12 h-px mx-auto mb-4" style={{ background: '#C8A96E33' }} />
         <p className="text-[10px] text-[#3B1060] tracking-widest uppercase">© 2026 Гид Новосёла · Красноярск</p>
       </div>
-
-      {selected && (
-        <ActivationModal company={selected} onClose={() => setSelected(null)} />
-      )}
     </div>
   )
 }

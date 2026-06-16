@@ -3,17 +3,19 @@ export default function GridCard({ company, index, onClick }) {
 
   if (isEmpty) {
     return (
-      <div
-        className="rounded-2xl flex flex-col items-center justify-center gap-2 opacity-25"
+      <a
+        href="tel:+79130401111"
+        className="rounded-2xl flex flex-col items-center justify-center gap-2 transition-opacity hover:opacity-60"
         style={{
           background: 'linear-gradient(135deg, #1A0A2E 0%, #0D0010 100%)',
           border: '1px dashed #3B1060',
           minHeight: 180,
+          opacity: 0.35,
         }}
       >
-        <span className="text-2xl text-[#4A2070]">+</span>
-        <p className="text-[8px] text-[#4A2070] uppercase tracking-widest">Скоро</p>
-      </div>
+        <span className="text-2xl text-[#5A3090]">+</span>
+        <p className="text-[10px] text-[#5A3090] uppercase tracking-widest text-center px-2">Станьте<br />партнёром</p>
+      </a>
     )
   }
 
@@ -49,13 +51,13 @@ export default function GridCard({ company, index, onClick }) {
         </div>
 
         {/* Категория */}
-        <p className="text-[9px] text-[#9966CC] uppercase tracking-widest mb-1 leading-tight">
+        <p className="text-[10px] text-[#AB85D9] uppercase tracking-wide mb-1 leading-tight">
           {company.category}
         </p>
 
         {/* Название */}
         <h3 className="text-base font-bold text-white leading-tight mb-auto"
-          style={{ fontFamily: 'Cinzel Decorative, serif', fontSize: '0.9rem' }}>
+          style={{ fontFamily: 'Cinzel Decorative, serif', fontSize: '0.95rem' }}>
           {company.name}
         </h3>
 
@@ -64,7 +66,7 @@ export default function GridCard({ company, index, onClick }) {
 
         {/* Подарок */}
         <div>
-          <p className="text-[9px] text-[#C8A96E88] uppercase tracking-wider mb-0.5">🎁 Подарок</p>
+          <p className="text-[10px] text-[#D9B97A] uppercase tracking-wide mb-0.5">🎁 Подарок</p>
           <p className="text-xl font-bold text-[#C8A96E]"
             style={{ textShadow: '0 0 12px #C8A96E66' }}>
             {company.giftAmount.toLocaleString('ru-RU')} ₽
@@ -72,7 +74,7 @@ export default function GridCard({ company, index, onClick }) {
         </div>
 
         {/* Кнопка */}
-        <div className="mt-3 w-full py-2 rounded-xl text-center text-xs font-semibold text-black"
+        <div className="mt-3 w-full py-2.5 rounded-xl text-center text-xs font-semibold text-black active:scale-95 transition-transform"
           style={{ background: 'linear-gradient(90deg, #C8A96E, #FFD966)' }}>
           Активировать →
         </div>
