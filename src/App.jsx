@@ -14,7 +14,13 @@ const allSlots = [
 export default function App() {
   const [selected, setSelected] = useState(null)
   const [page, setPage] = useState('home')
+  const [filter, setFilter] = useState('Все')
   const totalGifts = companies.reduce((s, c) => s + c.giftAmount, 0)
+
+  const categories = ['Все', ...new Set(companies.map(c => c.category))]
+  const visibleSlots = filter === 'Все'
+    ? allSlots
+    : allSlots.filter(c => !c || c.category === filter)
 
   if (page === 'gifts') {
     return (
@@ -67,10 +73,28 @@ export default function App() {
         <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, #C8A96E44, transparent)' }} />
       </div>
 
+      {/* Фильтр категорий */}
+      <div className="flex gap-2 overflow-x-auto px-4 pb-5 max-w-2xl mx-auto no-scrollbar">
+        {categories.map(cat => (
+          <button
+            key={cat}
+            onClick={() => setFilter(cat)}
+            className="shrink-0 text-[11px] px-4 py-2 rounded-full border whitespace-nowrap transition-colors"
+            style={
+              filter === cat
+                ? { background: '#C8A96E', color: '#000', borderColor: '#C8A96E', fontWeight: 600 }
+                : { background: 'transparent', color: '#9966CC', borderColor: '#3B1060' }
+            }
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
       {/* ── СЕТКА ── */}
       <div className="px-4 pb-16 max-w-2xl mx-auto">
         <div className="grid grid-cols-2 gap-4">
-          {allSlots.map((company, i) => (
+          {visibleSlots.map((company, i) => (
             <GridCard key={i} company={company} index={i} onClick={setSelected} />
           ))}
         </div>

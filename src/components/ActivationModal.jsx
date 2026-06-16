@@ -34,12 +34,12 @@ export default function ActivationModal({ company, onClose }) {
           <p className="text-[#888] text-sm mb-6">
             Менеджер <span className="text-white font-medium">{company.name}</span> свяжется с вами в течение 1 часа.
           </p>
-          <div className="bg-[#C84BFF15] border border-[#C84BFF40] rounded-xl p-4 mb-6">
-            <p className="text-xs text-[#C84BFF] uppercase tracking-wider mb-1">Ваш подарок активирован</p>
-            <p className="text-[#C84BFF] font-bold text-2xl">{company.giftAmount.toLocaleString('ru-RU')} ₽</p>
+          <div className="bg-[#C8A96E15] border border-[#C8A96E40] rounded-xl p-4 mb-6">
+            <p className="text-xs text-[#C8A96E] uppercase tracking-wider mb-1">Ваш подарок активирован</p>
+            <p className="text-[#C8A96E] font-bold text-2xl">{company.giftAmount.toLocaleString('ru-RU')} ₽</p>
             <p className="text-xs text-[#666] mt-1">{company.giftTarget}</p>
           </div>
-          <button onClick={onClose} className="w-full bg-[#C84BFF] text-black font-semibold py-3 rounded-xl">
+          <button onClick={onClose} className="w-full bg-[#C8A96E] text-black font-semibold py-3 rounded-xl">
             Отлично!
           </button>
         </div>
@@ -59,10 +59,10 @@ export default function ActivationModal({ company, onClose }) {
       </div>
 
       {/* Подарок */}
-      <div className="bg-[#C84BFF15] border border-[#C84BFF40] rounded-xl p-4 mb-5">
-        <p className="text-xs text-[#C84BFF] uppercase tracking-wider mb-1">🎁 Подарок новосёлу</p>
-        <p className="text-[#C84BFF] font-bold text-2xl">{company.giftLabel}</p>
-        <p className="text-xs text-[#C84BFF80] mt-1">{company.giftCondition}</p>
+      <div className="bg-[#C8A96E15] border border-[#C8A96E40] rounded-xl p-4 mb-5">
+        <p className="text-xs text-[#C8A96E] uppercase tracking-wider mb-1">🎁 Подарок новосёлу</p>
+        <p className="text-[#C8A96E] font-bold text-2xl">{company.giftLabel}</p>
+        <p className="text-xs text-[#C8A96E80] mt-1">{company.giftCondition}</p>
       </div>
 
       {/* Бесплатно */}
@@ -83,7 +83,7 @@ export default function ActivationModal({ company, onClose }) {
         <div className="flex flex-col gap-2">
           {company.advantages.map((a, i) => (
             <div key={i} className="flex items-center gap-2 text-sm text-[#888]">
-              <span className="text-[#C84BFF]">·</span> {a}
+              <span className="text-[#C8A96E]">·</span> {a}
             </div>
           ))}
         </div>
@@ -97,8 +97,8 @@ export default function ActivationModal({ company, onClose }) {
             onClick={() => setActiveBtn(btn.type)}
             className={`flex-1 text-sm py-2 px-3 rounded-xl border transition-all ${
               activeBtn === btn.type
-                ? 'bg-[#C84BFF] text-black border-[#C84BFF] font-semibold'
-                : 'bg-transparent text-[#888] border-[#3B1060] hover:border-[#C84BFF40]'
+                ? 'bg-[#C8A96E] text-black border-[#C8A96E] font-semibold'
+                : 'bg-transparent text-[#888] border-[#3B1060] hover:border-[#C8A96E40]'
             }`}
           >
             {btn.label}
@@ -114,7 +114,7 @@ export default function ActivationModal({ company, onClose }) {
           onChange={handleChange}
           placeholder="Ваше имя"
           required
-          className="bg-[#0D0010] border border-[#3B1060] rounded-xl px-4 py-3 text-white placeholder-[#444] focus:outline-none focus:border-[#C84BFF] transition-colors"
+          className="bg-[#0D0010] border border-[#3B1060] rounded-xl px-4 py-3 text-white placeholder-[#444] focus:outline-none focus:border-[#C8A96E] transition-colors"
         />
         <input
           name="phone"
@@ -123,7 +123,7 @@ export default function ActivationModal({ company, onClose }) {
           placeholder="Номер телефона"
           type="tel"
           required
-          className="bg-[#0D0010] border border-[#3B1060] rounded-xl px-4 py-3 text-white placeholder-[#444] focus:outline-none focus:border-[#C84BFF] transition-colors"
+          className="bg-[#0D0010] border border-[#3B1060] rounded-xl px-4 py-3 text-white placeholder-[#444] focus:outline-none focus:border-[#C8A96E] transition-colors"
         />
         <input
           name="address"
@@ -131,11 +131,11 @@ export default function ActivationModal({ company, onClose }) {
           onChange={handleChange}
           placeholder="Адрес дома / название ЖК"
           required
-          className="bg-[#0D0010] border border-[#3B1060] rounded-xl px-4 py-3 text-white placeholder-[#444] focus:outline-none focus:border-[#C84BFF] transition-colors"
+          className="bg-[#0D0010] border border-[#3B1060] rounded-xl px-4 py-3 text-white placeholder-[#444] focus:outline-none focus:border-[#C8A96E] transition-colors"
         />
         <button
           type="submit"
-          className="w-full bg-[#C84BFF] hover:bg-[#E8C98E] text-black font-bold py-4 rounded-xl transition-colors mt-1"
+          className="w-full bg-[#C8A96E] hover:bg-[#E8C98E] text-black font-bold py-4 rounded-xl transition-colors mt-1"
         >
           Активировать подарок →
         </button>
@@ -149,7 +149,7 @@ export default function ActivationModal({ company, onClose }) {
         </div>
         <a
           href={`tel:${company.phone}`}
-          className="bg-[#1A0A2E] border border-[#3B1060] text-[#C84BFF] text-sm font-medium px-4 py-2 rounded-xl hover:border-[#C84BFF] transition-colors"
+          className="bg-[#1A0A2E] border border-[#3B1060] text-[#C8A96E] text-sm font-medium px-4 py-2 rounded-xl hover:border-[#C8A96E] transition-colors"
         >
           📞 Позвонить
         </a>

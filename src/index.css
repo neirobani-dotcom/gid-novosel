@@ -23,6 +23,13 @@ body {
   min-height: 100vh;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 10px #C8A96E33, 0 0 24px #C8A96E11; }
   50% { box-shadow: 0 0 24px #C8A96Eaa, 0 0 48px #C8A96E44; }
