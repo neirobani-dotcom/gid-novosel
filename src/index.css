@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cinzel+Decorative:wght@700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cinzel+Decorative:wght@700;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -11,12 +11,11 @@
 }
 
 body {
-  background-color: #0D0010;
-  color: #F0ECE4;
+  background-color: #F7F4F0;
+  color: #1A1816;
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
-  background-image: radial-gradient(ellipse at 50% 0%, #3B0066 0%, #0D0010 60%);
 }
 
 #root {
@@ -31,124 +30,10 @@ body {
 }
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 .fade-up-card {
   animation: fade-up 0.4s ease-out backwards;
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 10px #C8A96E33, 0 0 24px #C8A96E11; }
-  50% { box-shadow: 0 0 24px #C8A96Eaa, 0 0 48px #C8A96E44; }
-}
-
-.pulse-card {
-  animation: pulse-glow 2.5s ease-in-out infinite;
-}
-
-@keyframes neon-3d {
-  0%, 100% {
-    color: rgba(240,180,255,0.15);
-    -webkit-text-stroke: 2px #DD77FF;
-    text-shadow:
-      0 0 4px #fff,
-      0 0 10px #fff,
-      0 0 20px #CC44FF,
-      0 0 40px #9900FF,
-      0 0 80px #7700CC,
-      0 0 120px #5500AA,
-      1px 1px 0 #8822BB,
-      2px 2px 0 #7711AA,
-      3px 3px 0 #660099,
-      4px 4px 0 #550088,
-      5px 5px 0 #440077,
-      6px 6px 0 #330066,
-      7px 7px 0 #220055,
-      8px 8px 0 #110033,
-      9px 9px 16px rgba(0,0,0,0.8);
-  }
-  50% {
-    color: rgba(255,240,180,0.15);
-    -webkit-text-stroke: 2px #FFD966;
-    text-shadow:
-      0 0 4px #fff,
-      0 0 10px #fff,
-      0 0 20px #FFD700,
-      0 0 40px #C8A96E,
-      0 0 80px #AA8833,
-      0 0 120px #886600,
-      1px 1px 0 #D8A840,
-      2px 2px 0 #C89030,
-      3px 3px 0 #B87820,
-      4px 4px 0 #A86010,
-      5px 5px 0 #985008,
-      6px 6px 0 #774005,
-      7px 7px 0 #553000,
-      8px 8px 0 #332000,
-      9px 9px 16px rgba(0,0,0,0.8);
-  }
-}
-
-.neon-title {
-  font-family: 'Cinzel Decorative', serif;
-  font-weight: 900;
-  color: #FFE566;
-  -webkit-text-stroke: 1.5px #C8A96E;
-  paint-order: stroke fill;
-  text-shadow:
-    0 1px 0 #E8C060,
-    0 2px 0 #D4A840,
-    0 3px 0 #C09030,
-    0 4px 0 #AA7820,
-    0 5px 0 #966010,
-    0 6px 0 #804800,
-    0 7px 0 #6A3800,
-    0 8px 12px rgba(0,0,0,0.6),
-    0 0 20px #C8A96E55,
-    0 0 40px #C8A96E22;
-}
-
-@keyframes ribbon-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-.ribbon-track {
-  display: flex;
-  gap: 16px;
-  animation: ribbon-scroll 40s linear infinite;
-  width: max-content;
-}
-
-.ribbon-track:hover {
-  animation-play-state: paused;
-}
-
-@keyframes card-pulse {
-  0%, 100% {
-    box-shadow: 0 0 8px #C8A96E22, 0 0 16px #C8A96E11, inset 0 0 0 1px #C8A96E44;
-  }
-  50% {
-    box-shadow: 0 0 20px #C8A96E88, 0 0 40px #C8A96E44, inset 0 0 0 1px #C8A96Eaa;
-  }
-}
-
-.ribbon-card {
-  animation: card-pulse 3s ease-in-out infinite;
-}
-
-.ribbon-card:nth-child(2n)   { animation-delay: 0.5s; }
-.ribbon-card:nth-child(3n)   { animation-delay: 1s; }
-.ribbon-card:nth-child(4n)   { animation-delay: 1.5s; }
-.ribbon-card:nth-child(5n)   { animation-delay: 2s; }
-
-@keyframes empty-pulse {
-  0%, 100% { border-color: #3B1060; }
-  50%       { border-color: #6633AA55; }
-}
-
-.ribbon-card-empty {
-  animation: empty-pulse 4s ease-in-out infinite;
 }

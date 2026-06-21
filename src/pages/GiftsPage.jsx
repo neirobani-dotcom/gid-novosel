@@ -1,106 +1,123 @@
 import { companies } from '../data/companies'
 
 export default function GiftsPage({ onBack, onSelect }) {
+  const totalGifts = companies.reduce((s, c) => s + c.giftAmount, 0)
+
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #1A003A 0%, #0D0010 30%)' }}>
+    <div className="min-h-screen" style={{ background: '#F7F4F0' }}>
 
       {/* Шапка */}
-      <div className="sticky top-0 z-10 flex items-center gap-4 px-4 py-4 border-b border-[#2A0A4A]"
-        style={{ background: 'rgba(13,0,16,0.92)', backdropFilter: 'blur(12px)' }}>
+      <div className="sticky top-0 z-10 flex items-center gap-3 px-4 py-3"
+        style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0' }}>
         <button onClick={onBack}
-          className="w-9 h-9 rounded-xl flex items-center justify-center border border-[#3B1060] text-[#C8A96E] hover:border-[#C8A96E] transition-colors">
+          className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
+          style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#6B6560' }}>
           ←
         </button>
         <div>
-          <p className="text-xs text-[#C8A96E] font-semibold">Все подарки</p>
-          <p className="text-[10px] text-[#6633AA]">{companies.length} компании-партнёра</p>
+          <p className="text-sm font-bold" style={{ color: '#1A1816' }}>Все подарки</p>
+          <p className="text-[10px]" style={{ color: '#A09890' }}>{companies.length} компании-партнёра</p>
         </div>
       </div>
 
       {/* Итоговая сумма */}
-      <div className="text-center px-6 py-8">
-        <p className="text-[10px] text-[#C8A96E] uppercase tracking-[3px] mb-1">Суммарно подарков</p>
-        <p className="text-5xl font-bold text-[#C8A96E]"
-          style={{ fontFamily: 'Cinzel Decorative, serif', textShadow: '0 0 24px #C8A96E88' }}>
-          {companies.reduce((s, c) => s + c.giftAmount, 0).toLocaleString('ru-RU')} ₽
-        </p>
-        <p className="text-xs text-[#6633AA] mt-2">Активируй и получи скидку на покупку</p>
+      <div className="px-5 pt-6 pb-4 max-w-lg mx-auto">
+        <div className="rounded-2xl px-5 py-4 flex items-center justify-between"
+          style={{ background: '#FFF3E8', border: '1px solid #FFD0A0' }}>
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ color: '#A09890' }}>
+              Суммарно подарков
+            </p>
+            <p className="text-3xl font-extrabold" style={{ color: '#E8621A', letterSpacing: '-0.03em' }}>
+              {totalGifts.toLocaleString('ru-RU')} ₽
+            </p>
+          </div>
+          <div className="text-right">
+            <p className="text-xs leading-relaxed" style={{ color: '#C25820' }}>
+              Активируй и получи<br />скидку на покупку
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Карточки подарков */}
-      <div className="px-4 pb-16 flex flex-col gap-5 max-w-lg mx-auto">
-        {companies.map((company) => (
-          <div key={company.id}
-            className="rounded-2xl overflow-hidden"
-            style={{
-              background: 'linear-gradient(145deg, #22103A 0%, #130A25 100%)',
-              border: '1px solid #C8A96E33',
-              boxShadow: '0 4px 24px rgba(0,0,0,0.5), inset 0 1px 0 #C8A96E22',
-            }}>
+      {/* Карточки компаний */}
+      <div className="px-4 pb-16 flex flex-col gap-4 max-w-lg mx-auto">
+        {companies.map(company => {
+          const initials = company.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
+          return (
+            <div key={company.id}
+              className="rounded-2xl overflow-hidden"
+              style={{ background: '#FFF', border: '1px solid #EDE8E0', boxShadow: '0 2px 16px rgba(0,0,0,0.05)' }}>
 
-            {/* Фото — заглушка */}
-            <div className="w-full flex items-center justify-center relative"
-              style={{ height: 200, background: 'linear-gradient(135deg, #2A1050, #1A0830)' }}>
-              <div className="flex flex-col items-center gap-2 opacity-40">
-                <span className="text-5xl">📷</span>
-                <p className="text-[10px] text-[#9966CC] uppercase tracking-widest">Фото скоро</p>
-              </div>
-              {/* Название поверх фото */}
-              <div className="absolute bottom-0 left-0 right-0 px-4 pb-3 pt-8"
-                style={{ background: 'linear-gradient(0deg, #1A0A2E 0%, transparent 100%)' }}>
-                <p className="text-[9px] text-[#9966CC] uppercase tracking-widest">{company.category}</p>
-                <p className="text-lg font-bold text-white"
-                  style={{ fontFamily: 'Cinzel Decorative, serif', fontSize: '1rem' }}>
-                  {company.name}
-                </p>
-              </div>
-            </div>
-
-            {/* Контент */}
-            <div className="p-4">
-              {/* Подарок */}
-              <div className="flex items-center justify-between mb-4 p-3 rounded-xl"
-                style={{ background: '#1A0A2E', border: '1px solid #C8A96E33' }}>
+              {/* Шапка карточки */}
+              <div className="relative px-5 pt-5 pb-4 flex items-center gap-4"
+                style={{ background: `linear-gradient(135deg, ${company.color}1A 0%, transparent 100%)` }}>
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0"
+                  style={{ background: company.color || '#E8621A' }}>
+                  {initials}
+                </div>
                 <div>
-                  <p className="text-[9px] text-[#C8A96E] uppercase tracking-wider">🎁 Подарок новосёлу</p>
-                  <p className="text-2xl font-bold text-[#C8A96E]"
-                    style={{ textShadow: '0 0 12px #C8A96E66' }}>
-                    {company.giftAmount.toLocaleString('ru-RU')} ₽
+                  <p className="text-[10px] font-semibold uppercase tracking-wide mb-0.5" style={{ color: '#E8621A' }}>
+                    {company.category}
+                  </p>
+                  <p className="font-bold text-lg leading-tight" style={{ color: '#1A1816' }}>
+                    {company.name}
                   </p>
                 </div>
-                <p className="text-[10px] text-[#C8A96E88] max-w-[120px] text-right leading-tight">
-                  {company.giftCondition}
-                </p>
               </div>
 
-              {/* Бесплатно */}
-              <div className="flex flex-col gap-2 mb-4">
-                {company.freebies.map((f, i) => (
-                  <div key={i} className="flex items-center gap-2 text-sm text-[#CCC]">
-                    <span className="text-green-400 text-xs">✓</span> {f}
+              {/* Контент */}
+              <div className="px-5 pb-5">
+
+                {/* Подарок */}
+                <div className="flex items-start justify-between py-3 mb-3"
+                  style={{ borderBottom: '1px solid #F0EBE3' }}>
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-wide mb-0.5" style={{ color: '#A09890' }}>
+                      🎁 Подарок новосёлу
+                    </p>
+                    <p className="text-2xl font-extrabold" style={{ color: '#E8621A', letterSpacing: '-0.02em' }}>
+                      {company.giftAmount.toLocaleString('ru-RU')} ₽
+                    </p>
                   </div>
-                ))}
-              </div>
+                  <p className="text-[10px] max-w-[130px] text-right leading-relaxed mt-1" style={{ color: '#A09890' }}>
+                    {company.giftCondition}
+                  </p>
+                </div>
 
-              {/* Адрес */}
-              <p className="text-[10px] text-[#6633AA] mb-4">📍 {company.address} · {company.hours}</p>
+                {/* Бесплатные услуги */}
+                <div className="flex flex-col gap-2 mb-3">
+                  {company.freebies.map((f, i) => (
+                    <div key={i} className="flex items-center gap-2 text-sm" style={{ color: '#1A1816' }}>
+                      <span className="text-xs font-bold flex-shrink-0" style={{ color: '#22C55E' }}>✓</span>
+                      {f}
+                    </div>
+                  ))}
+                </div>
 
-              {/* Кнопки */}
-              <div className="flex gap-2">
-                <button
-                  onClick={() => onSelect(company)}
-                  className="flex-1 py-3 rounded-xl font-bold text-sm text-black"
-                  style={{ background: 'linear-gradient(90deg, #C8A96E, #FFD966)' }}>
-                  Активировать подарок
-                </button>
-                <a href={`tel:${company.phone}`}
-                  className="w-11 h-11 rounded-xl flex items-center justify-center border border-[#C8A96E44] text-[#C8A96E] hover:border-[#C8A96E] transition-colors">
-                  📞
-                </a>
+                {/* Адрес */}
+                <p className="text-xs mb-4" style={{ color: '#A09890' }}>
+                  📍 {company.address} · {company.hours}
+                </p>
+
+                {/* Кнопки */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => onSelect(company)}
+                    className="flex-1 py-3 rounded-xl font-bold text-sm text-white"
+                    style={{ background: 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 100%)' }}>
+                    Активировать подарок
+                  </button>
+                  <a href={`tel:${company.phone}`}
+                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors"
+                    style={{ background: '#FFF3E8', border: '1px solid #FFD0A0' }}>
+                    📞
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )

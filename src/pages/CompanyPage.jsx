@@ -1,9 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function CompanyPage({ company, onBack }) {
   const [form, setForm] = useState({ name: '', phone: '', address: '' })
   const [step, setStep] = useState('form')
   const [activeBtn, setActiveBtn] = useState(company.ctaButtons[0].type)
+
+  useEffect(() => {
+    const saved = localStorage.getItem('gid_user')
+    if (saved) {
+      const user = JSON.parse(saved)
+      setForm(f => ({ ...f, name: user.name || '', phone: user.phone || '' }))
+    }
+  }, [])
 
   function handleChange(e) {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }))
@@ -13,31 +21,46 @@ export default function CompanyPage({ company, onBack }) {
     e.preventDefault()
     if (!form.name || !form.phone || !form.address) return
 
-    const subject = encodeURIComponent(`Новый лид: ${company.name} — ${activeBtn === 'measure' ? 'Замер' : 'Проект'}`)
-    const body = encodeURIComponent(
-      `Компания: ${company.name}\n` +
-      `Тип заявки: ${activeBtn === 'measure' ? 'Запись на замер' : 'Получить проект'}\n\n` +
-      `Имя: ${form.name}\n` +
-      `Телефон: ${form.phone}\n` +
-      `Адрес дома / ЖК: ${form.address}`
-    )
-    window.open(`mailto:${company.email || ''}?subject=${subject}&body=${body}`)
+    localStorage.setItem('gid_user', JSON.stringify({ name: form.name, phone: form.phone }))
+
+    const activation = {
+      id: Date.now(),
+      companyId: company.id,
+      companyName: company.name,
+      category: company.category,
+      giftLabel: company.giftLabel,
+      giftAmount: company.giftAmount,
+      requestType: activeBtn,
+      name: form.name,
+      phone: form.phone,
+      address: form.address,
+      createdAt: new Date().toISOString(),
+    }
+
+    const existing = JSON.parse(localStorage.getItem('gid_activations') || '[]')
+    localStorage.setItem('gid_activations', JSON.stringify([activation, ...existing]))
+
     setStep('success')
   }
 
-  return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #1A003A 0%, #0D0010 30%)' }}>
+  const initials = company.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
 
-      {/* Шапка со стрелкой назад */}
-      <div className="sticky top-0 z-10 flex items-center gap-4 px-4 py-4 border-b border-[#2A0A4A]"
-        style={{ background: 'rgba(13,0,16,0.92)', backdropFilter: 'blur(12px)' }}>
+  return (
+    <div className="min-h-screen" style={{ background: '#F7F4F0' }}>
+
+      {/* Шапка */}
+      <div className="sticky top-0 z-10 flex items-center gap-3 px-4 py-3"
+        style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0' }}>
         <button onClick={onBack}
-          className="w-9 h-9 rounded-xl flex items-center justify-center border border-[#3B1060] text-[#C8A96E] hover:border-[#C8A96E] transition-colors">
+          className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
+          style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#6B6560' }}>
           ←
         </button>
         <div>
-          <p className="text-xs text-[#9966CC] uppercase tracking-widest">{company.category}</p>
-          <p className="text-sm font-bold text-white" style={{ fontFamily: 'Cinzel Decorative, serif' }}>
+          <p className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: '#E8621A' }}>
+            {company.category}
+          </p>
+          <p className="text-sm font-bold" style={{ color: '#1A1816' }}>
             {company.name}
           </p>
         </div>
@@ -46,45 +69,91 @@ export default function CompanyPage({ company, onBack }) {
       <div className="max-w-md mx-auto px-4 py-6">
 
         {step === 'success' ? (
+
+          /* ── УСПЕХ ── */
           <div className="text-center py-10">
-            <div className="text-5xl mb-4">🎉</div>
-            <h3 className="text-xl font-bold text-white mb-2">Заявка отправлена!</h3>
-            <p className="text-[#9966CC] text-sm mb-6">
-              Менеджер <span className="text-white font-medium">{company.name}</span> свяжется с вами в течение 1 часа.
-            </p>
-            <div className="rounded-xl p-4 mb-6" style={{ background: '#1A0A2E', border: '1px solid #C8A96E44' }}>
-              <p className="text-xs text-[#C8A96E] uppercase tracking-wider mb-1">Ваш подарок активирован</p>
-              <p className="text-[#C8A96E] font-bold text-2xl">{company.giftAmount.toLocaleString('ru-RU')} ₽</p>
-              <p className="text-xs text-[#6633AA] mt-1">{company.giftTarget}</p>
+            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl"
+              style={{ background: '#FFF3E8', border: '2px solid #FFD0A0' }}>
+              🎉
             </div>
+            <h3 className="text-2xl font-bold mb-2" style={{ color: '#1A1816' }}>
+              Подарок активирован!
+            </h3>
+            <p className="text-sm mb-6" style={{ color: '#6B6560' }}>
+              Менеджер{' '}
+              <span className="font-semibold" style={{ color: '#1A1816' }}>{company.name}</span>{' '}
+              свяжется с вами в течение 1 часа.
+            </p>
+
+            <div className="rounded-2xl p-5 mb-6 text-left"
+              style={{ background: '#FFF', border: '1px solid #EDE8E0', boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
+              <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: '#A09890' }}>
+                Ваш подарок
+              </p>
+              <p className="font-bold text-xl mb-1" style={{ color: '#E8621A' }}>
+                {company.giftLabel}
+              </p>
+              <p className="text-xs mb-4" style={{ color: '#A09890' }}>{company.giftCondition}</p>
+              <div className="pt-3" style={{ borderTop: '1px solid #F0EBE3' }}>
+                <p className="text-[10px] mb-1" style={{ color: '#A09890' }}>Заявка оформлена на:</p>
+                <p className="text-sm font-semibold" style={{ color: '#1A1816' }}>
+                  {form.name} · {form.phone}
+                </p>
+                <p className="text-xs mt-0.5" style={{ color: '#6B6560' }}>{form.address}</p>
+              </div>
+            </div>
+
             <button onClick={onBack}
-              className="w-full font-bold py-3 rounded-xl text-black"
-              style={{ background: 'linear-gradient(90deg, #C8A96E, #FFD966)' }}>
+              className="w-full font-bold py-4 rounded-2xl text-white"
+              style={{ background: 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 100%)' }}>
               На главную
             </button>
           </div>
+
         ) : (
+
+          /* ── ФОРМА ── */
           <>
-            {/* Лого-заглушка */}
-            <div className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-5"
-              style={{ background: 'linear-gradient(135deg, #2A1050, #1A0830)', border: '1px solid #C8A96E33' }}>
-              <span className="text-3xl">🏢</span>
+            {/* Карточка компании */}
+            <div className="rounded-2xl overflow-hidden mb-5"
+              style={{ background: '#FFF', border: '1px solid #EDE8E0', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
+              <div className="px-5 pt-5 pb-4 flex items-center gap-4"
+                style={{ background: `linear-gradient(135deg, ${company.color}18 0%, transparent 100%)` }}>
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0"
+                  style={{ background: company.color || '#E8621A' }}>
+                  {initials}
+                </div>
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-wide mb-0.5" style={{ color: '#E8621A' }}>
+                    {company.category}
+                  </p>
+                  <p className="font-bold text-base" style={{ color: '#1A1816' }}>{company.name}</p>
+                </div>
+              </div>
             </div>
 
             {/* Подарок */}
-            <div className="rounded-xl p-4 mb-5" style={{ background: '#1A0A2E', border: '1px solid #C8A96E44' }}>
-              <p className="text-xs text-[#C8A96E] uppercase tracking-wider mb-1">🎁 Подарок новосёлу</p>
-              <p className="text-[#C8A96E] font-bold text-2xl">{company.giftLabel}</p>
-              <p className="text-xs text-[#C8A96E80] mt-1">{company.giftCondition}</p>
+            <div className="rounded-2xl px-5 py-4 mb-5"
+              style={{ background: '#FFF3E8', border: '1px solid #FFD0A0' }}>
+              <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ color: '#A09890' }}>
+                🎁 Подарок новосёлу
+              </p>
+              <p className="text-2xl font-extrabold" style={{ color: '#E8621A', letterSpacing: '-0.02em' }}>
+                {company.giftLabel}
+              </p>
+              <p className="text-xs mt-1" style={{ color: '#C25820' }}>{company.giftCondition}</p>
             </div>
 
             {/* Бесплатно */}
             <div className="mb-5">
-              <p className="text-xs text-[#6633AA] uppercase tracking-wider mb-2">Бесплатно для вас</p>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#A09890' }}>
+                Бесплатно для вас
+              </p>
               <div className="flex flex-col gap-2">
                 {company.freebies.map((f, i) => (
-                  <div key={i} className="flex items-center gap-2 text-sm text-[#CCC]">
-                    <span className="text-green-400">✓</span> {f}
+                  <div key={i} className="flex items-center gap-2 text-sm" style={{ color: '#1A1816' }}>
+                    <span className="text-xs font-bold flex-shrink-0" style={{ color: '#22C55E' }}>✓</span>
+                    {f}
                   </div>
                 ))}
               </div>
@@ -92,27 +161,30 @@ export default function CompanyPage({ company, onBack }) {
 
             {/* Преимущества */}
             <div className="mb-5">
-              <p className="text-xs text-[#6633AA] uppercase tracking-wider mb-2">Почему выбирают нас</p>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#A09890' }}>
+                Почему выбирают нас
+              </p>
               <div className="flex flex-col gap-2">
                 {company.advantages.map((a, i) => (
-                  <div key={i} className="flex items-center gap-2 text-sm text-[#999]">
-                    <span className="text-[#C8A96E]">·</span> {a}
+                  <div key={i} className="flex items-center gap-2 text-sm" style={{ color: '#6B6560' }}>
+                    <span style={{ color: '#E8621A', fontWeight: 700 }}>·</span>
+                    {a}
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Выбор типа заявки */}
+            {/* Тип заявки */}
             <div className="flex gap-2 mb-5">
               {company.ctaButtons.map(btn => (
                 <button
                   key={btn.type}
                   onClick={() => setActiveBtn(btn.type)}
-                  className="flex-1 text-sm py-2 px-3 rounded-xl border transition-all"
+                  className="flex-1 text-sm py-2.5 px-3 rounded-xl transition-all font-medium"
                   style={
                     activeBtn === btn.type
-                      ? { background: '#C8A96E', color: '#000', borderColor: '#C8A96E', fontWeight: 600 }
-                      : { background: 'transparent', color: '#999', borderColor: '#3B1060' }
+                      ? { background: '#E8621A', color: '#FFF', border: '1px solid #E8621A' }
+                      : { background: '#FFF', color: '#6B6560', border: '1px solid #EDE8E0' }
                   }
                 >
                   {btn.label}
@@ -122,40 +194,42 @@ export default function CompanyPage({ company, onBack }) {
 
             {/* Форма */}
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-              <input
-                name="name" value={form.name} onChange={handleChange}
-                placeholder="Ваше имя" required
-                className="rounded-xl px-4 py-3 text-white placeholder-[#555] focus:outline-none transition-colors"
-                style={{ background: '#0D0010', border: '1px solid #3B1060' }}
-              />
-              <input
-                name="phone" value={form.phone} onChange={handleChange}
-                placeholder="Номер телефона" type="tel" required
-                className="rounded-xl px-4 py-3 text-white placeholder-[#555] focus:outline-none transition-colors"
-                style={{ background: '#0D0010', border: '1px solid #3B1060' }}
-              />
-              <input
-                name="address" value={form.address} onChange={handleChange}
-                placeholder="Адрес дома / название ЖК" required
-                className="rounded-xl px-4 py-3 text-white placeholder-[#555] focus:outline-none transition-colors"
-                style={{ background: '#0D0010', border: '1px solid #3B1060' }}
-              />
+              {[
+                { name: 'name', placeholder: 'Ваше имя', type: 'text' },
+                { name: 'phone', placeholder: 'Номер телефона', type: 'tel' },
+                { name: 'address', placeholder: 'Адрес дома / название ЖК', type: 'text' },
+              ].map(field => (
+                <input
+                  key={field.name}
+                  name={field.name}
+                  value={form[field.name]}
+                  onChange={handleChange}
+                  placeholder={field.placeholder}
+                  type={field.type}
+                  required
+                  className="rounded-xl px-4 py-3 text-sm focus:outline-none transition-all"
+                  style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#1A1816' }}
+                  onFocus={e => { e.target.style.borderColor = '#E8621A' }}
+                  onBlur={e => { e.target.style.borderColor = '#EDE8E0' }}
+                />
+              ))}
               <button type="submit"
-                className="w-full font-bold py-4 rounded-xl mt-1 text-black"
-                style={{ background: 'linear-gradient(90deg, #C8A96E, #FFD966)' }}>
+                className="w-full font-bold py-4 rounded-2xl mt-1 text-white"
+                style={{ background: 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 100%)' }}>
                 Активировать подарок →
               </button>
             </form>
 
-            {/* Контакты */}
-            <div className="mt-5 pt-4 flex items-center justify-between" style={{ borderTop: '1px solid #3B1060' }}>
+            {/* Адрес и телефон */}
+            <div className="mt-5 pt-4 flex items-center justify-between"
+              style={{ borderTop: '1px solid #EDE8E0' }}>
               <div>
-                <p className="text-xs text-[#6633AA]">📍 {company.address}</p>
-                <p className="text-xs text-[#6633AA]">🕐 {company.hours}</p>
+                <p className="text-xs mb-1" style={{ color: '#A09890' }}>📍 {company.address}</p>
+                <p className="text-xs" style={{ color: '#A09890' }}>🕐 {company.hours}</p>
               </div>
               <a href={`tel:${company.phone}`}
-                className="text-sm font-medium px-4 py-2 rounded-xl transition-colors"
-                style={{ background: '#1A0A2E', border: '1px solid #3B1060', color: '#C8A96E' }}>
+                className="text-sm font-semibold px-4 py-2 rounded-xl transition-colors"
+                style={{ background: '#FFF3E8', border: '1px solid #FFD0A0', color: '#E8621A' }}>
                 📞 Позвонить
               </a>
             </div>
