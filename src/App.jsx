@@ -50,7 +50,10 @@ export default function App() {
         <div className="absolute bottom-0 -left-16 w-72 h-72 rounded-full pointer-events-none"
           style={{ background: 'radial-gradient(circle, rgba(232,98,26,0.07) 0%, transparent 65%)' }} />
 
-        <div className="relative max-w-2xl mx-auto px-5 pt-10 pb-12">
+        <div className="relative max-w-2xl mx-auto px-5 pt-8 pb-12">
+
+          {/* Логотип — фирменный знак слева */}
+          <img src={logoSrc} alt="Гид Новосёла" style={{ width: '100%', maxWidth: 340, height: 'auto' }} className="mb-4" />
 
           {/* Бейдж города */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-5"
@@ -58,9 +61,6 @@ export default function App() {
             <span className="text-xs">📍</span>
             <span className="text-xs font-semibold" style={{ color: '#C25820' }}>Красноярск</span>
           </div>
-
-          {/* Логотип */}
-          <img src={logoSrc} alt="Гид Новосёла" style={{ height: 88 }} className="mb-3" />
 
           {/* Подзаголовок */}
           <p className="mb-8 leading-relaxed" style={{ color: '#6B6560', fontSize: '1.05rem', maxWidth: '36ch' }}>
