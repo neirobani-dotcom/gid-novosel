@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import logoSrc from '../assets/logo.svg'
 
 export default function CompanyPage({ company, onBack }) {
   const [form, setForm] = useState({ name: '', phone: '', address: '' })
@@ -52,15 +53,16 @@ export default function CompanyPage({ company, onBack }) {
       <div className="sticky top-0 z-10 flex items-center gap-3 px-4 py-3"
         style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0' }}>
         <button onClick={onBack}
-          className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
+          className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
           style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#6B6560' }}>
           ←
         </button>
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: '#E8621A' }}>
+        <img src={logoSrc} alt="Гид Новосёла" style={{ height: 30 }} className="flex-shrink-0" />
+        <div className="min-w-0">
+          <p className="text-[10px] font-semibold uppercase tracking-wide truncate" style={{ color: '#E8621A' }}>
             {company.category}
           </p>
-          <p className="text-sm font-bold" style={{ color: '#1A1816' }}>
+          <p className="text-sm font-bold truncate" style={{ color: '#1A1816' }}>
             {company.name}
           </p>
         </div>

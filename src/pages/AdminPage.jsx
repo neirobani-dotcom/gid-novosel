@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import logoSrc from '../assets/logo.svg'
 import { companies } from '../data/companies'
 
 export default function AdminPage({ onBack }) {
@@ -31,10 +32,11 @@ export default function AdminPage({ onBack }) {
         style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0' }}>
         <div className="flex items-center gap-3">
           <button onClick={onBack}
-            className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
+            className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
             style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#6B6560' }}>
             ←
           </button>
+          <img src={logoSrc} alt="Гид Новосёла" style={{ height: 30 }} className="flex-shrink-0" />
           <p className="text-sm font-bold" style={{ color: '#1A1816' }}>Статистика</p>
         </div>
         {activations.length > 0 && (

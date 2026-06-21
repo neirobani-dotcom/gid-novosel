@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import logoSrc from './assets/logo.svg'
 import { companies } from './data/companies'
 import GridCard from './components/GridCard'
 import GiftsPage from './pages/GiftsPage'
@@ -58,19 +59,8 @@ export default function App() {
             <span className="text-xs font-semibold" style={{ color: '#C25820' }}>Красноярск</span>
           </div>
 
-          {/* Заголовок */}
-          <h1 className="font-extrabold mb-3 leading-tight"
-            style={{ fontSize: 'clamp(2.4rem, 10vw, 4rem)', letterSpacing: '-0.03em', color: '#1A1816' }}>
-            Гид{' '}
-            <span style={{
-              background: 'linear-gradient(130deg, #E8621A 0%, #FF9B2F 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>
-              Новосёла
-            </span>
-          </h1>
+          {/* Логотип */}
+          <img src={logoSrc} alt="Гид Новосёла" style={{ height: 88 }} className="mb-3" />
 
           {/* Подзаголовок */}
           <p className="mb-8 leading-relaxed" style={{ color: '#6B6560', fontSize: '1.05rem', maxWidth: '36ch' }}>

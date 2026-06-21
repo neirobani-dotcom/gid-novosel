@@ -1,3 +1,4 @@
+import logoSrc from '../assets/logo.svg'
 import { companies } from '../data/companies'
 
 export default function GiftsPage({ onBack, onSelect }) {
@@ -10,10 +11,11 @@ export default function GiftsPage({ onBack, onSelect }) {
       <div className="sticky top-0 z-10 flex items-center gap-3 px-4 py-3"
         style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0' }}>
         <button onClick={onBack}
-          className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
+          className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
           style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#6B6560' }}>
           ←
         </button>
+        <img src={logoSrc} alt="Гид Новосёла" style={{ height: 30 }} className="flex-shrink-0" />
         <div>
           <p className="text-sm font-bold" style={{ color: '#1A1816' }}>Все подарки</p>
           <p className="text-[10px]" style={{ color: '#A09890' }}>{companies.length} компании-партнёра</p>
