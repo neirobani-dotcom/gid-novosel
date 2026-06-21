@@ -159,7 +159,9 @@ export default function App() {
           </span>
         </div>
         <p className="text-sm mb-5" style={{ color: '#A09890' }}>
-          Предъявите каталог при визите — и получите скидку
+          Предъявите{' '}
+          <span className="font-bold" style={{ color: '#E8621A', fontSize: '1rem' }}>СЕРТИФИКАТ</span>
+          {' '}при визите — и получите скидку
         </p>
 
         {/* Фильтр категорий */}
