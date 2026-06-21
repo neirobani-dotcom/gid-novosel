@@ -36,7 +36,7 @@ export default function AdminPage({ onBack }) {
             style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#6B6560' }}>
             ←
           </button>
-          <img src={logoSrc} alt="Гид Новосёла" style={{ height: 30 }} className="flex-shrink-0" />
+          <img src={logoSrc} alt="Гид Новосёла" style={{ height: 24 }} className="flex-shrink-0" />
           <p className="text-sm font-bold" style={{ color: '#1A1816' }}>Статистика</p>
         </div>
         {activations.length > 0 && (
