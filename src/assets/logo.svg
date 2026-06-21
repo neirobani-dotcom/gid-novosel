@@ -1,96 +1,168 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 790 225">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 270">
   <defs>
-    <linearGradient id="grd" x1="0" y1="0" x2="790" y2="0" gradientUnits="userSpaceOnUse">
+    <!--
+      Горизонтальный градиент по всей ширине SVG.
+      Угловой шар Г (x≈27) — чистый оранжевый.
+      Шары Д (x≈430-500) — золотой.
+    -->
+    <linearGradient id="grd" x1="0" y1="0" x2="520" y2="0" gradientUnits="userSpaceOnUse">
       <stop offset="0%"   stop-color="#E8621A"/>
       <stop offset="100%" stop-color="#F5A623"/>
     </linearGradient>
   </defs>
   <style>
-    @keyframes pw { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
-    @keyframes tw { 0%,100%{opacity:1} 50%{opacity:0.78} }
-    circle { transform-box:fill-box; transform-origin:center; animation:pw 2.5s ease-in-out infinite; }
-    .w0{animation-delay:0s}    .w1{animation-delay:.15s}
-    .w2{animation-delay:.3s}   .w3{animation-delay:.45s}
-    .w4{animation-delay:.6s}   .w5{animation-delay:.75s}
-    .w6{animation-delay:.9s}   .w7{animation-delay:1.05s}
-    .w8{animation-delay:1.2s}
-    .lt{animation:tw 2.5s ease-in-out infinite .5s}
+    /*
+      corner — самый большой шар: пульсирует + переливается оранжево-золотым.
+      blink   — все остальные шары мигают по очереди (волна слева направо).
+    */
+    @keyframes corner-anim {
+      0%,100% { transform:scale(1);    fill:#E8621A; }
+      50%     { transform:scale(1.38); fill:#F5A623; }
+    }
+    @keyframes blink {
+      0%,100% { opacity:1; }
+      50%     { opacity:0.3; }
+    }
+    .corner {
+      transform-box:fill-box;
+      transform-origin:center;
+      animation:corner-anim 2s ease-in-out infinite;
+    }
+    /* Волна b1→b12: 0.2s шаг, длительность 3s */
+    .b1  { animation:blink 3s ease-in-out infinite 0.20s; }
+    .b2  { animation:blink 3s ease-in-out infinite 0.40s; }
+    .b3  { animation:blink 3s ease-in-out infinite 0.60s; }
+    .b4  { animation:blink 3s ease-in-out infinite 0.80s; }
+    .b5  { animation:blink 3s ease-in-out infinite 1.00s; }
+    .b6  { animation:blink 3s ease-in-out infinite 1.20s; }
+    .b7  { animation:blink 3s ease-in-out infinite 1.40s; }
+    .b8  { animation:blink 3s ease-in-out infinite 1.60s; }
+    .b9  { animation:blink 3s ease-in-out infinite 1.80s; }
+    .b10 { animation:blink 3s ease-in-out infinite 2.00s; }
+    .b11 { animation:blink 3s ease-in-out infinite 2.20s; }
+    .b12 { animation:blink 3s ease-in-out infinite 2.40s; }
+    .lt  { animation:blink 3s ease-in-out infinite 2.60s; }
   </style>
 
   <!--
-    Шары 5 уровней: r = [24, 19, 15, 12, 9]
-    Y-позиции (gap=5px): cy = [29, 77, 116, 148, 174]
-    X-позиции горизонтали (те же формулы): cx = [29, 77, 116, 148, 174]
+    ══════════════════════════════════════════
+    БУКВА Г
+    ══════════════════════════════════════════
+    Горизонталь: 6 ОДИНАКОВЫХ шаров r=22, gap=5px
+      cx = 27, 76, 125, 174, 223, 272  (шаг 49px)
+      cy = 27 для всех
+      Верх (cy-r): 27-22 = 5 — граница сверху
 
-    Топ всех угловых шаров: cy-r = 29-24 = 5
-    Топ текста НОВОСЁЛА: baseline(41) - cap-height(36) = 5  ← совпадает ✓
-    Всё на одной прямой сверху.
+    Вертикаль: 6 УБЫВАЮЩИХ шаров, cx=27
+      r:  22 → 17 → 13 → 10 → 8 → 6
+      cy: 27 → 71 → 106 → 134 → 157 → 176  (gap=5px)
+      Низ последнего: 176+6 = 182
   -->
 
-  <!-- ══════ Г ══════ -->
-  <!-- Угловой шар (самый большой, вверху слева) -->
-  <circle cx="29"  cy="29"  r="24" fill="url(#grd)" class="w0"/>
-  <!-- Горизонтальный штрих → (убывают вправо) -->
-  <circle cx="77"  cy="29"  r="19" fill="url(#grd)" class="w1"/>
-  <circle cx="116" cy="29"  r="15" fill="url(#grd)" class="w2"/>
-  <circle cx="148" cy="29"  r="12" fill="url(#grd)" class="w3"/>
-  <circle cx="174" cy="29"  r="9"  fill="url(#grd)" class="w4"/>
-  <!-- Вертикальный штрих ↓ (убывают вниз) -->
-  <circle cx="29"  cy="77"  r="19" fill="url(#grd)" class="w1"/>
-  <circle cx="29"  cy="116" r="15" fill="url(#grd)" class="w2"/>
-  <circle cx="29"  cy="148" r="12" fill="url(#grd)" class="w3"/>
-  <circle cx="29"  cy="174" r="9"  fill="url(#grd)" class="w4"/>
+  <!-- Угловой шар — самый большой, class="corner" -->
+  <circle cx="27" cy="27" r="22" fill="#E8621A" class="corner"/>
 
-  <!-- ══════ И ══════ -->
-  <!-- Левый вертикальный штрих -->
-  <circle cx="227" cy="29"  r="24" fill="url(#grd)" class="w5"/>
-  <circle cx="227" cy="77"  r="19" fill="url(#grd)" class="w5"/>
-  <circle cx="227" cy="116" r="15" fill="url(#grd)" class="w5"/>
-  <circle cx="227" cy="148" r="12" fill="url(#grd)" class="w5"/>
-  <circle cx="227" cy="174" r="9"  fill="url(#grd)" class="w5"/>
-  <!-- Диагональный штрих (вверх-право → вниз-лево, как в букве И) -->
-  <circle cx="281" cy="65"  r="12" fill="url(#grd)" class="w5"/>
-  <circle cx="270" cy="87"  r="11" fill="url(#grd)" class="w5"/>
-  <circle cx="259" cy="109" r="10" fill="url(#grd)" class="w6"/>
-  <circle cx="249" cy="131" r="10" fill="url(#grd)" class="w6"/>
-  <circle cx="238" cy="152" r="9"  fill="url(#grd)" class="w6"/>
-  <!-- Правый вертикальный штрих -->
-  <circle cx="299" cy="29"  r="24" fill="url(#grd)" class="w6"/>
-  <circle cx="299" cy="77"  r="19" fill="url(#grd)" class="w6"/>
-  <circle cx="299" cy="116" r="15" fill="url(#grd)" class="w6"/>
-  <circle cx="299" cy="148" r="12" fill="url(#grd)" class="w6"/>
-  <circle cx="299" cy="174" r="9"  fill="url(#grd)" class="w6"/>
+  <!-- Горизонтальный штрих Г (шары 2-6, равные) -->
+  <circle cx="76"  cy="27" r="22" fill="url(#grd)" class="b1"/>
+  <circle cx="125" cy="27" r="22" fill="url(#grd)" class="b2"/>
+  <circle cx="174" cy="27" r="22" fill="url(#grd)" class="b3"/>
+  <circle cx="223" cy="27" r="22" fill="url(#grd)" class="b4"/>
+  <circle cx="272" cy="27" r="22" fill="url(#grd)" class="b5"/>
 
-  <!-- ══════ Д ══════ -->
-  <!-- Левый вертикальный штрих -->
-  <circle cx="367" cy="29"  r="24" fill="url(#grd)" class="w7"/>
-  <circle cx="367" cy="77"  r="19" fill="url(#grd)" class="w7"/>
-  <circle cx="367" cy="116" r="15" fill="url(#grd)" class="w7"/>
-  <circle cx="367" cy="148" r="12" fill="url(#grd)" class="w7"/>
-  <circle cx="367" cy="174" r="9"  fill="url(#grd)" class="w7"/>
-  <!-- Верхняя перекладина (соединяет левый и правый штрихи вверху) -->
-  <circle cx="403" cy="29"  r="13" fill="url(#grd)" class="w7"/>
-  <!-- Правый вертикальный штрих -->
-  <circle cx="439" cy="29"  r="24" fill="url(#grd)" class="w8"/>
-  <circle cx="439" cy="77"  r="19" fill="url(#grd)" class="w8"/>
-  <circle cx="439" cy="116" r="15" fill="url(#grd)" class="w8"/>
-  <circle cx="439" cy="148" r="12" fill="url(#grd)" class="w8"/>
-  <circle cx="439" cy="174" r="9"  fill="url(#grd)" class="w8"/>
-  <!-- Ножки Д (выступают ниже и наружу, как у буквы Д) -->
-  <circle cx="358" cy="187" r="9"  fill="url(#grd)" class="w7"/>
-  <circle cx="448" cy="187" r="9"  fill="url(#grd)" class="w8"/>
+  <!-- Вертикальный штрих Г (шары 2-6, убывающие) -->
+  <circle cx="27" cy="71"  r="17" fill="url(#grd)" class="b1"/>
+  <circle cx="27" cy="106" r="13" fill="url(#grd)" class="b2"/>
+  <circle cx="27" cy="134" r="10" fill="url(#grd)" class="b3"/>
+  <circle cx="27" cy="157" r="8"  fill="url(#grd)" class="b4"/>
+  <circle cx="27" cy="176" r="6"  fill="url(#grd)" class="b5"/>
 
   <!--
-    НОВОСЁЛА — справа от ГИД, на одном уровне с верхними шарами.
-    y=41: cap-top = 41 - 50×0.72 = 5 = верх шаров (cy=29, r=24 → top=5) ✓
+    ══════════════════════════════════════════
+    БУКВА И
+    ══════════════════════════════════════════
+    Левый  штрих: cx=326, r=12, cy=[17,48,79,110,141,172]  (gap=7px)
+    Правый штрих: cx=386  — ширина между центрами 60px
+    Диагональ: 6 шаров r=9 от верха правого → низу левого
+      (верх-правый → низ-левый, как в букве И)
+
+    Верх (cy-r): 17-12 = 5 — та же граница ✓
+    Низ (cy+r):  172+12 = 184 ≈ 182 у Г ✓
+  -->
+
+  <!-- Левый вертикальный штрих И -->
+  <circle cx="326" cy="17"  r="12" fill="url(#grd)" class="b6"/>
+  <circle cx="326" cy="48"  r="12" fill="url(#grd)" class="b7"/>
+  <circle cx="326" cy="79"  r="12" fill="url(#grd)" class="b8"/>
+  <circle cx="326" cy="110" r="12" fill="url(#grd)" class="b9"/>
+  <circle cx="326" cy="141" r="12" fill="url(#grd)" class="b10"/>
+  <circle cx="326" cy="172" r="12" fill="url(#grd)" class="b11"/>
+
+  <!-- Диагональ И (верх-право → низ-лево) -->
+  <circle cx="380" cy="33"  r="9" fill="url(#grd)" class="b6"/>
+  <circle cx="371" cy="56"  r="9" fill="url(#grd)" class="b7"/>
+  <circle cx="362" cy="79"  r="9" fill="url(#grd)" class="b8"/>
+  <circle cx="353" cy="102" r="9" fill="url(#grd)" class="b9"/>
+  <circle cx="344" cy="126" r="9" fill="url(#grd)" class="b10"/>
+  <circle cx="335" cy="149" r="9" fill="url(#grd)" class="b11"/>
+
+  <!-- Правый вертикальный штрих И -->
+  <circle cx="386" cy="17"  r="12" fill="url(#grd)" class="b6"/>
+  <circle cx="386" cy="48"  r="12" fill="url(#grd)" class="b7"/>
+  <circle cx="386" cy="79"  r="12" fill="url(#grd)" class="b8"/>
+  <circle cx="386" cy="110" r="12" fill="url(#grd)" class="b9"/>
+  <circle cx="386" cy="141" r="12" fill="url(#grd)" class="b10"/>
+  <circle cx="386" cy="172" r="12" fill="url(#grd)" class="b11"/>
+
+  <!--
+    ══════════════════════════════════════════
+    БУКВА Д
+    ══════════════════════════════════════════
+    Левый  штрих: cx=430, r=12, те же cy что у И
+    Правый штрих: cx=490
+    Верхняя перекладина: cx=460, cy=17, r=15 (закрывает зазор между штрихами)
+    Ножки: cx=420 и cx=500, cy=187, r=8 (выступают ниже и наружу)
+  -->
+
+  <!-- Левый вертикальный штрих Д -->
+  <circle cx="430" cy="17"  r="12" fill="url(#grd)" class="b7"/>
+  <circle cx="430" cy="48"  r="12" fill="url(#grd)" class="b8"/>
+  <circle cx="430" cy="79"  r="12" fill="url(#grd)" class="b9"/>
+  <circle cx="430" cy="110" r="12" fill="url(#grd)" class="b10"/>
+  <circle cx="430" cy="141" r="12" fill="url(#grd)" class="b11"/>
+  <circle cx="430" cy="172" r="12" fill="url(#grd)" class="b12"/>
+
+  <!-- Верхняя перекладина Д (соединяет оба штриха) -->
+  <circle cx="460" cy="17" r="15" fill="url(#grd)" class="b7"/>
+
+  <!-- Правый вертикальный штрих Д -->
+  <circle cx="490" cy="17"  r="12" fill="url(#grd)" class="b7"/>
+  <circle cx="490" cy="48"  r="12" fill="url(#grd)" class="b8"/>
+  <circle cx="490" cy="79"  r="12" fill="url(#grd)" class="b9"/>
+  <circle cx="490" cy="110" r="12" fill="url(#grd)" class="b10"/>
+  <circle cx="490" cy="141" r="12" fill="url(#grd)" class="b11"/>
+  <circle cx="490" cy="172" r="12" fill="url(#grd)" class="b12"/>
+
+  <!-- Ножки Д (чуть ниже и снаружи от штрихов) -->
+  <circle cx="420" cy="187" r="8" fill="url(#grd)" class="b12"/>
+  <circle cx="500" cy="187" r="8" fill="url(#grd)" class="b12"/>
+
+  <!--
+    ══════════════════════════════════════════
+    НОВОСЁЛА
+    ══════════════════════════════════════════
+    Под буквами ГИД, крупный шрифт, оранжевый.
+    Ножки Д: bottom = 187+8 = 195.  Gap → text top = 195+18 = 213.
+    font-size=60, cap-height=43px → baseline = 213+43 = 256.
+    textLength=460 → текст занимает ~ту же ширину что и ГИД (5-503px).
   -->
   <text
-    x="485" y="41"
+    x="260" y="256"
+    text-anchor="middle"
     font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
-    font-size="50"
+    font-size="60"
     font-weight="800"
-    fill="url(#grd)"
-    textLength="280"
+    fill="#E8621A"
+    textLength="460"
     lengthAdjust="spacingAndGlyphs"
     class="lt">НОВОСЁЛА</text>
 </svg>
