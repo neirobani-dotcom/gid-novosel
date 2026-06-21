@@ -1,55 +1,45 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 455 74">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 270">
   <defs>
-    <!--
-      gradientUnits="userSpaceOnUse" — градиент растянут по всей ширине SVG,
-      так что каждый кружок и каждая буква берут свой оттенок по x-позиции.
-    -->
-    <linearGradient id="grd" x1="0" y1="0" x2="455" y2="0" gradientUnits="userSpaceOnUse">
+    <linearGradient id="grd" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse">
       <stop offset="0%"   stop-color="#E8621A"/>
       <stop offset="100%" stop-color="#F5A623"/>
     </linearGradient>
   </defs>
   <style>
-    @keyframes pw { 0%,100%{transform:scale(1)} 50%{transform:scale(1.22)} }
+    @keyframes pw { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
     @keyframes tw { 0%,100%{opacity:1} 50%{opacity:0.78} }
     circle { transform-box:fill-box; transform-origin:center; animation:pw 2.5s ease-in-out infinite; }
-    .w0{animation-delay:0s}   .w1{animation-delay:.2s}
-    .w2{animation-delay:.4s}  .w3{animation-delay:.6s}
-    .w4{animation-delay:.8s}  .w5{animation-delay:1s}
-    .lt{animation:tw 2.5s ease-in-out infinite .4s}
+    .w0{animation-delay:0s}   .w1{animation-delay:.25s}
+    .w2{animation-delay:.5s}  .w3{animation-delay:.75s}
+    .w4{animation-delay:1s}
+    .lt{animation:tw 2.5s ease-in-out infinite .5s}
   </style>
 
   <!--
-    БУКВА «Г»
-    Самый большой кружок (r=18) занимает ровно высоту заглавных букв:
-      сверху y=26 (= cy 44 − r 18)  ← верх заглавных букв НОВОСЁЛА
-      снизу  y=62 (= cy 44 + r 18)  ← базовая линия текста
-    Второй кружок вертикального штриха немного ниже — даёт «ногу» буквы Г.
+    Буква Г: угловой кружок + горизонтальный штрих (слева направо, убывают)
+    Г занимает ~200×155px в координатах SVG (от x=7 до x=297, y=7 до y=202)
   -->
+  <circle cx="75"  cy="75" r="68" fill="url(#grd)" class="w0"/>
+  <circle cx="178" cy="75" r="45" fill="url(#grd)" class="w1"/>
+  <circle cx="236" cy="75" r="27" fill="url(#grd)" class="w2"/>
+  <circle cx="268" cy="75" r="16" fill="url(#grd)" class="w3"/>
+  <circle cx="288" cy="75" r="9"  fill="url(#grd)" class="w4"/>
 
-  <!-- Г: вертикальный штрих (слева) -->
-  <circle cx="18" cy="44" r="18" fill="url(#grd)" class="w0"/>
-  <circle cx="18" cy="56" r="10" fill="url(#grd)" class="w0"/>
-
-  <!-- Г: горизонтальный штрих (вправо, кружки убывают) -->
-  <circle cx="48"  cy="44" r="13"  fill="url(#grd)" class="w1"/>
-  <circle cx="74"  cy="44" r="9"   fill="url(#grd)" class="w2"/>
-  <circle cx="94"  cy="44" r="7"   fill="url(#grd)" class="w3"/>
-  <circle cx="110" cy="44" r="5.5" fill="url(#grd)" class="w4"/>
-  <circle cx="122" cy="44" r="4.5" fill="url(#grd)" class="w5"/>
+  <!-- Буква Г: вертикальный штрих вниз -->
+  <circle cx="75"  cy="160" r="42" fill="url(#grd)" class="w0"/>
 
   <!--
-    НОВОСЁЛА
-    baseline y=62 = нижний край самого большого кружка.
-    font-size=50, cap-height ≈ 36px → верх букв на y=62−36=26 = верх кружка.
-    Буква Г и слово НОВОСЁЛА стоят ровно на одной линии.
+    НОВОСЁЛА — снизу по центру, оранжевый цвет.
+    textLength фиксирует ширину 276px чтобы текст всегда помещался в 300px SVG.
   -->
   <text
-    x="140" y="62"
+    x="150" y="255"
+    text-anchor="middle"
     font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
-    font-size="50"
+    font-size="48"
     font-weight="800"
-    letter-spacing="2"
-    fill="url(#grd)"
+    fill="#E8621A"
+    textLength="276"
+    lengthAdjust="spacingAndGlyphs"
     class="lt">НОВОСЁЛА</text>
 </svg>
