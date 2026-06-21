@@ -1,45 +1,64 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 270">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 260">
   <defs>
-    <linearGradient id="grd" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse">
+    <!--
+      Градиент по всей ширине SVG: оранжевый (Г слева) → золотой (конец НОВОСЁЛА справа)
+    -->
+    <linearGradient id="grd" x1="0" y1="0" x2="580" y2="0" gradientUnits="userSpaceOnUse">
       <stop offset="0%"   stop-color="#E8621A"/>
       <stop offset="100%" stop-color="#F5A623"/>
     </linearGradient>
   </defs>
   <style>
-    @keyframes pw { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+    @keyframes pw { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
     @keyframes tw { 0%,100%{opacity:1} 50%{opacity:0.78} }
     circle { transform-box:fill-box; transform-origin:center; animation:pw 2.5s ease-in-out infinite; }
-    .w0{animation-delay:0s}   .w1{animation-delay:.25s}
-    .w2{animation-delay:.5s}  .w3{animation-delay:.75s}
-    .w4{animation-delay:1s}
+    .w0{animation-delay:0s}   .w1{animation-delay:.2s}
+    .w2{animation-delay:.4s}  .w3{animation-delay:.6s}
+    .w4{animation-delay:.8s}  .w5{animation-delay:1s}
     .lt{animation:tw 2.5s ease-in-out infinite .5s}
   </style>
 
   <!--
-    Буква Г: угловой кружок + горизонтальный штрих (слева направо, убывают)
-    Г занимает ~200×155px в координатах SVG (от x=7 до x=297, y=7 до y=202)
-  -->
-  <circle cx="75"  cy="75" r="68" fill="url(#grd)" class="w0"/>
-  <circle cx="178" cy="75" r="45" fill="url(#grd)" class="w1"/>
-  <circle cx="236" cy="75" r="27" fill="url(#grd)" class="w2"/>
-  <circle cx="268" cy="75" r="16" fill="url(#grd)" class="w3"/>
-  <circle cx="288" cy="75" r="9"  fill="url(#grd)" class="w4"/>
+    Буква Г:
+      Угловой шар (самый большой, вверху слева) — общий для обоих штрихов.
+      cx=35 cy=35 r=30  →  верх y=5, низ y=65
 
-  <!-- Буква Г: вертикальный штрих вниз -->
-  <circle cx="75"  cy="160" r="42" fill="url(#grd)" class="w0"/>
+    Расстановка шаров (gap=5px между краями):
+      r: 30 → 24 → 19 → 15 → 12 → 9
+      центры: 35 → 94 → 142 → 181 → 213 → 239
+  -->
+
+  <!-- УГЛОВОЙ ШАР (шар №1, самый большой) -->
+  <circle cx="35"  cy="35"  r="30" fill="url(#grd)" class="w0"/>
+
+  <!-- ГОРИЗОНТАЛЬНЫЙ ШТРИХ Г (шары 2-6, слева направо, cy=35) -->
+  <circle cx="94"  cy="35"  r="24" fill="url(#grd)" class="w1"/>
+  <circle cx="142" cy="35"  r="19" fill="url(#grd)" class="w2"/>
+  <circle cx="181" cy="35"  r="15" fill="url(#grd)" class="w3"/>
+  <circle cx="213" cy="35"  r="12" fill="url(#grd)" class="w4"/>
+  <circle cx="239" cy="35"  r="9"  fill="url(#grd)" class="w5"/>
+
+  <!-- ВЕРТИКАЛЬНЫЙ ШТРИХ Г (шары 2-6, сверху вниз, cx=35) -->
+  <circle cx="35"  cy="94"  r="24" fill="url(#grd)" class="w1"/>
+  <circle cx="35"  cy="142" r="19" fill="url(#grd)" class="w2"/>
+  <circle cx="35"  cy="181" r="15" fill="url(#grd)" class="w3"/>
+  <circle cx="35"  cy="213" r="12" fill="url(#grd)" class="w4"/>
+  <circle cx="35"  cy="239" r="9"  fill="url(#grd)" class="w5"/>
 
   <!--
-    НОВОСЁЛА — снизу по центру, оранжевый цвет.
-    textLength фиксирует ширину 276px чтобы текст всегда помещался в 300px SVG.
+    НОВОСЁЛА — справа от угла, на одном уровне с первым (угловым) шаром.
+    Шар: cy=35, r=30 → вертикальный центр в y=35.
+    Текст: font-size=50, cap-height≈36px → baseline=35+18=53 → текст визуально центрирован на шаре.
+    textLength="300" — гарантирует что текст не вылезет за правый край (580px).
   -->
   <text
-    x="150" y="255"
-    text-anchor="middle"
+    x="266" y="53"
     font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
-    font-size="48"
+    font-size="50"
     font-weight="800"
-    fill="#E8621A"
-    textLength="276"
+    letter-spacing="2"
+    fill="url(#grd)"
+    textLength="300"
     lengthAdjust="spacingAndGlyphs"
     class="lt">НОВОСЁЛА</text>
 </svg>
