@@ -50,9 +50,9 @@ export default function CompanyPage({ company, onBack }) {
   return (
     <div className="min-h-screen" style={{ background: '#F7F4F0' }}>
 
-      {/* Шапка */}
+      {/* Шапка — скрываем когда открыт лайтбокс */}
       <div className="sticky top-0 z-10 flex items-center gap-3 px-4 py-3"
-        style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0' }}>
+        style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0', visibility: lightbox !== null ? 'hidden' : 'visible' }}>
         <button onClick={onBack}
           className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
           style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#6B6560' }}>
@@ -293,8 +293,8 @@ export default function CompanyPage({ company, onBack }) {
       {/* ── Лайтбокс ── */}
       {lightbox !== null && company.images?.length > 0 && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ background: 'rgba(0,0,0,0.93)' }}
+          className="fixed inset-0 flex items-center justify-center"
+          style={{ background: 'rgba(0,0,0,0.93)', zIndex: 9999 }}
           onClick={() => setLightbox(null)}
         >
           {/* Закрыть */}
