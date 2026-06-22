@@ -43,10 +43,13 @@ export const companies = [
     site: null,
     email: null,
     color: '#2E6B8A',
+    logo: '/partners/kafel-emarti/photo-1.jpeg',
     images: [
-      '/partners/kafel-emarti/photo-1.jpeg',
-      '/partners/kafel-emarti/photo-2.jpeg',
       '/partners/kafel-emarti/photo-3.jpeg',
+      '/partners/kafel-emarti/photo-4.jpeg',
+      '/partners/kafel-emarti/photo-5.jpeg',
+      '/partners/kafel-emarti/photo-6.jpeg',
+      '/partners/kafel-emarti/photo-7.jpeg',
     ],
     addresses: [
       { label: 'ТК Авиатор', address: 'ул. Авиаторов 5, 1 этаж', phone: '+79538546331', phoneFriendly: '+7 953 854 63 31' },

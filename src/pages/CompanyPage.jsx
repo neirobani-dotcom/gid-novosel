@@ -119,12 +119,21 @@ export default function CompanyPage({ company, onBack }) {
             {/* Карточка компании */}
             <div className="rounded-2xl overflow-hidden mb-5"
               style={{ background: '#FFF', border: '1px solid #EDE8E0', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
-              <div className="px-5 pt-5 pb-4 flex items-center gap-4"
-                style={{ background: `linear-gradient(135deg, ${company.color}18 0%, transparent 100%)` }}>
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0"
-                  style={{ background: company.color || '#E8621A' }}>
-                  {initials}
+              {company.logo && (
+                <div className="flex items-center justify-center px-6 pt-5 pb-3"
+                  style={{ background: `linear-gradient(135deg, ${company.color}12 0%, transparent 100%)` }}>
+                  <img src={company.logo} alt={`${company.name} логотип`}
+                    style={{ height: 56, maxWidth: 220, objectFit: 'contain' }} />
                 </div>
+              )}
+              <div className="px-5 pt-3 pb-4 flex items-center gap-4"
+                style={company.logo ? {} : { background: `linear-gradient(135deg, ${company.color}18 0%, transparent 100%)` }}>
+                {!company.logo && (
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0"
+                    style={{ background: company.color || '#E8621A' }}>
+                    {initials}
+                  </div>
+                )}
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-wide mb-0.5" style={{ color: '#E8621A' }}>
                     {company.category}
@@ -133,6 +142,34 @@ export default function CompanyPage({ company, onBack }) {
                 </div>
               </div>
             </div>
+
+            {/* Галерея фотографий */}
+            {company.images?.length > 0 && (
+              <div className="mb-5 -mx-4">
+                <p className="text-[10px] font-semibold uppercase tracking-widest mb-3 px-4" style={{ color: '#A09890' }}>
+                  Примеры работ
+                </p>
+                <div className="flex gap-3 overflow-x-auto px-4 pb-1 no-scrollbar"
+                  style={{ scrollSnapType: 'x mandatory' }}>
+                  {company.images.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      alt={`${company.name} — пример ${i + 1}`}
+                      style={{
+                        height: 200,
+                        width: 280,
+                        objectFit: 'cover',
+                        flexShrink: 0,
+                        borderRadius: 16,
+                        scrollSnapAlign: 'start',
+                        border: '1px solid #EDE8E0',
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Подарок */}
             <div className="rounded-2xl px-5 py-4 mb-5"
