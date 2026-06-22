@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import logoSrc from './assets/logo.svg'
+import logoSrc from '/site-logo.jpg'
 import { companies } from './data/companies'
 import GridCard from './components/GridCard'
 import GiftsPage from './pages/GiftsPage'
@@ -53,7 +53,7 @@ export default function App() {
         <div className="relative max-w-2xl mx-auto px-5 pt-8 pb-12">
 
           {/* Логотип — фирменный знак слева */}
-          <img src={logoSrc} alt="Гид Новосёла" style={{ width: '100%', maxWidth: 520, height: 'auto' }} className="mb-4" />
+          <img src={logoSrc} alt="Гид Новосёла" style={{ width: '100%', maxWidth: 520, height: 'auto' }} className="mb-4 logo-neon" />
 
           {/* Бейдж города */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-5"

@@ -1,4 +1,4 @@
-import logoSrc from '../assets/logo.svg'
+import logoSrc from '/site-logo.jpg'
 import { companies } from '../data/companies'
 
 export default function GiftsPage({ onBack, onSelect }) {
@@ -15,7 +15,7 @@ export default function GiftsPage({ onBack, onSelect }) {
           style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#6B6560' }}>
           ←
         </button>
-        <img src={logoSrc} alt="Гид Новосёла" style={{ height: 30 }} className="flex-shrink-0" />
+        <img src={logoSrc} alt="Гид Новосёла" style={{ height: 30, width: 'auto' }} className="flex-shrink-0 logo-neon" />
         <div>
           <p className="text-sm font-bold" style={{ color: '#1A1816' }}>Все подарки</p>
           <p className="text-[10px]" style={{ color: '#A09890' }}>{companies.length} компании-партнёра</p>
