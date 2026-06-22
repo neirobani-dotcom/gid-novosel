@@ -6,7 +6,7 @@ export default function CompanyPage({ company, onBack }) {
   const [form, setForm] = useState({ name: '', phone: '', address: '' })
   const [step, setStep] = useState('form')
   const [activeBtn, setActiveBtn] = useState(company.ctaButtons[0].type)
-  const [lightbox, setLightbox] = useState(null) // индекс открытого фото или null
+  const [lightbox, setLightbox] = useState(null)
 
   useEffect(() => {
     const saved = localStorage.getItem('gid_user')
@@ -48,10 +48,16 @@ export default function CompanyPage({ company, onBack }) {
 
   const initials = company.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
 
+  // freebies can be strings (old) or {icon, label} objects (new)
+  const freebiesAsObjects = company.freebies?.map(f =>
+    typeof f === 'string' ? { icon: '✓', label: f } : f
+  ) || []
+  const hasIconFreebies = company.freebies?.some(f => typeof f === 'object')
+
   return (
     <div className="min-h-screen" style={{ background: '#F7F4F0' }}>
 
-      {/* Шапка — скрываем когда открыт лайтбокс */}
+      {/* Шапка */}
       <div className="sticky top-0 z-10 flex items-center gap-3 px-4 py-3"
         style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0', visibility: lightbox !== null ? 'hidden' : 'visible' }}>
         <button onClick={onBack}
@@ -118,7 +124,7 @@ export default function CompanyPage({ company, onBack }) {
 
           /* ── ФОРМА ── */
           <>
-            {/* Карточка компании */}
+            {/* ── Карточка компании ── */}
             <div className="rounded-2xl overflow-hidden mb-5"
               style={{ background: '#FFF', border: '1px solid #EDE8E0', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
               {company.logo && (
@@ -141,11 +147,55 @@ export default function CompanyPage({ company, onBack }) {
                     {company.category}
                   </p>
                   <p className="font-bold text-base" style={{ color: '#1A1816' }}>{company.name}</p>
+                  {company.rating && (
+                    <p className="text-xs mt-0.5" style={{ color: '#6B6560' }}>{company.rating}</p>
+                  )}
                 </div>
               </div>
             </div>
 
-            {/* ── Галерея работ — полноценный слайдер ── */}
+            {/* ── Главный оффер ── */}
+            <div className="rounded-2xl px-5 py-4 mb-5"
+              style={{ background: '#FFF3E8', border: '1px solid #FFD0A0' }}>
+              <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ color: '#A09890' }}>
+                🎁 Подарок новосёлу
+              </p>
+              <p className="text-2xl font-extrabold" style={{ color: '#E8621A', letterSpacing: '-0.02em' }}>
+                {company.giftLabel}
+              </p>
+              <p className="text-xs mt-1" style={{ color: '#C25820' }}>{company.giftCondition}</p>
+            </div>
+
+            {/* ── Бонусы — иконки 2×2 или список ── */}
+            {freebiesAsObjects.length > 0 && (
+              <div className="mb-5">
+                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#A09890' }}>
+                  Бесплатно для вас
+                </p>
+                {hasIconFreebies ? (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                    {freebiesAsObjects.map((f, i) => (
+                      <div key={i} className="rounded-xl px-3 py-3 flex flex-col items-start gap-1"
+                        style={{ background: '#FFF', border: '1px solid #EDE8E0' }}>
+                        <span style={{ fontSize: 22 }}>{f.icon}</span>
+                        <span className="text-xs font-medium leading-tight" style={{ color: '#1A1816' }}>{f.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    {freebiesAsObjects.map((f, i) => (
+                      <div key={i} className="flex items-center gap-2 text-sm" style={{ color: '#1A1816' }}>
+                        <span className="text-xs font-bold flex-shrink-0" style={{ color: '#22C55E' }}>✓</span>
+                        {f.label}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ── Галерея работ ── */}
             {company.images?.length > 0 && (
               <div className="mb-5">
                 <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: '#A09890' }}>
@@ -160,55 +210,40 @@ export default function CompanyPage({ company, onBack }) {
               </div>
             )}
 
-            {/* Подарок */}
-            <div className="rounded-2xl px-5 py-4 mb-5"
-              style={{ background: '#FFF3E8', border: '1px solid #FFD0A0' }}>
-              <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ color: '#A09890' }}>
-                🎁 Подарок новосёлу
-              </p>
-              <p className="text-2xl font-extrabold" style={{ color: '#E8621A', letterSpacing: '-0.02em' }}>
-                {company.giftLabel}
-              </p>
-              <p className="text-xs mt-1" style={{ color: '#C25820' }}>{company.giftCondition}</p>
-            </div>
-
-            {/* Бесплатно */}
-            <div className="mb-5">
-              <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#A09890' }}>
-                Бесплатно для вас
-              </p>
-              <div className="flex flex-col gap-2">
-                {company.freebies.map((f, i) => (
-                  <div key={i} className="flex items-center gap-2 text-sm" style={{ color: '#1A1816' }}>
-                    <span className="text-xs font-bold flex-shrink-0" style={{ color: '#22C55E' }}>✓</span>
-                    {f}
-                  </div>
-                ))}
+            {/* ── Преимущества ── */}
+            {company.advantages?.length > 0 && (
+              <div className="mb-5">
+                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#A09890' }}>
+                  Почему выбирают нас
+                </p>
+                <div className="flex flex-col gap-2">
+                  {company.advantages.map((a, i) => (
+                    <div key={i} className="flex items-center gap-2 text-sm" style={{ color: '#6B6560' }}>
+                      <span style={{ color: '#E8621A', fontWeight: 700 }}>·</span>
+                      {a}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Преимущества */}
-            <div className="mb-5">
-              <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#A09890' }}>
-                Почему выбирают нас
-              </p>
-              <div className="flex flex-col gap-2">
-                {company.advantages.map((a, i) => (
-                  <div key={i} className="flex items-center gap-2 text-sm" style={{ color: '#6B6560' }}>
-                    <span style={{ color: '#E8621A', fontWeight: 700 }}>·</span>
-                    {a}
-                  </div>
-                ))}
+            {/* ── Описание компании ── */}
+            {company.description && (
+              <div className="rounded-2xl px-5 py-4 mb-5"
+                style={{ background: '#FFF', border: '1px solid #EDE8E0' }}>
+                <p className="text-sm leading-relaxed" style={{ color: '#6B6560' }}>
+                  {company.description}
+                </p>
               </div>
-            </div>
+            )}
 
-            {/* Тип заявки */}
-            <div className="flex gap-2 mb-5">
+            {/* ── Кнопки CTA — вертикально ── */}
+            <div className="flex flex-col gap-2 mb-5">
               {company.ctaButtons.map(btn => (
                 <button
                   key={btn.type}
                   onClick={() => setActiveBtn(btn.type)}
-                  className="flex-1 text-sm py-2.5 px-3 rounded-xl transition-all font-medium"
+                  className="w-full text-sm py-3.5 px-4 rounded-xl transition-all font-semibold text-left"
                   style={
                     activeBtn === btn.type
                       ? { background: '#E8621A', color: '#FFF', border: '1px solid #E8621A' }
@@ -220,8 +255,8 @@ export default function CompanyPage({ company, onBack }) {
               ))}
             </div>
 
-            {/* Форма */}
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+            {/* ── Форма ── */}
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3 mb-5">
               {[
                 { name: 'name', placeholder: 'Ваше имя', type: 'text' },
                 { name: 'phone', placeholder: 'Номер телефона', type: 'tel' },
@@ -248,22 +283,44 @@ export default function CompanyPage({ company, onBack }) {
               </button>
             </form>
 
-            {/* Адрес и телефон */}
-            <div className="mt-5 pt-4 flex items-center justify-between"
-              style={{ borderTop: '1px solid #EDE8E0' }}>
-              <div>
-                <p className="text-xs mb-1" style={{ color: '#A09890' }}>📍 {company.address}</p>
-                <p className="text-xs" style={{ color: '#A09890' }}>🕐 {company.hours}</p>
+            {/* ── Адреса ── */}
+            {company.addresses?.length > 0 ? (
+              <div className="mt-2 pt-4 flex flex-col gap-3" style={{ borderTop: '1px solid #EDE8E0' }}>
+                {company.addresses.map((loc, i) => (
+                  <div key={i} className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold mb-0.5" style={{ color: '#1A1816' }}>{loc.label}</p>
+                      <p className="text-xs" style={{ color: '#A09890' }}>📍 {loc.address}</p>
+                      {loc.phoneFriendly && (
+                        <p className="text-xs mt-0.5" style={{ color: '#A09890' }}>📞 {loc.phoneFriendly}</p>
+                      )}
+                    </div>
+                    <a href={`tel:${loc.phoneFriendly?.replace(/\D/g, '').replace(/^7/, '+7') || company.phone}`}
+                      className="text-xs font-semibold px-3 py-2 rounded-xl flex-shrink-0 transition-colors"
+                      style={{ background: '#FFF3E8', border: '1px solid #FFD0A0', color: '#E8621A' }}>
+                      Звонить
+                    </a>
+                  </div>
+                ))}
               </div>
-              <a href={`tel:${company.phone}`}
-                className="text-sm font-semibold px-4 py-2 rounded-xl transition-colors"
-                style={{ background: '#FFF3E8', border: '1px solid #FFD0A0', color: '#E8621A' }}>
-                📞 Позвонить
-              </a>
-            </div>
+            ) : (
+              <div className="mt-5 pt-4 flex items-center justify-between"
+                style={{ borderTop: '1px solid #EDE8E0' }}>
+                <div>
+                  <p className="text-xs mb-1" style={{ color: '#A09890' }}>📍 {company.address}</p>
+                  <p className="text-xs" style={{ color: '#A09890' }}>🕐 {company.hours}</p>
+                </div>
+                <a href={`tel:${company.phone}`}
+                  className="text-sm font-semibold px-4 py-2 rounded-xl transition-colors"
+                  style={{ background: '#FFF3E8', border: '1px solid #FFD0A0', color: '#E8621A' }}>
+                  📞 Позвонить
+                </a>
+              </div>
+            )}
           </>
         )}
       </div>
+
       {/* ── Лайтбокс ── */}
       {lightbox !== null && company.images?.length > 0 && (
         <div
@@ -271,20 +328,17 @@ export default function CompanyPage({ company, onBack }) {
           style={{ background: 'rgba(0,0,0,0.93)', zIndex: 9999 }}
           onClick={() => setLightbox(null)}
         >
-          {/* Закрыть */}
           <button
             className="absolute top-4 right-4 flex items-center justify-center rounded-full text-white"
             style={{ width: 40, height: 40, background: 'rgba(255,255,255,0.15)', fontSize: 20, lineHeight: 1 }}
             onClick={() => setLightbox(null)}
           >×</button>
 
-          {/* Счётчик */}
           <p className="absolute top-5 left-0 right-0 text-center text-sm font-semibold"
             style={{ color: 'rgba(255,255,255,0.7)' }}>
             {lightbox + 1} / {company.images.length}
           </p>
 
-          {/* Стрелка влево */}
           {lightbox > 0 && (
             <button
               className="absolute left-3 flex items-center justify-center rounded-full text-white"
@@ -293,7 +347,6 @@ export default function CompanyPage({ company, onBack }) {
             >‹</button>
           )}
 
-          {/* Фото */}
           <img
             src={company.images[lightbox]}
             alt={`${company.name} — фото ${lightbox + 1}`}
@@ -301,7 +354,6 @@ export default function CompanyPage({ company, onBack }) {
             onClick={e => e.stopPropagation()}
           />
 
-          {/* Стрелка вправо */}
           {lightbox < company.images.length - 1 && (
             <button
               className="absolute right-3 flex items-center justify-center rounded-full text-white"
@@ -310,7 +362,6 @@ export default function CompanyPage({ company, onBack }) {
             >›</button>
           )}
 
-          {/* Точки-индикаторы */}
           <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-1.5">
             {company.images.map((_, i) => (
               <button
