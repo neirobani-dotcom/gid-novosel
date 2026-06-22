@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import logoSrc from '../assets/logo.svg'
+import PhotoSlider from '../components/PhotoSlider'
 
 export default function CompanyPage({ company, onBack }) {
   const [form, setForm] = useState({ name: '', phone: '', address: '' })
@@ -144,45 +145,18 @@ export default function CompanyPage({ company, onBack }) {
               </div>
             </div>
 
-            {/* ── Галерея работ ── */}
+            {/* ── Галерея работ — полноценный слайдер ── */}
             {company.images?.length > 0 && (
-              <div className="mb-5 -mx-4">
-                <div className="flex items-center justify-between px-4 mb-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: '#A09890' }}>
-                    Примеры работ
-                  </p>
-                  <p className="text-[10px]" style={{ color: '#C0BAB2' }}>
-                    {company.images.length} фото · нажми для просмотра
-                  </p>
-                </div>
-                <div className="flex gap-3 overflow-x-auto px-4 pb-2 no-scrollbar"
-                  style={{ scrollSnapType: 'x mandatory' }}>
-                  {company.images.map((img, i) => (
-                    <div
-                      key={i}
-                      onClick={() => setLightbox(i)}
-                      className="relative flex-shrink-0 rounded-2xl overflow-hidden cursor-pointer"
-                      style={{
-                        height: 200, width: 280,
-                        scrollSnapAlign: 'start',
-                        border: '1px solid #EDE8E0',
-                        transition: 'transform 0.15s ease',
-                      }}
-                      onMouseEnter={e => e.currentTarget.style.transform = 'scale(0.97)'}
-                      onMouseLeave={e => e.currentTarget.style.transform = ''}
-                    >
-                      <img
-                        src={img}
-                        alt={`${company.name} — пример ${i + 1}`}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                      />
-                      <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full"
-                        style={{ background: 'rgba(0,0,0,0.45)' }}>
-                        <span style={{ color: '#fff', fontSize: 10 }}>{i + 1} / {company.images.length}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              <div className="mb-5">
+                <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: '#A09890' }}>
+                  Примеры работ
+                </p>
+                <PhotoSlider
+                  images={company.images}
+                  height={240}
+                  borderRadius={16}
+                  onPhotoClick={(i) => setLightbox(i)}
+                />
               </div>
             )}
 

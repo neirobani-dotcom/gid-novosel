@@ -1,3 +1,5 @@
+import PhotoSlider from './PhotoSlider'
+
 export default function GridCard({ company, index, onClick }) {
   const isEmpty = !company
 
@@ -79,28 +81,10 @@ export default function GridCard({ company, index, onClick }) {
         </div>
       </div>
 
-      {/* ── Блок превью работ ── отдельно от логотипа, только если есть фото */}
+      {/* ── Блок превью работ ── слайдер, отдельно от логотипа */}
       {company.images?.length > 0 && (
         <div className="px-3 pb-2">
-          <div className="relative rounded-xl overflow-hidden" style={{ height: 88 }}>
-            <img
-              src={company.images[0]}
-              alt="Примеры работ"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-            <div className="absolute inset-0"
-              style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.38) 0%, transparent 60%)' }} />
-            <p className="absolute bottom-2 left-3 text-white font-semibold"
-              style={{ fontSize: 10, textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}>
-              Примеры работ
-            </p>
-            {company.images.length > 1 && (
-              <div className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded-full"
-                style={{ background: 'rgba(0,0,0,0.45)' }}>
-                <span style={{ color: '#fff', fontSize: 9 }}>1 / {company.images.length}</span>
-              </div>
-            )}
-          </div>
+          <PhotoSlider images={company.images} height={96} borderRadius={12} />
         </div>
       )}
 
