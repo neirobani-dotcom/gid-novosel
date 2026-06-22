@@ -52,8 +52,10 @@ export default function App() {
 
         <div className="relative max-w-2xl mx-auto px-5 pt-8 pb-12">
 
-          {/* Логотип — фирменный знак слева */}
-          <img src={logoSrc} alt="Гид Новосёла" style={{ width: '100%', maxWidth: 520, height: 'auto' }} className="mb-4 logo-neon" />
+          {/* Логотип */}
+          <div className="mb-4" style={{ background: '#111', borderRadius: 20, overflow: 'hidden', maxWidth: 520 }}>
+            <img src={logoSrc} alt="Гид Новосёла" style={{ width: '100%', height: 'auto', display: 'block' }} className="logo-neon" />
+          </div>
 
           {/* Бейдж города */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-5"
