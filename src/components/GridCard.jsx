@@ -48,17 +48,27 @@ export default function GridCard({ company, index, onClick }) {
         e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.05)'
       }}
     >
-      {/* Цветная полоска сверху */}
-      <div className="absolute top-0 left-0 right-0 h-0.5"
-        style={{ background: company.color || '#E8621A', opacity: 0.7 }} />
+      {/* Фото или цветная полоска */}
+      {company.images?.[0] ? (
+        <img
+          src={company.images[0]}
+          alt={company.name}
+          style={{ width: '100%', height: 110, objectFit: 'cover', display: 'block' }}
+        />
+      ) : (
+        <div className="absolute top-0 left-0 right-0 h-0.5"
+          style={{ background: company.color || '#E8621A', opacity: 0.7 }} />
+      )}
 
-      <div className="p-4 flex flex-col h-full" style={{ minHeight: 220 }}>
-        {/* Аватар с инициалами */}
-        <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3 flex-shrink-0
-          text-white text-sm font-bold"
-          style={{ background: company.color || '#E8621A' }}>
-          {initials}
-        </div>
+      <div className="p-4 flex flex-col" style={{ minHeight: company.images?.[0] ? 'auto' : 220 }}>
+        {/* Аватар с инициалами (только без фото) */}
+        {!company.images?.[0] && (
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3 flex-shrink-0
+            text-white text-sm font-bold"
+            style={{ background: company.color || '#E8621A' }}>
+            {initials}
+          </div>
+        )}
 
         {/* Категория */}
         <p className="text-[10px] font-semibold uppercase tracking-wide mb-1 leading-tight"
@@ -79,8 +89,8 @@ export default function GridCard({ company, index, onClick }) {
           <p className="text-[10px] font-medium uppercase tracking-wide mb-0.5" style={{ color: '#A09890' }}>
             🎁 Подарок
           </p>
-          <p className="text-xl font-extrabold" style={{ color: '#E8621A', letterSpacing: '-0.02em' }}>
-            {company.giftAmount.toLocaleString('ru-RU')} ₽
+          <p className="text-sm font-extrabold leading-tight" style={{ color: '#E8621A', letterSpacing: '-0.01em' }}>
+            {company.giftLabel}
           </p>
         </div>
 

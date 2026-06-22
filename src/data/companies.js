@@ -12,7 +12,7 @@ export const companies = [
     address: 'пер. Телевизорный, 9д, оф. 4-14',
     hours: '9:00 — 19:30',
     site: null,
-    email: '',
+    email: 'kuhni-shik@example.com',
     color: '#8B1A1A',
     freebies: [
       'Замер и выезд консультанта — бесплатно',
@@ -26,6 +26,44 @@ export const companies = [
     ctaButtons: [
       { label: 'Записаться на замер', type: 'measure' },
       { label: 'Получить 3D-проект', type: 'project3d' },
+    ],
+  },
+  {
+    id: 'kafel-emarti',
+    name: 'Кафель Эмарти',
+    category: 'Кафель и плитка',
+    giftAmount: 3000,
+    giftLabel: 'Скидка 10% + дизайн-проект',
+    giftCondition: '* Скидка 10% по промокоду «ГИД НОВОСЁЛА» при покупке кафеля и плитки. Дизайн-проект — бесплатно.',
+    giftTarget: 'на кафель и плитку',
+    phone: '+79538546331',
+    phoneFriendly: '+7 953 854 63 31',
+    address: 'ул. Авиаторов 5, ТК Авиатор, 1 этаж',
+    hours: 'Уточняйте по телефону',
+    site: null,
+    email: null,
+    color: '#2E6B8A',
+    images: [
+      '/partners/kafel-emarti/photo-1.jpeg',
+      '/partners/kafel-emarti/photo-2.jpeg',
+      '/partners/kafel-emarti/photo-3.jpeg',
+    ],
+    addresses: [
+      { label: 'ТК Авиатор', address: 'ул. Авиаторов 5, 1 этаж', phone: '+79538546331', phoneFriendly: '+7 953 854 63 31' },
+      { label: 'ТК Атмосфера дома', address: 'ул. Академика Вавилова 1 стр.39', phone: '+79080221301', phoneFriendly: '+7 908 022 13 01' },
+    ],
+    freebies: [
+      'Дизайн-проект — бесплатно',
+      'Консультация по подбору — бесплатно',
+    ],
+    advantages: [
+      'Большой ассортимент кафеля и плитки',
+      'Две торговые точки в Красноярске',
+      'Промокод «ГИД НОВОСЁЛА» — скидка 10%',
+    ],
+    ctaButtons: [
+      { label: 'Получить скидку 10%', type: 'discount' },
+      { label: 'Дизайн-проект', type: 'project3d' },
     ],
   },
   {
@@ -43,7 +81,7 @@ export const companies = [
     address: 'ул. Петра Славцова, 5',
     hours: '9:00 — 19:30',
     site: 'https://link.2gis.ru/4.3/B6CF6819/aHR0cDovL3huLS0yNC05a2NhdGJyMmFmMWM0aC54bi0tcDFhaS8=',
-    email: '',
+    email: 'sibmebel@example.com',
     color: '#1A3A5C',
     freebies: [
       'Замер и выезд консультанта — бесплатно',
