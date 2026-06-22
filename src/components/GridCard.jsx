@@ -6,11 +6,7 @@ export default function GridCard({ company, index, onClick }) {
       <a
         href="tel:+79130401111"
         className="rounded-2xl flex flex-col items-center justify-center gap-2 transition-opacity hover:opacity-70"
-        style={{
-          background: '#FFF9F5',
-          border: '1.5px dashed #F0D8C0',
-          minHeight: 180,
-        }}
+        style={{ background: '#FFF9F5', border: '1.5px dashed #F0D8C0', minHeight: 220 }}
       >
         <span className="text-2xl font-light" style={{ color: '#E8C09A' }}>+</span>
         <p className="text-[10px] uppercase tracking-widest text-center px-3 leading-relaxed"
@@ -21,21 +17,15 @@ export default function GridCard({ company, index, onClick }) {
     )
   }
 
-  const initials = company.name
-    .split(' ')
-    .map(w => w[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase()
+  const initials = company.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
 
   return (
     <div
       onClick={() => onClick(company)}
-      className="rounded-2xl cursor-pointer relative overflow-hidden"
+      className="rounded-2xl cursor-pointer overflow-hidden flex flex-col"
       style={{
         background: '#FFFFFF',
         border: '1px solid #EDE8E0',
-        minHeight: 220,
         boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
         transition: 'transform 0.2s ease, box-shadow 0.2s ease',
       }}
@@ -48,54 +38,75 @@ export default function GridCard({ company, index, onClick }) {
         e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.05)'
       }}
     >
-      {/* Фото или цветная полоска */}
-      {company.images?.[0] ? (
-        <img
-          src={company.images[0]}
-          alt={company.name}
-          style={{ width: '100%', height: 110, objectFit: 'cover', display: 'block' }}
-        />
-      ) : (
-        <div className="absolute top-0 left-0 right-0 h-0.5"
-          style={{ background: company.color || '#E8621A', opacity: 0.7 }} />
-      )}
+      {/* Акцентная полоска */}
+      <div style={{ height: 3, background: company.color || '#E8621A', flexShrink: 0 }} />
 
-      <div className="p-4 flex flex-col" style={{ minHeight: company.images?.[0] ? 'auto' : 220 }}>
-        {/* Аватар с инициалами (только без фото) */}
-        {!company.images?.[0] && (
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3 flex-shrink-0
-            text-white text-sm font-bold"
-            style={{ background: company.color || '#E8621A' }}>
+      {/* ── Блок логотипа ── фиксированная высота, никогда не заменяется фото */}
+      <div className="flex items-center justify-center px-4"
+        style={{ height: 80, flexShrink: 0, background: '#FAFAF9' }}>
+        {company.logo ? (
+          <img
+            src={company.logo}
+            alt={`${company.name} логотип`}
+            style={{ maxHeight: 52, maxWidth: '90%', objectFit: 'contain' }}
+          />
+        ) : (
+          <div className="rounded-xl flex items-center justify-center text-white font-bold text-sm"
+            style={{ width: 48, height: 48, background: company.color || '#E8621A' }}>
             {initials}
           </div>
         )}
+      </div>
 
-        {/* Категория */}
+      <div style={{ height: 1, background: '#F0EBE3', flexShrink: 0 }} />
+
+      {/* ── Блок информации ── */}
+      <div className="px-4 pt-3 pb-3 flex-1 flex flex-col">
         <p className="text-[10px] font-semibold uppercase tracking-wide mb-1 leading-tight"
           style={{ color: '#E8621A' }}>
           {company.category}
         </p>
-
-        {/* Название */}
-        <h3 className="font-bold leading-tight mb-auto" style={{ color: '#1A1816', fontSize: '0.95rem' }}>
+        <h3 className="font-bold leading-tight mb-2" style={{ color: '#1A1816', fontSize: '0.9rem' }}>
           {company.name}
         </h3>
-
-        {/* Разделитель */}
-        <div className="w-full h-px my-3" style={{ background: '#F0EBE3' }} />
-
-        {/* Подарок */}
-        <div>
+        <div className="mt-auto">
           <p className="text-[10px] font-medium uppercase tracking-wide mb-0.5" style={{ color: '#A09890' }}>
             🎁 Подарок
           </p>
-          <p className="text-sm font-extrabold leading-tight" style={{ color: '#E8621A', letterSpacing: '-0.01em' }}>
+          <p className="text-sm font-extrabold leading-tight" style={{ color: '#E8621A' }}>
             {company.giftLabel}
           </p>
         </div>
+      </div>
 
-        {/* Кнопка */}
-        <div className="mt-3 w-full py-2.5 rounded-xl text-center text-xs font-semibold text-white"
+      {/* ── Блок превью работ ── отдельно от логотипа, только если есть фото */}
+      {company.images?.length > 0 && (
+        <div className="px-3 pb-2">
+          <div className="relative rounded-xl overflow-hidden" style={{ height: 88 }}>
+            <img
+              src={company.images[0]}
+              alt="Примеры работ"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+            <div className="absolute inset-0"
+              style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.38) 0%, transparent 60%)' }} />
+            <p className="absolute bottom-2 left-3 text-white font-semibold"
+              style={{ fontSize: 10, textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}>
+              Примеры работ
+            </p>
+            {company.images.length > 1 && (
+              <div className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded-full"
+                style={{ background: 'rgba(0,0,0,0.45)' }}>
+                <span style={{ color: '#fff', fontSize: 9 }}>1 / {company.images.length}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ── Кнопка ── */}
+      <div className="px-3 pb-3">
+        <div className="w-full py-2.5 rounded-xl text-center text-xs font-semibold text-white"
           style={{ background: 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 100%)' }}>
           Активировать →
         </div>

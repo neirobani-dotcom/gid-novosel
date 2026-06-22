@@ -5,6 +5,7 @@ export default function CompanyPage({ company, onBack }) {
   const [form, setForm] = useState({ name: '', phone: '', address: '' })
   const [step, setStep] = useState('form')
   const [activeBtn, setActiveBtn] = useState(company.ctaButtons[0].type)
+  const [lightbox, setLightbox] = useState(null) // индекс открытого фото или null
 
   useEffect(() => {
     const saved = localStorage.getItem('gid_user')
@@ -143,29 +144,43 @@ export default function CompanyPage({ company, onBack }) {
               </div>
             </div>
 
-            {/* Галерея фотографий */}
+            {/* ── Галерея работ ── */}
             {company.images?.length > 0 && (
               <div className="mb-5 -mx-4">
-                <p className="text-[10px] font-semibold uppercase tracking-widest mb-3 px-4" style={{ color: '#A09890' }}>
-                  Примеры работ
-                </p>
-                <div className="flex gap-3 overflow-x-auto px-4 pb-1 no-scrollbar"
+                <div className="flex items-center justify-between px-4 mb-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: '#A09890' }}>
+                    Примеры работ
+                  </p>
+                  <p className="text-[10px]" style={{ color: '#C0BAB2' }}>
+                    {company.images.length} фото · нажми для просмотра
+                  </p>
+                </div>
+                <div className="flex gap-3 overflow-x-auto px-4 pb-2 no-scrollbar"
                   style={{ scrollSnapType: 'x mandatory' }}>
                   {company.images.map((img, i) => (
-                    <img
+                    <div
                       key={i}
-                      src={img}
-                      alt={`${company.name} — пример ${i + 1}`}
+                      onClick={() => setLightbox(i)}
+                      className="relative flex-shrink-0 rounded-2xl overflow-hidden cursor-pointer"
                       style={{
-                        height: 200,
-                        width: 280,
-                        objectFit: 'cover',
-                        flexShrink: 0,
-                        borderRadius: 16,
+                        height: 200, width: 280,
                         scrollSnapAlign: 'start',
                         border: '1px solid #EDE8E0',
+                        transition: 'transform 0.15s ease',
                       }}
-                    />
+                      onMouseEnter={e => e.currentTarget.style.transform = 'scale(0.97)'}
+                      onMouseLeave={e => e.currentTarget.style.transform = ''}
+                    >
+                      <img
+                        src={img}
+                        alt={`${company.name} — пример ${i + 1}`}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      />
+                      <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full"
+                        style={{ background: 'rgba(0,0,0,0.45)' }}>
+                        <span style={{ color: '#fff', fontSize: 10 }}>{i + 1} / {company.images.length}</span>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -275,6 +290,73 @@ export default function CompanyPage({ company, onBack }) {
           </>
         )}
       </div>
+      {/* ── Лайтбокс ── */}
+      {lightbox !== null && company.images?.length > 0 && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          style={{ background: 'rgba(0,0,0,0.93)' }}
+          onClick={() => setLightbox(null)}
+        >
+          {/* Закрыть */}
+          <button
+            className="absolute top-4 right-4 flex items-center justify-center rounded-full text-white"
+            style={{ width: 40, height: 40, background: 'rgba(255,255,255,0.15)', fontSize: 20, lineHeight: 1 }}
+            onClick={() => setLightbox(null)}
+          >×</button>
+
+          {/* Счётчик */}
+          <p className="absolute top-5 left-0 right-0 text-center text-sm font-semibold"
+            style={{ color: 'rgba(255,255,255,0.7)' }}>
+            {lightbox + 1} / {company.images.length}
+          </p>
+
+          {/* Стрелка влево */}
+          {lightbox > 0 && (
+            <button
+              className="absolute left-3 flex items-center justify-center rounded-full text-white"
+              style={{ width: 44, height: 44, background: 'rgba(255,255,255,0.15)', fontSize: 22, top: '50%', transform: 'translateY(-50%)' }}
+              onClick={e => { e.stopPropagation(); setLightbox(l => l - 1) }}
+            >‹</button>
+          )}
+
+          {/* Фото */}
+          <img
+            src={company.images[lightbox]}
+            alt={`${company.name} — фото ${lightbox + 1}`}
+            style={{ maxWidth: '90vw', maxHeight: '80vh', objectFit: 'contain', borderRadius: 12 }}
+            onClick={e => e.stopPropagation()}
+          />
+
+          {/* Стрелка вправо */}
+          {lightbox < company.images.length - 1 && (
+            <button
+              className="absolute right-3 flex items-center justify-center rounded-full text-white"
+              style={{ width: 44, height: 44, background: 'rgba(255,255,255,0.15)', fontSize: 22, top: '50%', transform: 'translateY(-50%)' }}
+              onClick={e => { e.stopPropagation(); setLightbox(l => l + 1) }}
+            >›</button>
+          )}
+
+          {/* Точки-индикаторы */}
+          <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-1.5">
+            {company.images.map((_, i) => (
+              <button
+                key={i}
+                onClick={e => { e.stopPropagation(); setLightbox(i) }}
+                style={{
+                  width: i === lightbox ? 20 : 6,
+                  height: 6,
+                  borderRadius: 3,
+                  background: i === lightbox ? '#E8621A' : 'rgba(255,255,255,0.4)',
+                  transition: 'all 0.2s ease',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: 0,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
