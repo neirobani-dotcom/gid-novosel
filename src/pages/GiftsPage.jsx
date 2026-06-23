@@ -9,14 +9,14 @@ export default function GiftsPage({ onBack, onSelect }) {
 
       {/* Шапка */}
       <div className="sticky top-0 z-10 flex items-center gap-3 px-4 py-3"
-        style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0' }}>
+      style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0' }}>
         <button onClick={onBack}
           className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
           style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#6B6560' }}>
           ←
         </button>
-        <div className="flex-shrink-0" style={{ background: '#111', borderRadius: 8, padding: '3px 8px', lineHeight: 0 }}>
-          <img src={logoSrc} alt="Гид Новосёла" style={{ height: 24, width: 'auto', display: 'block' }} className="logo-neon" />
+        <div className="flex-shrink-0" style={{ background: 'transparent', padding: '3px 8px', lineHeight: 0 }}>
+          <img src="/site-logo.png" alt="Гид Новосёла" style={{ width: '280px', background: 'transparent', display: 'block' }} className="logo-neon" />
         </div>
         <div>
           <p className="text-sm font-bold" style={{ color: '#1A1816' }}>Все подарки</p>
