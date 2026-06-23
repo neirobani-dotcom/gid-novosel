@@ -11,7 +11,7 @@ export default function SiteLogo({ variant = 'large' }) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 10 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
       <img src="/site-logo.png" alt="Гид Новосёла" style={{ width: 300, height: 300, objectFit: 'contain' }} />
       <div style={{ fontSize: 36, fontWeight: 800, color: '#E8621A', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
         Гид&nbsp;Новосёла
