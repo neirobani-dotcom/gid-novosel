@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import logoSrc from '/site-logo.jpg'
+import SiteLogo from '../components/SiteLogo'
 import PhotoSlider from '../components/PhotoSlider'
 
 export default function CompanyPage({ company, onBack }) {
@@ -65,9 +65,7 @@ export default function CompanyPage({ company, onBack }) {
           style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#6B6560' }}>
           ←
         </button>
-        <div className="flex-shrink-0" style={{ background: '#111', borderRadius: 8, padding: '3px 8px', lineHeight: 0 }}>
-          <img src={logoSrc} alt="Гид Новосёла" style={{ height: 24, width: 'auto', display: 'block' }} className="logo-neon" />
-        </div>
+        <SiteLogo variant="small" />
         <div className="min-w-0">
           <p className="text-[10px] font-semibold uppercase tracking-wide truncate" style={{ color: '#E8621A' }}>
             {company.category}

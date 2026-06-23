@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import logoSrc from '/site-logo.jpg'
+import SiteLogo from './components/SiteLogo'
 import { companies } from './data/companies'
 import GridCard from './components/GridCard'
 import GiftsPage from './pages/GiftsPage'
@@ -53,8 +53,8 @@ export default function App() {
         <div className="relative max-w-2xl mx-auto px-5 pt-8 pb-12">
 
           {/* Логотип */}
-          <div className="mb-4" style={{ background: '#111', borderRadius: 20, overflow: 'hidden', maxWidth: 520 }}>
-            <img src={logoSrc} alt="Гид Новосёла" style={{ width: '100%', height: 'auto', display: 'block' }} className="logo-neon" />
+          <div className="mb-4">
+            <SiteLogo variant="large" />
           </div>
 
           {/* Бейдж города */}

@@ -36,7 +36,7 @@ export default function AdminPage({ onBack }) {
             style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#6B6560' }}>
             ←
           </button>
-          <div className="flex-shrink-0" style={{ background: '#111', borderRadius: 8, padding: '3px 8px', lineHeight: 0 }}>
+          <div className="flex-shrink-0" style={{ backgroundColor: '#F7F4F0', padding: '3px 8px', lineHeight: 0 }}>
             <img src={logoSrc} alt="Гид Новосёла" style={{ height: 24, width: 'auto', display: 'block' }} className="logo-neon" />
           </div>
           <p className="text-sm font-bold" style={{ color: '#1A1816' }}>Статистика</p>

@@ -1,4 +1,4 @@
-import logoSrc from '/site-logo.jpg'
+import SiteLogo from '../components/SiteLogo'
 import { companies } from '../data/companies'
 
 export default function GiftsPage({ onBack, onSelect }) {
