@@ -53,7 +53,7 @@ export default function App() {
         <div className="relative max-w-2xl mx-auto px-5 pt-8 pb-12">
 
           {/* Логотип */}
-          <div className="mb-4 flex justify-center">
+          <div className="mb-4 flex justify-center" style={{ marginTop: '-40px' }}>
             <SiteLogo variant="large" />
           </div>
 
