@@ -177,7 +177,7 @@ export default function App() {
 
       {/* ── СЕТКА ── */}
       <div className="px-4 pb-16 max-w-2xl mx-auto mt-1">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3">
           {visibleSlots.map((company, i) => (
             <div key={i} className="fade-up-card" style={{ animationDelay: `${Math.min(i, 10) * 0.04}s` }}>
               <GridCard
