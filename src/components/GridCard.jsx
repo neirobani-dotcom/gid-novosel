@@ -50,7 +50,7 @@ export default function GridCard({ company, index, onClick }) {
           <img
             src={company.logo}
             alt={`${company.name} логотип`}
-            style={{ maxHeight: 52, maxWidth: '90%', objectFit: 'contain' }}
+            style={{ maxHeight: 52, maxWidth: '90%', objectFit: 'contain', ...company.logoStyle }}
           />
         ) : (
           <div className="rounded-xl flex items-center justify-center text-white font-bold text-sm"

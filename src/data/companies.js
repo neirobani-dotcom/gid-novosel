@@ -174,6 +174,7 @@ export const companies = [
     email: 'neirobanya@mail.ru',
     color: '#1A1A2E',
     logo: '/partners/neirobanya/logo.png',
+    logoStyle: { maxHeight: 72 },
     images: [
       '/partners/neirobanya/photo-1.jpg',
       '/partners/neirobanya/photo-2.jpg',
