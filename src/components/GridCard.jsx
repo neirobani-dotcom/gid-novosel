@@ -84,8 +84,8 @@ export default function GridCard({ company, index, onClick }) {
           height={220}
           borderRadius={0}
           background="#f5f5f5"
-          objectFit="contain"
-          overflow="visible"
+          objectFit="cover"
+          overflow="hidden"
         />
       )}
 
