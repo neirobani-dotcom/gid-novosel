@@ -30,7 +30,7 @@ $address     = strip_tags($data['address']     ?? '');
 
 if (!$companyId || !array_key_exists($companyId, $partnerEmails) || !$name || !$phone) {
     http_response_code(400);
-    echo json_encode(['error' => 'Bad request']);
+    echo json_encode(['error' => 'Bad request', 'companyId' => $companyId]);
     exit;
 }
 
@@ -38,12 +38,14 @@ $toEmail = $partnerEmails[$companyId];
 
 // Email партнёра ещё не получен — заявка принята, письмо не отправляем
 if (!$toEmail) {
-    echo json_encode(['ok' => true]);
+    echo json_encode(['ok' => true, 'sent' => false, 'reason' => 'no_email']);
     exit;
 }
-$date    = date('d.m.Y H:i');
 
-$subject = '=?UTF-8?B?' . base64_encode("Новый клиент — {$companyName} | Гид Новосёла") . '?=';
+$date = date('d.m.Y H:i');
+
+$subjectText = "Новый клиент — {$companyName} | Гид Новосёла";
+$subject     = '=?UTF-8?B?' . base64_encode($subjectText) . '?=';
 
 $body  = "Новый клиент с сайта gidnovosela.ru\n\n";
 $body .= "Компания:  {$companyName}\n";
@@ -55,17 +57,24 @@ $body .= "Имя:       {$name}\n";
 $body .= "Телефон:   {$phone}\n";
 $body .= "Адрес/ЖК:  {$address}\n";
 
-$headers  = "From: noreply@gidnovosela.ru\r\n";
-$headers .= "Reply-To: noreply@gidnovosela.ru\r\n";
-$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-$headers .= "Content-Transfer-Encoding: 8bit\r\n";
-$headers .= "X-Mailer: PHP/" . phpversion();
+// От имени домена сайта — SprintHost принимает отправку с домена хостинга
+$fromEmail = 'no-reply@gidnovosela.ru';
+$headers   = "From: Гид Новосёла <{$fromEmail}>\r\n";
+$headers  .= "Reply-To: {$fromEmail}\r\n";
+$headers  .= "MIME-Version: 1.0\r\n";
+$headers  .= "Content-Type: text/plain; charset=UTF-8\r\n";
+$headers  .= "X-Mailer: PHP/" . phpversion();
 
-$sent = mail($toEmail, $subject, $body, $headers);
+// 5-й параметр задаёт envelope sender — обязателен на большинстве хостингов
+$sent = mail($toEmail, $subject, $body, $headers, "-f{$fromEmail}");
+
+// Пишем лог на сервере — поможет диагностировать если письмо не дошло
+$logLine = date('Y-m-d H:i:s') . " | sent={$sent} | to={$toEmail} | company={$companyId} | name={$name} | phone={$phone}\n";
+file_put_contents(__DIR__ . '/leads.log', $logLine, FILE_APPEND | LOCK_EX);
 
 if ($sent) {
-    echo json_encode(['ok' => true]);
+    echo json_encode(['ok' => true, 'sent' => true]);
 } else {
     http_response_code(500);
-    echo json_encode(['error' => 'Mail failed']);
+    echo json_encode(['error' => 'mail() returned false', 'to' => $toEmail]);
 }

@@ -55,7 +55,10 @@ export default function CompanyPage({ company, onBack }) {
         phone:       form.phone,
         address:     form.address,
       }),
-    }).catch(() => {})
+    })
+      .then(r => r.json())
+      .then(data => console.log('[send-lead]', data))
+      .catch(err => console.error('[send-lead] fetch error', err))
 
     setStep('success')
   }
