@@ -8,6 +8,7 @@ export default function PhotoSlider({
   objectFit = 'cover',
   background = '#EDE8E0',
   autoHeight = false,
+  overflow = 'hidden',
 }) {
   const [idx, setIdx] = useState(0)
 
@@ -59,7 +60,7 @@ export default function PhotoSlider({
         width: '100%',
         height,
         borderRadius,
-        overflow: 'hidden',
+        overflow,
         background,
         flexShrink: 0,
         display: 'block',
