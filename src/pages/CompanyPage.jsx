@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import SiteLogo from '../components/SiteLogo'
 import PhotoSlider from '../components/PhotoSlider'
 
@@ -9,15 +9,7 @@ export default function CompanyPage({ company, onBack }) {
   const [activeBtn, setActiveBtn] = useState(company.ctaButtons[0].type)
   const [lightbox, setLightbox] = useState(null)
 
-  useEffect(() => {
-    const saved = localStorage.getItem('gid_user')
-    if (saved) {
-      const user = JSON.parse(saved)
-      setForm(f => ({ ...f, name: user.name || '', phone: user.phone || '' }))
-    }
-  }, [])
-
-  function handleChange(e) {
+function handleChange(e) {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }))
   }
 
