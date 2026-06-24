@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $partnerEmails = [
     'kuhni-shik'   => 'Nickwood47@yandex.ru',
     'kafel-emarti' => '', // email не получен — партнёр временно не отправляет заявки
-    'shatura'      => '89920130522@mail.ru',
+    'shatura'      => 'neirobanya@mail.ru',
     'sibmebel'     => 'krassibmebel@gmail.com',
 ];
 
