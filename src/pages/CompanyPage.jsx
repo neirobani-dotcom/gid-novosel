@@ -44,27 +44,22 @@ export default function CompanyPage({ company, onBack }) {
     const existing = JSON.parse(localStorage.getItem('gid_activations') || '[]')
     localStorage.setItem('gid_activations', JSON.stringify([activation, ...existing]))
 
-    if (company.email) {
-      fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: '2c502e1a-5b57-43a0-b56f-9ffa8c423793',
-          subject:    `Новый клиент — ${company.name} | Гид Новосёла`,
-          from_name:  'Гид Новосёла',
-          Компания:   company.name,
-          Email_партнёра: company.email,
-          Подарок:    company.giftLabel,
-          Заявка:     activeBtn,
-          Имя:        form.name,
-          Телефон:    form.phone,
-          'Адрес/ЖК': form.address,
-        }),
-      })
-        .then(r => r.json())
-        .then(data => console.log('[web3forms]', data))
-        .catch(err => console.error('[web3forms] error', err))
-    }
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: '2c502e1a-5b57-43a0-b56f-9ffa8c423793',
+        subject:    `Новая заявка — ${company.name}`,
+        from_name:  'Гид Новосёла',
+        Компания:   company.name,
+        Имя:        form.name,
+        Телефон:    form.phone,
+        'Адрес/ЖК': form.address,
+      }),
+    })
+      .then(r => r.json())
+      .then(data => console.log('[web3forms]', data))
+      .catch(err => console.error('[web3forms] error', err))
 
     // Сохраняем отправленные данные и очищаем форму
     setSubmitted({ name: form.name, phone: form.phone, address: form.address })
