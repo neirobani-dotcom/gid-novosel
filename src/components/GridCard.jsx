@@ -50,7 +50,7 @@ export default function GridCard({ company, index, onClick }) {
           <img
             src={company.logo}
             alt={`${company.name} логотип`}
-            style={{ maxHeight: 52, maxWidth: '90%', objectFit: 'contain', ...company.logoStyle }}
+            style={{ maxHeight: 52, maxWidth: '90%', objectFit: 'contain' }}
           />
         ) : (
           <div className="rounded-xl flex items-center justify-center text-white font-bold text-sm"
@@ -86,9 +86,9 @@ export default function GridCard({ company, index, onClick }) {
         <div className="px-3 pb-2">
           <PhotoSlider
             images={company.images}
+            height={200}
             borderRadius={12}
             background="#F7F4F0"
-            autoHeight
           />
         </div>
       )}
