@@ -20,7 +20,7 @@ export default function CompanyPage({ company, onBack }) {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }))
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     if (!form.name || !form.phone || !form.address) return
 
@@ -42,6 +42,20 @@ export default function CompanyPage({ company, onBack }) {
 
     const existing = JSON.parse(localStorage.getItem('gid_activations') || '[]')
     localStorage.setItem('gid_activations', JSON.stringify([activation, ...existing]))
+
+    fetch('/send-lead.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        companyId:   company.id,
+        companyName: company.name,
+        giftLabel:   company.giftLabel,
+        requestType: activeBtn,
+        name:        form.name,
+        phone:       form.phone,
+        address:     form.address,
+      }),
+    }).catch(() => {})
 
     setStep('success')
   }
