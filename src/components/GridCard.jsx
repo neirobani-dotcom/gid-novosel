@@ -84,7 +84,13 @@ export default function GridCard({ company, index, onClick }) {
       {/* ── Блок превью работ ── слайдер, отдельно от логотипа */}
       {company.images?.length > 0 && (
         <div className="px-3 pb-2">
-          <PhotoSlider images={company.images} height={96} borderRadius={12} />
+          <PhotoSlider
+            images={company.images}
+            height={280}
+            borderRadius={12}
+            objectFit="contain"
+            background="#F7F4F0"
+          />
         </div>
       )}
 

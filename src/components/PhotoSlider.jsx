@@ -5,6 +5,8 @@ export default function PhotoSlider({
   height = 200,
   borderRadius = 16,
   onPhotoClick = null,
+  objectFit = 'cover',
+  background = '#EDE8E0',
 }) {
   const [idx, setIdx] = useState(0)
 
@@ -30,7 +32,7 @@ export default function PhotoSlider({
         height,
         borderRadius,
         overflow: 'hidden',
-        background: '#EDE8E0',
+        background,
         flexShrink: 0,
         display: 'block',
       }}
@@ -47,7 +49,7 @@ export default function PhotoSlider({
             inset: 0,
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
+            objectFit,
             display: 'block',
             opacity: i === idx ? 1 : 0,
             transition: 'opacity 0.28s ease',
