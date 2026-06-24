@@ -173,6 +173,7 @@ export const companies = [
     site: null,
     email: 'neirobanya@mail.ru',
     color: '#1A1A2E',
+    logo: '/partners/neirobanya/logo.png',
     images: [
       '/partners/neirobanya/photo-1.jpg',
       '/partners/neirobanya/photo-2.jpg',
