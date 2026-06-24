@@ -86,10 +86,9 @@ export default function GridCard({ company, index, onClick }) {
         <div className="px-3 pb-2">
           <PhotoSlider
             images={company.images}
-            height={280}
             borderRadius={12}
-            objectFit="contain"
             background="#F7F4F0"
+            autoHeight
           />
         </div>
       )}
