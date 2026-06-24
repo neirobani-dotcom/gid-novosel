@@ -11,6 +11,6 @@ export default function SiteLogo({ variant = 'large' }) {
   }
 
   return (
-    <img src="/site-logo.png" alt="Гид Новосёла" className="logo-icon-pulse" style={{ width: 900, height: 900, objectFit: 'contain' }} />
+    <img src="/site-logo.png" alt="Гид Новосёла" className="logo-icon-pulse" style={{ width: 900, height: 'auto', objectFit: 'contain' }} />
   )
 }
