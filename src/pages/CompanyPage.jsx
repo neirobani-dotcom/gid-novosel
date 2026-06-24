@@ -4,6 +4,7 @@ import PhotoSlider from '../components/PhotoSlider'
 
 export default function CompanyPage({ company, onBack }) {
   const [form, setForm] = useState({ name: '', phone: '', address: '' })
+  const [submitted, setSubmitted] = useState(null)
   const [step, setStep] = useState('form')
   const [activeBtn, setActiveBtn] = useState(company.ctaButtons[0].type)
   const [lightbox, setLightbox] = useState(null)
@@ -48,14 +49,14 @@ export default function CompanyPage({ company, onBack }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          _subject:  `Новый клиент — ${company.name} | Гид Новосёла`,
+          _subject:  `Novyj klient — ${company.name} | Gid Novosyola`,
           _template: 'table',
-          Компания:  company.name,
-          Подарок:   company.giftLabel,
-          Заявка:    activeBtn,
-          Имя:       form.name,
-          Телефон:   form.phone,
-          'Адрес/ЖК': form.address,
+          company:   company.name,
+          gift:      company.giftLabel,
+          request:   activeBtn,
+          name:      form.name,
+          phone:     form.phone,
+          address:   form.address,
         }),
       })
         .then(r => r.json())
@@ -63,6 +64,9 @@ export default function CompanyPage({ company, onBack }) {
         .catch(err => console.error('[formsubmit] error', err))
     }
 
+    // Сохраняем отправленные данные и очищаем форму
+    setSubmitted({ name: form.name, phone: form.phone, address: form.address })
+    setForm({ name: '', phone: '', address: '' })
     setStep('success')
   }
 
@@ -127,9 +131,9 @@ export default function CompanyPage({ company, onBack }) {
               <div className="pt-3" style={{ borderTop: '1px solid #F0EBE3' }}>
                 <p className="text-[10px] mb-1" style={{ color: '#A09890' }}>Заявка оформлена на:</p>
                 <p className="text-sm font-semibold" style={{ color: '#1A1816' }}>
-                  {form.name} · {form.phone}
+                  {submitted?.name} · {submitted?.phone}
                 </p>
-                <p className="text-xs mt-0.5" style={{ color: '#6B6560' }}>{form.address}</p>
+                <p className="text-xs mt-0.5" style={{ color: '#6B6560' }}>{submitted?.address}</p>
               </div>
             </div>
 
