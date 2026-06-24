@@ -84,7 +84,7 @@ export const companies = [
     address: 'ул. Шахтёров 65, ТЦ Континент',
     hours: '10:00 — 20:00, ежедневно',
     site: null,
-    email: 'neirobanya@mail.ru',
+    email: '89920130522@mail.ru',
     color: '#3D3931',
     logo: '/partners/shatura/logo.jpg',
     images: [
