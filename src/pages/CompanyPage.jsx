@@ -43,22 +43,25 @@ export default function CompanyPage({ company, onBack }) {
     const existing = JSON.parse(localStorage.getItem('gid_activations') || '[]')
     localStorage.setItem('gid_activations', JSON.stringify([activation, ...existing]))
 
-    fetch('/send-lead.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        companyId:   company.id,
-        companyName: company.name,
-        giftLabel:   company.giftLabel,
-        requestType: activeBtn,
-        name:        form.name,
-        phone:       form.phone,
-        address:     form.address,
-      }),
-    })
-      .then(r => r.json())
-      .then(data => console.log('[send-lead]', data))
-      .catch(err => console.error('[send-lead] fetch error', err))
+    if (company.email) {
+      fetch(`https://formsubmit.co/ajax/${company.email}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          _subject:  `Новый клиент — ${company.name} | Гид Новосёла`,
+          _template: 'table',
+          Компания:  company.name,
+          Подарок:   company.giftLabel,
+          Заявка:    activeBtn,
+          Имя:       form.name,
+          Телефон:   form.phone,
+          'Адрес/ЖК': form.address,
+        }),
+      })
+        .then(r => r.json())
+        .then(data => console.log('[formsubmit]', data))
+        .catch(err => console.error('[formsubmit] error', err))
+    }
 
     setStep('success')
   }

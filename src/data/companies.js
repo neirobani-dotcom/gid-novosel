@@ -12,7 +12,7 @@ export const companies = [
     address: 'пер. Телевизорный, 9д, оф. 4-14',
     hours: '9:00 — 19:30',
     site: null,
-    email: 'kuhni-shik@example.com',
+    email: 'Nickwood47@yandex.ru',
     color: '#8B1A1A',
     freebies: [
       'Замер и выезд консультанта — бесплатно',
@@ -41,7 +41,7 @@ export const companies = [
     address: 'ул. Авиаторов 5, ТК Авиатор, 1 этаж',
     hours: 'Уточняйте по телефону',
     site: null,
-    email: null,
+    email: '',
     color: '#2E6B8A',
     logo: '/partners/kafel-emarti/photo-1.jpeg',
     images: [
@@ -84,7 +84,7 @@ export const companies = [
     address: 'ул. Шахтёров 65, ТЦ Континент',
     hours: '10:00 — 20:00, ежедневно',
     site: null,
-    email: '89920130522@mail.ru',
+    email: 'neirobanya@mail.ru',
     color: '#3D3931',
     logo: '/partners/shatura/logo.jpg',
     images: [
@@ -140,7 +140,7 @@ export const companies = [
     address: 'ул. Петра Славцова, 5',
     hours: '9:00 — 19:30',
     site: 'https://link.2gis.ru/4.3/B6CF6819/aHR0cDovL3huLS0yNC05a2NhdGJyMmFmMWM0aC54bi0tcDFhaS8=',
-    email: 'sibmebel@example.com',
+    email: 'krassibmebel@gmail.com',
     color: '#1A3A5C',
     freebies: [
       'Замер и выезд консультанта — бесплатно',
