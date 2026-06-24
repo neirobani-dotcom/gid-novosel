@@ -7,6 +7,11 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      workbox: {
+        // PHP-скрипты не кешируем — они должны всегда идти на сервер
+        globIgnores: ['**/*.php', '**/*.log'],
+        navigateFallbackDenylist: [/\.php$/],
+      },
       manifest: {
         name: 'Гид Новосёла',
         short_name: 'Гид Новосёла',
