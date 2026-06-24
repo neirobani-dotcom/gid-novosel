@@ -181,7 +181,6 @@ export const companies = [
       '/partners/neirobanya/photo-4.jpg',
       '/partners/neirobanya/photo-5.jpg',
       '/partners/neirobanya/photo-6.jpg',
-      '/partners/neirobanya/photo-7.jpg',
       '/partners/neirobanya/photo-8.jpg',
     ],
     freebies: [

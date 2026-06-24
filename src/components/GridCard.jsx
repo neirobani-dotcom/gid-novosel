@@ -43,60 +43,64 @@ export default function GridCard({ company, index, onClick }) {
       {/* Акцентная полоска */}
       <div style={{ height: 3, background: company.color || '#E8621A', flexShrink: 0 }} />
 
-      {/* ── Блок логотипа ── фиксированная высота, никогда не заменяется фото */}
-      <div className="flex items-center justify-center px-4"
-        style={{ height: 80, flexShrink: 0, background: '#FAFAF9' }}>
+      {/* ── Верхний блок: логотип + текст ── */}
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 12, gap: 12 }}>
         {company.logo ? (
           <img
             src={company.logo}
             alt={`${company.name} логотип`}
-            style={{ maxHeight: 52, maxWidth: '90%', objectFit: 'contain' }}
+            style={{ width: 80, height: 80, objectFit: 'contain', borderRadius: 8, flexShrink: 0, background: '#FAFAF9' }}
           />
         ) : (
-          <div className="rounded-xl flex items-center justify-center text-white font-bold text-sm"
-            style={{ width: 48, height: 48, background: company.color || '#E8621A' }}>
+          <div style={{
+            width: 80, height: 80, borderRadius: 8, flexShrink: 0,
+            background: company.color || '#E8621A',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#fff', fontWeight: 'bold', fontSize: 18,
+          }}>
             {initials}
           </div>
         )}
-      </div>
-
-      <div style={{ height: 1, background: '#F0EBE3', flexShrink: 0 }} />
-
-      {/* ── Блок информации ── */}
-      <div className="px-4 pt-3 pb-3 flex-1 flex flex-col">
-        <p className="text-[10px] font-semibold uppercase tracking-wide mb-1 leading-tight"
-          style={{ color: '#E8621A' }}>
-          {company.category}
-        </p>
-        <h3 className="font-bold leading-tight mb-2" style={{ color: '#1A1816', fontSize: '0.9rem' }}>
-          {company.name}
-        </h3>
-        <div className="mt-auto">
-          <p className="text-[10px] font-medium uppercase tracking-wide mb-0.5" style={{ color: '#A09890' }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{ color: '#A09890', fontSize: 12, marginBottom: 2 }}>{company.category}</p>
+          <h3 style={{ color: '#1A1816', fontWeight: 700, fontSize: 16, marginBottom: 6, lineHeight: 1.2 }}>
+            {company.name}
+          </h3>
+          <p style={{ color: '#A09890', fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>
             🎁 Подарок
           </p>
-          <p className="text-sm font-extrabold leading-tight" style={{ color: '#E8621A' }}>
+          <p style={{ color: '#E8621A', fontWeight: 800, fontSize: 13, lineHeight: 1.2 }}>
             {company.giftLabel}
           </p>
         </div>
       </div>
 
-      {/* ── Блок превью работ ── слайдер, отдельно от логотипа */}
+      <div style={{ height: 1, background: '#F0EBE3', flexShrink: 0 }} />
+
+      {/* ── Фото на всю ширину ── */}
       {company.images?.length > 0 && (
-        <div className="px-3 pb-2">
-          <PhotoSlider
-            images={company.images}
-            height={200}
-            borderRadius={12}
-            background="#F7F4F0"
-          />
-        </div>
+        <PhotoSlider
+          images={company.images}
+          height={200}
+          borderRadius={0}
+          background="#F7F4F0"
+        />
       )}
 
       {/* ── Кнопка ── */}
-      <div className="px-3 pb-3">
-        <div className="w-full py-2.5 rounded-xl text-center text-xs font-semibold text-white"
-          style={{ background: 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 100%)' }}>
+      <div style={{ padding: 12 }}>
+        <div
+          style={{
+            width: '100%',
+            padding: '10px 0',
+            borderRadius: 12,
+            textAlign: 'center',
+            fontSize: 13,
+            fontWeight: 600,
+            color: '#fff',
+            background: 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 100%)',
+          }}
+        >
           Активировать →
         </div>
       </div>
