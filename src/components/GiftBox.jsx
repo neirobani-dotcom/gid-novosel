@@ -30,13 +30,15 @@ export default function GiftBox({ partner, count, onClick, delay = 0 }) {
           overflow: 'hidden',
         }}
       >
-        {/* Фото коробочки */}
+        {/* Фото коробочки — уменьшена до 82% чтобы цвет фирмы был виден */}
         <img
           src="/images/gift-box.jpeg"
           alt="Подарок"
           style={{
-            position: 'absolute', inset: 0,
-            width: '100%', height: '100%',
+            position: 'absolute',
+            left: '50%', top: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '82%', height: '82%',
             objectFit: 'contain',
             display: 'block',
           }}
@@ -46,10 +48,10 @@ export default function GiftBox({ partner, count, onClick, delay = 0 }) {
         <div style={{
           position: 'absolute',
           left: '50%',
-          top: '64.3%',
+          top: '61.7%',
           transform: 'translate(-50%, -50%)',
-          width: '42%',
-          height: '23%',
+          width: '34%',
+          height: '19%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
