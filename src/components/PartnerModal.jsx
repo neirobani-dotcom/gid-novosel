@@ -99,15 +99,15 @@ Email: ${values.email}
 Заявка получена с сайта gidnovosela.ru`
 
     try {
+      const fd = new FormData()
+      fd.append('access_key', WEB3FORMS_KEY)
+      fd.append('subject',    '🤝 Новая заявка на партнёрство — gidnovosela.ru')
+      fd.append('from_name',  'Гид Новосёла')
+      fd.append('message',    body)
+
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          subject:    '🤝 Новая заявка на партнёрство — gidnovosela.ru',
-          from_name:  'Гид Новосёла',
-          message:    body,
-        }),
+        body: fd,
       })
       const data = await res.json()
       if (data.success) {
