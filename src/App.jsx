@@ -5,6 +5,8 @@ import { companies } from './data/companies'
 import GridCard from './components/GridCard'
 import EmptySlot from './components/EmptySlot'
 import GiftsPage from './pages/GiftsPage'
+import GiftsBoxPage from './pages/GiftsBoxPage'
+import GiftDetailPage from './pages/GiftDetailPage'
 import CompanyPage from './pages/CompanyPage'
 import AdminPage from './pages/AdminPage'
 import './index.css'
@@ -42,6 +44,7 @@ const STEPS = [
 export default function App() {
   const [selected, setSelected] = useState(null)
   const [page, setPage] = useState('home')
+  const [giftPartnerId, setGiftPartnerId] = useState(null)
   const [filter, setFilter] = useState('Все')
   const [tapCount, setTapCount] = useState(0)
   const partnerRef = useRef(null)
@@ -57,6 +60,18 @@ export default function App() {
   if (page === 'admin') return <AdminPage onBack={() => setPage('home')} />
   if (page === 'gifts') return (
     <GiftsPage onBack={() => setPage('home')} onSelect={c => { setSelected(c); setPage('company') }} />
+  )
+  if (page === 'gifts-boxes') return (
+    <GiftsBoxPage
+      onBack={() => setPage('home')}
+      onSelect={pid => { setGiftPartnerId(pid); setPage('gift-detail') }}
+    />
+  )
+  if (page === 'gift-detail' && giftPartnerId) return (
+    <GiftDetailPage
+      partnerId={giftPartnerId}
+      onBack={() => setPage('gifts-boxes')}
+    />
   )
   if (page === 'company' && selected) return <CompanyPage company={selected} onBack={() => setPage('home')} />
 
@@ -145,9 +160,9 @@ export default function App() {
           </div>
 
           {/* CTA кнопка */}
-          <div className="hero-cta">
+          <div className="hero-cta" style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <button
-              onClick={scrollToPartners}
+              onClick={() => setPage('gifts-boxes')}
               className="btn-orange btn-pulse tap-target"
               style={{
                 background: 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 100%)',
