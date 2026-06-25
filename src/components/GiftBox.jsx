@@ -64,8 +64,7 @@ export default function GiftBox({ partner, count, onClick, delay = 0 }) {
             {company?.logo ? (
               <img src={company.logo} alt={partner.name}
                 style={{ width: 52, height: 52, objectFit: 'contain', borderRadius: 10,
-                  background: 'rgba(255,255,255,0.15)', padding: 4,
-                  filter: 'brightness(0) invert(1)' }} />
+                  background: 'rgba(255,255,255,0.9)', padding: 6 }} />
             ) : (
               <div style={{
                 width: 52, height: 52, borderRadius: 14,
