@@ -58,7 +58,7 @@ export default function GiftBox({ partner, count, onClick, delay = 0 }) {
             </linearGradient>
             {/* Петля банта — оранжевый градиент */}
             <linearGradient id={`petal-${u}`} x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%"   stopColor="#FF9A4A" />
+              <stop offset="0%"   stopColor="#FFB347" />
               <stop offset="100%" stopColor="#E8621A" />
             </linearGradient>
             {/* Узел банта — золотой */}
@@ -93,15 +93,6 @@ export default function GiftBox({ partner, count, onClick, delay = 0 }) {
           <line x1={24} y1={100} x2={214} y2={100} stroke="#D4AF37" strokeWidth="1.5" />
           <line x1={42} y1={88}  x2={232} y2={88}  stroke="#D4AF37" strokeWidth="1.5" />
 
-          {/* Вертикальная лента на передней грани (под логотипом) */}
-          <rect
-            x={FC_X - 6} y={FTL[1]}
-            width={12} height={FBL[1] - FTL[1]}
-            fill="white" opacity="0.75"
-            clipPath={`url(#fc-${u})`}
-          />
-          <line x1={FC_X-6} y1={FTL[1]} x2={FC_X-6} y2={FBL[1]} stroke="#D4AF37" strokeWidth="1.2" />
-          <line x1={FC_X+6} y1={FTL[1]} x2={FC_X+6} y2={FBL[1]} stroke="#D4AF37" strokeWidth="1.2" />
 
           {/* ══ СЛОЙ 3: БАНТ — ЛЕНТЫ ОТ УЗЛА ВНИЗ ══ */}
 
@@ -127,13 +118,12 @@ export default function GiftBox({ partner, count, onClick, delay = 0 }) {
 
           {/* ══ СЛОЙ 4: БАНТ — 8 ПЕТЕЛЬ ══ */}
 
-          {/* Левые петли: -20, -45, -70, -95 */}
-          {/* Правые петли: 20, 45, 70, 95 */}
-          {[-95, -70, -45, -20, 20, 45, 70, 95].map(angle => (
+          {/* Левые петли: -22, -48, -72, -96 / Правые: 22, 48, 72, 96 */}
+          {[-96, -72, -48, -22, 22, 48, 72, 96].map(angle => (
             <ellipse
               key={angle}
               cx={BC[0]} cy={BC[1]}
-              rx="46" ry="22"
+              rx="50" ry="24"
               fill={`url(#petal-${u})`}
               stroke="#FFD700" strokeWidth="2.5"
               transform={`rotate(${angle}, ${BC[0]}, ${BC[1]})`}
@@ -143,7 +133,7 @@ export default function GiftBox({ partner, count, onClick, delay = 0 }) {
 
           {/* ══ СЛОЙ 5: УЗЕЛ БАНТА ══ */}
           <circle
-            cx={BC[0]} cy={BC[1]} r="14"
+            cx={BC[0]} cy={BC[1]} r="16"
             fill={`url(#knot-${u})`}
             stroke="#FFD700" strokeWidth="2"
             style={{ filter: 'drop-shadow(2px 3px 5px rgba(0,0,0,0.3))' }}
