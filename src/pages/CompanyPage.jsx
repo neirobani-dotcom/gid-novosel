@@ -95,17 +95,20 @@ function handleChange(e) {
 
           /* ── УСПЕХ ── */
           <div className="text-center py-10">
-            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl"
-              style={{ background: '#FFF3E8', border: '2px solid #FFD0A0' }}>
-              🎉
+            <div className="success-icon w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5"
+              style={{ background: '#F0FDF4', border: '2px solid #BBF7D0', fontSize: 40 }}>
+              ✅
             </div>
             <h3 className="text-2xl font-bold mb-2" style={{ color: '#1A1816' }}>
-              Подарок активирован!
+              Заявка принята!
             </h3>
+            <p className="text-sm mb-2" style={{ color: '#6B6560' }}>
+              Мы позвоним вам в течение 1 часа.
+            </p>
             <p className="text-sm mb-6" style={{ color: '#6B6560' }}>
               Менеджер{' '}
               <span className="font-semibold" style={{ color: '#1A1816' }}>{company.name}</span>{' '}
-              свяжется с вами в течение 1 часа.
+              подтвердит ваш подарок.
             </p>
 
             <div className="rounded-2xl p-5 mb-6 text-left"
@@ -308,11 +311,20 @@ function handleChange(e) {
                         <p className="text-xs mt-0.5" style={{ color: '#A09890' }}>📞 {loc.phoneFriendly}</p>
                       )}
                     </div>
-                    <a href={`tel:${loc.phoneFriendly?.replace(/\D/g, '').replace(/^7/, '+7') || company.phone}`}
-                      className="text-xs font-semibold px-3 py-2 rounded-xl flex-shrink-0 transition-colors"
-                      style={{ background: '#FFF3E8', border: '1px solid #FFD0A0', color: '#E8621A' }}>
-                      Звонить
-                    </a>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flexShrink: 0 }}>
+                      <a href={`tel:${loc.phoneFriendly?.replace(/\D/g, '').replace(/^7/, '+7') || company.phone}`}
+                        className="text-xs font-semibold px-3 py-2 rounded-xl transition-colors tap-target"
+                        style={{ background: '#FFF3E8', border: '1px solid #FFD0A0', color: '#E8621A', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        📞 Звонить
+                      </a>
+                      <a
+                        href={`https://yandex.ru/maps/?text=${encodeURIComponent(loc.address)}`}
+                        target="_blank" rel="noopener noreferrer"
+                        className="text-xs font-semibold px-3 py-2 rounded-xl transition-colors tap-target"
+                        style={{ background: '#F0F9FF', border: '1px solid #BAE6FD', color: '#0369A1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        🗺 Маршрут
+                      </a>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -323,11 +335,22 @@ function handleChange(e) {
                   <p className="text-xs mb-1" style={{ color: '#A09890' }}>📍 {company.address}</p>
                   <p className="text-xs" style={{ color: '#A09890' }}>🕐 {company.hours}</p>
                 </div>
-                <a href={`tel:${company.phone}`}
-                  className="text-sm font-semibold px-4 py-2 rounded-xl transition-colors"
-                  style={{ background: '#FFF3E8', border: '1px solid #FFD0A0', color: '#E8621A' }}>
-                  📞 Позвонить
-                </a>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <a href={`tel:${company.phone}`}
+                    className="text-sm font-semibold px-4 py-2 rounded-xl transition-colors tap-target"
+                    style={{ background: '#FFF3E8', border: '1px solid #FFD0A0', color: '#E8621A', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    📞 Позвонить
+                  </a>
+                  {company.address && company.address !== 'Красноярск' && (
+                    <a
+                      href={`https://yandex.ru/maps/?text=${encodeURIComponent(company.address + ', Красноярск')}`}
+                      target="_blank" rel="noopener noreferrer"
+                      className="text-sm font-semibold px-4 py-2 rounded-xl transition-colors tap-target"
+                      style={{ background: '#F0F9FF', border: '1px solid #BAE6FD', color: '#0369A1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      🗺 Маршрут
+                    </a>
+                  )}
+                </div>
               </div>
             )}
           </>

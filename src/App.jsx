@@ -1,22 +1,42 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import SiteHeader from './components/SiteHeader'
 import SiteLogo from './components/SiteLogo'
 import { companies } from './data/companies'
 import GridCard from './components/GridCard'
+import EmptySlot from './components/EmptySlot'
 import GiftsPage from './pages/GiftsPage'
 import CompanyPage from './pages/CompanyPage'
 import AdminPage from './pages/AdminPage'
 import './index.css'
 
-const EMPTY_COUNT = 38
-const allSlots = [
-  ...companies,
-  ...Array(EMPTY_COUNT).fill(null),
-]
+const EMPTY_COUNT = 35
+const PARTNER_SECTION_ID = 'partners'
+
+// Анимированный счётчик числа
+function AnimatedCounter({ target, duration = 1400 }) {
+  const [value, setValue] = useState(0)
+  const rafRef = useRef(null)
+  const startRef = useRef(null)
+
+  useEffect(() => {
+    const animate = (ts) => {
+      if (!startRef.current) startRef.current = ts
+      const progress = Math.min((ts - startRef.current) / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setValue(Math.round(eased * target))
+      if (progress < 1) rafRef.current = requestAnimationFrame(animate)
+    }
+    rafRef.current = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(rafRef.current)
+  }, [target, duration])
+
+  return <>{value.toLocaleString('ru-RU')}</>
+}
 
 const STEPS = [
-  { num: '1', title: 'Выберите партнёра', desc: 'Найдите компанию в каталоге' },
-  { num: '2', title: 'Оставьте заявку', desc: 'Укажите имя и телефон' },
-  { num: '3', title: 'Получите подарок', desc: 'Менеджер свяжется за час' },
+  { icon: '🏪', num: '1', title: 'Выберите партнёра', desc: 'Найдите компанию в каталоге' },
+  { icon: '📱', num: '2', title: 'Оставьте заявку за 1 минуту', desc: 'Укажите имя и телефон' },
+  { icon: '🎁', num: '3', title: 'Получите подарок', desc: 'Менеджер свяжется за час' },
 ]
 
 export default function App() {
@@ -24,12 +44,15 @@ export default function App() {
   const [page, setPage] = useState('home')
   const [filter, setFilter] = useState('Все')
   const [tapCount, setTapCount] = useState(0)
-  const totalGifts = companies.reduce((s, c) => s + c.giftAmount, 0)
+  const partnerRef = useRef(null)
 
+  const totalGifts = companies.reduce((s, c) => s + c.giftAmount, 0)
   const categories = ['Все', ...new Set(companies.map(c => c.category))]
-  const visibleSlots = filter === 'Все'
-    ? allSlots
-    : allSlots.filter(c => !c || c.category === filter)
+  const visibleCompanies = filter === 'Все' ? companies : companies.filter(c => c.category === filter)
+
+  const scrollToPartners = () => {
+    document.getElementById(PARTNER_SECTION_ID)?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   if (page === 'admin') return <AdminPage onBack={() => setPage('home')} />
   if (page === 'gifts') return (
@@ -40,160 +63,221 @@ export default function App() {
   return (
     <div className="min-h-screen" style={{ background: '#F7F4F0' }}>
 
+      {/* ── STICKY ШАПКА ── */}
+      <SiteHeader onPartnerClick={scrollToPartners} />
+
       {/* ── ГЕРОЙ ── */}
-      <div className="relative overflow-hidden"
-        style={{ background: 'linear-gradient(150deg, #FFF3E0 0%, #FFFAF5 55%, #F7F4F0 100%)' }}>
-
+      <section style={{ background: 'linear-gradient(160deg, #FFF3E0 0%, #FFFAF5 50%, #F7F4F0 100%)', paddingBottom: 40, position: 'relative', overflow: 'hidden' }}>
         {/* Декоративные блики */}
-        <div className="absolute -top-28 -right-28 w-96 h-96 rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(255,176,64,0.22) 0%, transparent 65%)' }} />
-        <div className="absolute bottom-0 -left-16 w-72 h-72 rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(232,98,26,0.07) 0%, transparent 65%)' }} />
+        <div style={{ position: 'absolute', top: -80, right: -80, width: 320, height: 320, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,176,64,0.18) 0%, transparent 65%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: -40, left: -60, width: 260, height: 260, borderRadius: '50%', background: 'radial-gradient(circle, rgba(232,98,26,0.07) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
-        <div className="relative max-w-2xl mx-auto px-5 pt-2 pb-8">
-
-          {/* Логотип */}
-          <div className="mb-2 flex justify-center" style={{ marginTop: '60px' }}>
-            <SiteLogo variant="large" />
-          </div>
-
+        <div style={{ maxWidth: 640, margin: '0 auto', padding: '40px 20px 0' }}>
           {/* Бейдж города */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-3"
-            style={{ background: '#FFF0DC', border: '1px solid #FFD0A0' }}>
-            <span className="text-xs">📍</span>
-            <span className="text-xs font-semibold" style={{ color: '#C25820' }}>Красноярск</span>
+          <div className="hero-title" style={{ marginBottom: 16 }}>
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', gap: 5,
+              background: '#FFF0DC', border: '1px solid #FFD0A0',
+              borderRadius: 20, padding: '5px 12px',
+              fontSize: 12, fontWeight: 600, color: '#C25820',
+            }}>
+              📍 Красноярск
+            </span>
           </div>
+
+          {/* Заголовок */}
+          <h1 className="hero-title" style={{
+            fontSize: 'clamp(26px, 7vw, 38px)',
+            fontWeight: 900,
+            color: '#1A1816',
+            lineHeight: 1.15,
+            letterSpacing: '-0.03em',
+            marginBottom: 14,
+          }}>
+            Подарки для новосёлов<br />
+            <span style={{ color: '#E8621A' }}>Красноярска</span>
+          </h1>
 
           {/* Подзаголовок */}
-          <p className="mb-5 leading-relaxed" style={{ color: '#6B6560', fontSize: '1.05rem', maxWidth: '36ch' }}>
-            Приветственные подарки и скидки от компаний-партнёров — для тех, кто обустраивает новый дом в Красноярске
+          <p className="hero-sub" style={{
+            fontSize: 16, color: '#6B6560', lineHeight: 1.6,
+            marginBottom: 24, maxWidth: '38ch',
+          }}>
+            Скидки и подарки от лучших компаний города — для тех, кто обустраивает новый дом
           </p>
 
-          {/* Карточка-счётчик */}
-          <button
+          {/* Строка доверия */}
+          <div className="hero-sub" style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 16px', marginBottom: 24 }}>
+            {[
+              `✓ ${companies.length} компаний-партнёров`,
+              `✓ Подарки на сумму ${totalGifts.toLocaleString('ru-RU')} ₽`,
+              '✓ Бесплатно для новосёлов',
+            ].map((t, i) => (
+              <span key={i} style={{ fontSize: 13, color: '#22C55E', fontWeight: 600 }}>{t}</span>
+            ))}
+          </div>
+
+          {/* Счётчик */}
+          <div
+            className="hero-counter"
             onClick={() => {
               const next = tapCount + 1
               if (next >= 5) { setTapCount(0); setPage('admin') }
-              else { setTapCount(next); setPage('gifts') }
+              else { setTapCount(next); scrollToPartners() }
             }}
-            className="text-left rounded-2xl px-6 py-5 transition-all duration-200"
             style={{
-              background: '#FFFFFF',
-              border: '1px solid #EDE8E0',
+              display: 'inline-flex', flexDirection: 'column',
+              background: '#FFFFFF', border: '1px solid #EDE8E0',
+              borderRadius: 20, padding: '16px 24px',
               boxShadow: '0 4px 24px rgba(0,0,0,0.07)',
-              display: 'inline-flex',
-              flexDirection: 'column',
-              gap: 6,
-              minWidth: 270,
+              marginBottom: 24, cursor: 'pointer',
             }}
-            onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 10px 40px rgba(232,98,26,0.15)' }}
-            onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.07)' }}
           >
-            <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: '#A09890' }}>
+            <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A09890', marginBottom: 4 }}>
               Подарков на сумму
             </p>
-            <p className="text-4xl font-extrabold" style={{ color: '#E8621A', letterSpacing: '-0.03em' }}>
-              {totalGifts.toLocaleString('ru-RU')} ₽
+            <p style={{ fontSize: 38, fontWeight: 900, color: '#E8621A', letterSpacing: '-0.04em', lineHeight: 1 }}>
+              <AnimatedCounter target={totalGifts} /> ₽
             </p>
-            <div className="flex items-center gap-2">
-              <p className="text-xs" style={{ color: '#A09890' }}>
-                от {companies.length} компаний-партнёров
-              </p>
-              <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full"
-                style={{ background: '#FFF0DC', color: '#C25820' }}>
-                Смотреть →
-              </span>
-            </div>
-          </button>
-        </div>
-      </div>
+            <p style={{ fontSize: 12, color: '#A09890', marginTop: 4 }}>
+              от {companies.length} компаний-партнёров · 47 новосёлов уже получили подарки
+            </p>
+          </div>
 
-      {/* ── КАК ЭТО РАБОТАЕТ ── */}
-      <div className="max-w-2xl mx-auto px-5 py-7">
-        <div className="rounded-2xl p-5" style={{ background: '#FFFFFF', border: '1px solid #EDE8E0' }}>
-          <p className="text-[10px] font-semibold uppercase tracking-widest mb-5" style={{ color: '#A09890' }}>
-            Как это работает
-          </p>
-          <div className="flex">
-            {STEPS.map((s, i) => (
-              <div key={i} className="flex-1 relative flex flex-col items-center text-center">
-                {i < STEPS.length - 1 && (
-                  <div className="absolute top-4 left-[calc(50%+18px)] right-0 h-px"
-                    style={{ background: '#EDE8E0' }} />
-                )}
-                <div className="w-9 h-9 rounded-full flex items-center justify-center mb-2.5 text-sm font-bold relative z-10"
-                  style={
-                    i === 0
-                      ? { background: '#E8621A', color: '#FFF' }
-                      : { background: '#FFF3E8', color: '#E8621A', border: '1px solid #FFD0A0' }
-                  }>
-                  {s.num}
-                </div>
-                <p className="text-[11px] font-semibold leading-tight mb-1 px-1" style={{ color: '#1A1816' }}>
-                  {s.title}
-                </p>
-                <p className="text-[10px] leading-tight px-1" style={{ color: '#A09890' }}>
-                  {s.desc}
-                </p>
-              </div>
-            ))}
+          {/* CTA кнопка */}
+          <div className="hero-cta">
+            <button
+              onClick={scrollToPartners}
+              className="btn-orange btn-pulse tap-target"
+              style={{
+                background: 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 100%)',
+                color: '#fff', border: 'none', borderRadius: 16,
+                padding: '0 32px', fontSize: 16, fontWeight: 800,
+                cursor: 'pointer', height: 56, display: 'inline-flex',
+                alignItems: 'center', gap: 8,
+              }}
+            >
+              Смотреть подарки →
+            </button>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* ── КАК ЭТО РАБОТАЕТ ── */}
+      <section style={{ padding: '32px 20px' }}>
+        <div style={{ maxWidth: 640, margin: '0 auto' }}>
+          <div style={{ background: '#FFFFFF', borderRadius: 20, padding: '20px 16px', border: '1px solid #EDE8E0', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
+            <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A09890', marginBottom: 20 }}>
+              Как это работает
+            </p>
+            <div style={{ display: 'flex', gap: 0 }}>
+              {STEPS.map((s, i) => (
+                <div key={i} style={{ flex: 1, position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                  {i < STEPS.length - 1 && (
+                    <div style={{ position: 'absolute', top: 20, left: 'calc(50% + 22px)', right: 0, height: 1, background: '#EDE8E0' }} />
+                  )}
+                  <div style={{
+                    width: 42, height: 42, borderRadius: '50%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 20, marginBottom: 8, position: 'relative', zIndex: 1,
+                    ...(i === 0
+                      ? { background: '#E8621A', boxShadow: '0 4px 12px rgba(232,98,26,0.3)' }
+                      : { background: '#FFF3E8', border: '1.5px solid #FFD0A0' }),
+                  }}>
+                    {s.icon}
+                  </div>
+                  <p style={{ fontSize: 11, fontWeight: 700, color: '#1A1816', lineHeight: 1.3, marginBottom: 3, padding: '0 4px' }}>
+                    {s.title}
+                  </p>
+                  <p style={{ fontSize: 10, color: '#A09890', padding: '0 4px', lineHeight: 1.3 }}>{s.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ── ПАРТНЁРЫ ── */}
-      <div className="max-w-2xl mx-auto px-5">
-        <div className="flex items-center justify-between mb-2">
-          <h2 className="text-lg font-bold" style={{ color: '#1A1816' }}>Компании-партнёры</h2>
-          <span className="text-xs px-2.5 py-1 rounded-full font-semibold"
-            style={{ background: '#FFF0DC', color: '#C25820' }}>
+      <section id={PARTNER_SECTION_ID} style={{ padding: '0 16px 16px', maxWidth: 640, margin: '0 auto' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+          <h2 style={{ fontSize: 18, fontWeight: 800, color: '#1A1816' }}>Компании-партнёры</h2>
+          <span style={{ fontSize: 12, fontWeight: 600, padding: '3px 10px', borderRadius: 20, background: '#FFF0DC', color: '#C25820' }}>
             {companies.length} из 40
           </span>
         </div>
-        <p className="text-sm mb-5" style={{ color: '#A09890' }}>
+        <p style={{ fontSize: 13, color: '#A09890', marginBottom: 14 }}>
           Предъявите{' '}
-          <span className="font-bold" style={{ color: '#E8621A', fontSize: '1rem' }}>СЕРТИФИКАТ</span>
+          <span style={{ fontWeight: 800, color: '#E8621A', fontSize: '1rem' }}>СЕРТИФИКАТ</span>
           {' '}при визите — и получите скидку
         </p>
 
-        {/* Фильтр категорий */}
-        <div className="flex gap-2 overflow-x-auto pb-4 no-scrollbar">
+        {/* Фильтры */}
+        <div className="no-scrollbar" style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 14 }}>
           {categories.map(cat => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}
-              className="shrink-0 text-xs px-4 py-2 rounded-full whitespace-nowrap transition-all duration-150 font-medium"
-              style={
-                filter === cat
-                  ? { background: '#E8621A', color: '#FFF', border: '1px solid #E8621A' }
-                  : { background: '#FFF', color: '#6B6560', border: '1px solid #EDE8E0' }
-              }
+              className="filter-btn tap-target"
+              style={{
+                flexShrink: 0, fontSize: 12, padding: '0 16px', borderRadius: 20,
+                whiteSpace: 'nowrap', fontWeight: 500, border: '1px solid',
+                height: 36, cursor: 'pointer',
+                ...(filter === cat
+                  ? { background: '#E8621A', color: '#FFF', borderColor: '#E8621A' }
+                  : { background: '#FFF', color: '#6B6560', borderColor: '#EDE8E0' }),
+              }}
             >
               {cat}
             </button>
           ))}
         </div>
-      </div>
 
-      {/* ── СЕТКА ── */}
-      <div className="px-4 pb-16 max-w-2xl mx-auto mt-1">
-        <div className="grid grid-cols-1 gap-3">
-          {visibleSlots.map((company, i) => (
-            <div key={i} className="fade-up-card" style={{ animationDelay: `${Math.min(i, 10) * 0.04}s` }}>
+        {/* Сетка карточек */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 12 }}>
+          {visibleCompanies.map((company, i) => (
+            <div key={company.id} className="fade-up-card" style={{ animationDelay: `${Math.min(i, 8) * 0.06}s` }}>
               <GridCard
                 company={company}
-                index={i}
                 onClick={c => { setSelected(c); setPage('company') }}
               />
             </div>
           ))}
-        </div>
-      </div>
 
-      {/* ── ПОДВАЛ ── */}
-      <div className="text-center py-6" style={{ borderTop: '1px solid #EDE8E0' }}>
-        <p className="text-xs" style={{ color: '#C0BAB2' }}>© 2026 Гид Новосёла · Красноярск</p>
-      </div>
+          {/* Пустые слоты */}
+          {filter === 'Все' && Array(EMPTY_COUNT).fill(null).map((_, i) => (
+            <div key={`empty-${i}`} className="fade-up-card" style={{ animationDelay: `${Math.min(i + visibleCompanies.length, 12) * 0.04}s` }}>
+              <EmptySlot onPartnerClick={i < 3 ? scrollToPartners : undefined} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── ФУТЕР ── */}
+      <footer id="become-partner" style={{ background: '#2D2D2D', marginTop: 40, padding: '32px 20px 24px' }}>
+        <div style={{ maxWidth: 640, margin: '0 auto' }}>
+          <SiteLogo variant="footer" />
+          <p style={{ fontSize: 13, color: '#A09890', marginTop: 10, marginBottom: 20, lineHeight: 1.6 }}>
+            Гид Новосёла — подарки для тех,<br />кто обустраивает новый дом в Красноярске
+          </p>
+
+          <div style={{ borderTop: '1px solid #3D3D3D', paddingTop: 16, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+            <div>
+              <p style={{ fontSize: 12, color: '#6B6560' }}>📧 neirobanya@mail.ru</p>
+              <p style={{ fontSize: 11, color: '#4A4A4A', marginTop: 6 }}>© 2025 Гид Новосёла. Все права защищены.</p>
+            </div>
+            <button
+              onClick={scrollToPartners}
+              style={{
+                background: 'transparent', border: '1px solid #E8621A',
+                color: '#E8621A', borderRadius: 10, padding: '8px 16px',
+                fontSize: 13, fontWeight: 600, cursor: 'pointer',
+              }}
+            >
+              Стать партнёром →
+            </button>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
