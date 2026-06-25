@@ -20,7 +20,7 @@ export default function GiftBox({ partner, count, onClick, delay = 0 }) {
           {company?.logo ? (
             <img src={company.logo} alt={partner.name} style={{ width: '100%', height: 'auto', objectFit: 'contain', borderRadius: 4 }} />
           ) : (
-            <div style={{ background: 'rgba(255,255,255,0.88)', borderRadius: 6, padding: '6px 10px', fontWeight: 900, fontSize: 'clamp(13px,3.5vw,18px)', color: '#1A1816', textAlign: 'center' }}>
+            <div style={{ background: '#ffffff', borderRadius: 6, padding: '6px 10px', fontWeight: 900, fontSize: 'clamp(13px,3.5vw,18px)', color: '#1A1816', textAlign: 'center' }}>
               {initials}
             </div>
           )}
