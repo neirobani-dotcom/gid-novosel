@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 function getTimeLeft() {
   const now = new Date()
@@ -22,46 +22,26 @@ function getMonthName() {
   return months[new Date().getMonth()]
 }
 
-function Block({ value, label }) {
+function FadingNum({ value }) {
   const str = String(value).padStart(2, '0')
+  const prevRef = useRef(str)
+  const [opacity, setOpacity] = useState(1)
+
+  useEffect(() => {
+    if (prevRef.current === str) return
+    setOpacity(0)
+    const t = setTimeout(() => { setOpacity(1); prevRef.current = str }, 160)
+    return () => clearTimeout(t)
+  }, [str])
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <div style={{
-        background: '#1A1A1A',
-        borderRadius: 12,
-        padding: '10px 12px',
-        minWidth: 64,
-        textAlign: 'center',
-        boxShadow: '0 0 20px rgba(255,215,0,0.25), 0 4px 16px rgba(0,0,0,0.45)',
-        border: '1px solid rgba(255,215,0,0.2)',
-        overflow: 'hidden',
-      }}>
-        <span
-          key={str}
-          style={{
-            display: 'block',
-            fontSize: 'clamp(36px, 9vw, 48px)',
-            fontWeight: 900,
-            color: '#FFD700',
-            lineHeight: 1,
-            fontVariantNumeric: 'tabular-nums',
-            fontFamily: 'Inter, system-ui, sans-serif',
-            animation: 'flipIn 0.3s ease',
-          }}
-        >
-          {str}
-        </span>
-      </div>
-      <span style={{
-        fontSize: 11,
-        fontWeight: 700,
-        color: 'rgba(255,255,255,0.8)',
-        marginTop: 7,
-        letterSpacing: '0.07em',
-      }}>
-        {label}
-      </span>
-    </div>
+    <span style={{
+      transition: 'opacity 0.16s ease',
+      opacity,
+      fontVariantNumeric: 'tabular-nums',
+    }}>
+      {str}
+    </span>
   )
 }
 
@@ -75,48 +55,48 @@ export default function CountdownTimer() {
 
   return (
     <div style={{
-      background: 'linear-gradient(135deg, #E8621A 0%, #C0392B 100%)',
-      borderRadius: 20,
-      padding: '20px 16px',
-      boxShadow: '0 8px 36px rgba(232,98,26,0.38)',
-      maxWidth: 600,
-      margin: '24px auto 0',
       width: '100%',
+      height: 44,
+      background: '#E8621A',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 12,
+      padding: '0 16px',
+      boxSizing: 'border-box',
     }}>
-      <p style={{
-        textAlign: 'center',
-        color: 'white',
-        fontSize: 15,
-        fontWeight: 600,
-        marginBottom: 16,
+      <span style={{
+        color: 'rgba(255,255,255,0.92)',
+        fontSize: 14,
+        fontWeight: 400,
+        fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif',
+        whiteSpace: 'nowrap',
         letterSpacing: '-0.01em',
       }}>
-        🔥 Предложение действует до {getLastDay()} {getMonthName()}
-      </p>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-        <Block value={time.days}    label="ДНЕЙ" />
-        <Colon />
-        <Block value={time.hours}   label="ЧАСОВ" />
-        <Colon />
-        <Block value={time.minutes} label="МИНУТ" />
-        <Colon />
-        <Block value={time.seconds} label="СЕКУНД" />
-      </div>
-    </div>
-  )
-}
+        🔥 Предложение до {getLastDay()} {getMonthName()}
+      </span>
 
-function Colon() {
-  return (
-    <span style={{
-      color: '#FFD700',
-      fontSize: 'clamp(24px, 6vw, 32px)',
-      fontWeight: 900,
-      paddingBottom: 22,
-      lineHeight: 1,
-      userSelect: 'none',
-    }}>
-      :
-    </span>
+      <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>•</span>
+
+      <span style={{
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 700,
+        fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif',
+        letterSpacing: '0.01em',
+        whiteSpace: 'nowrap',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1,
+      }}>
+        <FadingNum value={time.days} /><span style={{ opacity: 0.6, margin: '0 1px' }}>д</span>
+        <span style={{ opacity: 0.5, margin: '0 3px' }}>:</span>
+        <FadingNum value={time.hours} /><span style={{ opacity: 0.6, margin: '0 1px' }}>ч</span>
+        <span style={{ opacity: 0.5, margin: '0 3px' }}>:</span>
+        <FadingNum value={time.minutes} /><span style={{ opacity: 0.6, margin: '0 1px' }}>м</span>
+        <span style={{ opacity: 0.5, margin: '0 3px' }}>:</span>
+        <FadingNum value={time.seconds} /><span style={{ opacity: 0.6, margin: '0 1px' }}>с</span>
+      </span>
+    </div>
   )
 }

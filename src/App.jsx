@@ -84,6 +84,9 @@ export default function App() {
       {/* ── STICKY ШАПКА ── */}
       <SiteHeader onPartnerClick={scrollToPartners} />
 
+      {/* ── СЧЁТЧИК-БАННЕР ── */}
+      <CountdownTimer />
+
       {/* ── ГЕРОЙ ── */}
       <section style={{ background: 'linear-gradient(160deg, #FFF3E0 0%, #FFFAF5 50%, #F7F4F0 100%)', paddingBottom: 40, position: 'relative', overflow: 'hidden' }}>
         {/* Декоративные блики */}
@@ -179,8 +182,6 @@ export default function App() {
             </button>
           </div>
 
-          {/* Счётчик обратного отсчёта */}
-          <CountdownTimer />
         </div>
       </section>
 
