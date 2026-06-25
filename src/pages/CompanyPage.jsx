@@ -219,9 +219,10 @@ function handleChange(e) {
                 </p>
                 <PhotoSlider
                   images={company.images}
-                  height={240}
+                  height={260}
                   borderRadius={16}
                   onPhotoClick={(i) => setLightbox(i)}
+                  showDots
                 />
               </div>
             )}
