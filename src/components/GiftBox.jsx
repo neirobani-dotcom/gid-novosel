@@ -1,44 +1,38 @@
 import { companies } from '../data/companies'
 
-// Координаты 3D-коробки
-// Передняя грань: (10,108)→(200,108)→(200,268)→(10,268)
-// Смещение правой/верхней граней: OX=46, OY=-28
-const OX = 46, OY = -28
+// ── 3D-коробка: координаты ──────────────────────────────────────
+const OX = 46, OY = -28  // смещение правой/верхней граней
 
-// Передняя грань
-const FTL = [10,  108]
-const FTR = [200, 108]
-const FBL = [10,  268]
-const FBR = [200, 268]
+const FTL = [10,  108]   // front top-left
+const FTR = [200, 108]   // front top-right
+const FBL = [10,  268]   // front bottom-left
+const FBR = [200, 268]   // front bottom-right
+const TTL = [FTL[0]+OX, FTL[1]+OY]  // [56, 80]  — крышка, зад-лево
+const TTR = [FTR[0]+OX, FTR[1]+OY]  // [246, 80] — крышка, зад-право
+const RBR = [FBR[0]+OX, FBR[1]+OY]  // [246, 240] — правая грань, низ-право
 
-// Верхняя крышка (топ)
-const TTL = [FTL[0]+OX, FTL[1]+OY]  // [56, 80]
-const TTR = [FTR[0]+OX, FTR[1]+OY]  // [246, 80]
+const frontPts = p(FTL, FTR, FBR, FBL)
+const rightPts = p(FTR, TTR, RBR, FBR)
+const topPts   = p(FTL, FTR, TTR, TTL)
 
-// Правая грань (нижний правый угол)
-const RBR = [FBR[0]+OX, FBR[1]+OY]  // [246, 240]
+// Центр передней грани
+const FC_X = (FTL[0] + FTR[0]) / 2  // 105
+const FC_Y = (FTL[1] + FBL[1]) / 2  // 188
 
-const frontPts = pts(FTL, FTR, FBR, FBL)
-const rightPts = pts(FTR, TTR, RBR, FBR)
-const topPts   = pts(FTL, FTR, TTR, TTL)
+// Центр банта — на крышке над передней гранью
+const BC = [FC_X, 84]  // [105, 84]
 
-// Лента: по центру передней грани
-const RIB_CX = (FTL[0] + FTR[0]) / 2  // 105
-const RIB_W  = 13
-
-// Бант: центр немного в глубь крышки (выступает ~62px вверх)
-const BC = [105, 86]
+// Логотип: 85% передней грани
+const LOGO_W = Math.round(190 * 0.85)  // 161
+const LOGO_H = Math.round(160 * 0.85)  // 136
+const LOGO_X = FTL[0] + Math.round((190 - LOGO_W) / 2)  // 24
+const LOGO_Y = FTL[1] + Math.round((160 - LOGO_H) / 2)  // 120
 
 export default function GiftBox({ partner, count, onClick, delay = 0 }) {
   const company  = companies.find(c => c.id === partner.partnerId)
   const logo     = company?.logo
   const initials = partner.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
-  const uid      = partner.partnerId
-
-  // Логотип вписывается в переднюю грань (80%)
-  const logoW = 152, logoH = 126
-  const logoX = FTL[0] + (190 - logoW) / 2   // 29
-  const logoY = FTL[1] + (160 - logoH) / 2   // 125
+  const u        = partner.partnerId  // уникальный префикс для gradient id
 
   return (
     <div
@@ -48,113 +42,133 @@ export default function GiftBox({ partner, count, onClick, delay = 0 }) {
     >
       <div
         className="gift-box-inner"
-        style={{ width: '100%', filter: 'drop-shadow(6px 10px 16px rgba(0,0,0,0.35))' }}
+        style={{ width: '100%', filter: 'drop-shadow(6px 10px 16px rgba(0,0,0,0.32))' }}
       >
         <svg viewBox="0 0 262 280" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: 'auto', display: 'block' }}>
           <defs>
-            {/* Градиент передней грани */}
-            <linearGradient id={`fg-${uid}`} x1="0" y1="0" x2="0" y2="1">
+            {/* Передняя грань */}
+            <linearGradient id={`fg-${u}`} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%"   stopColor="#F07A35" />
               <stop offset="100%" stopColor="#D4561A" />
             </linearGradient>
-            {/* Градиент крышки */}
-            <linearGradient id={`lg-${uid}`} x1="0" y1="0" x2="1" y2="0">
+            {/* Верхняя крышка */}
+            <linearGradient id={`lg-${u}`} x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%"   stopColor="#F5894A" />
               <stop offset="100%" stopColor="#E07030" />
             </linearGradient>
-            {/* Градиент петли банта */}
-            <radialGradient id={`bg-${uid}`} cx="50%" cy="50%" r="50%">
-              <stop offset="0%"   stopColor="#FFFFFF" />
-              <stop offset="100%" stopColor="#E0E0E0" />
-            </radialGradient>
-            {/* Градиент узла банта */}
-            <radialGradient id={`kg-${uid}`} cx="38%" cy="35%" r="62%">
+            {/* Петля банта — оранжевый градиент */}
+            <linearGradient id={`petal-${u}`} x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%"   stopColor="#FF9A4A" />
+              <stop offset="100%" stopColor="#E8621A" />
+            </linearGradient>
+            {/* Узел банта — золотой */}
+            <radialGradient id={`knot-${u}`} cx="38%" cy="35%" r="62%">
               <stop offset="0%"   stopColor="#FFE566" />
-              <stop offset="100%" stopColor="#C8960C" />
+              <stop offset="100%" stopColor="#B8860B" />
             </radialGradient>
-            {/* Клип передней грани для логотипа */}
-            <clipPath id={`fc-${uid}`}>
+            {/* Клип: передняя грань (для логотипа) */}
+            <clipPath id={`fc-${u}`}>
               <polygon points={frontPts} />
             </clipPath>
           </defs>
 
-          {/* ── ПРАВАЯ ГРАНЬ (тёмная — тень) ── */}
+          {/* ══ СЛОЙ 1: ГРАНИ КОРОБКИ ══ */}
+
+          {/* Правая грань (тёмная — тень) */}
           <polygon points={rightPts} fill="#B8461A" stroke="#9E3A12" strokeWidth="1" />
 
-          {/* ── ВЕРХНЯЯ КРЫШКА (светлая — свет сверху) ── */}
-          <polygon points={topPts} fill={`url(#lg-${uid})`} stroke="#9E3A12" strokeWidth="1" />
+          {/* Верхняя крышка (светлая — свет) */}
+          <polygon points={topPts} fill={`url(#lg-${u})`} stroke="#9E3A12" strokeWidth="1" />
 
-          {/* ── ПЕРЕДНЯЯ ГРАНЬ ── */}
-          <polygon points={frontPts} fill={`url(#fg-${uid})`} stroke="#9E3A12" strokeWidth="1.5" />
+          {/* Передняя грань */}
+          <polygon points={frontPts} fill={`url(#fg-${u})`} stroke="#9E3A12" strokeWidth="1.5" />
 
-          {/* ── ЛОГОТИП на передней грани ── */}
-          {logo ? (
-            <image
-              href={logo}
-              x={logoX} y={logoY}
-              width={logoW} height={logoH}
-              preserveAspectRatio="xMidYMid meet"
-              clipPath={`url(#fc-${uid})`}
-            />
-          ) : (
-            <text
-              x={RIB_CX} y="190"
-              textAnchor="middle" dominantBaseline="middle"
-              fill="white" fontSize="32" fontWeight="900"
-              fontFamily="Inter, system-ui, sans-serif"
-              clipPath={`url(#fc-${uid})`}
-            >
-              {initials}
-            </text>
-          )}
+          {/* ══ СЛОЙ 2: ЛЕНТЫ И УКРАШЕНИЯ ══ */}
 
-          {/* ── ВЕРТИКАЛЬНАЯ ЛЕНТА на передней грани ── */}
-          <rect
-            x={RIB_CX - RIB_W/2} y={FTL[1]}
-            width={RIB_W} height={FBL[1] - FTL[1]}
-            fill="white" opacity="0.82"
-            clipPath={`url(#fc-${uid})`}
-          />
-          <line x1={RIB_CX - RIB_W/2} y1={FTL[1]} x2={RIB_CX - RIB_W/2} y2={FBL[1]} stroke="#D4AF37" strokeWidth="1.5" />
-          <line x1={RIB_CX + RIB_W/2} y1={FTL[1]} x2={RIB_CX + RIB_W/2} y2={FBL[1]} stroke="#D4AF37" strokeWidth="1.5" />
-
-          {/* ── ГОРИЗОНТАЛЬНАЯ ЛЕНТА на крышке ── */}
-          {/* Полоска поперёк крышки на уровне d≈0.5 */}
+          {/* Горизонтальная лента на крышке */}
           <polygon
-            points={`${24},${100} ${214},${100} ${232},${88} ${42},${88}`}
-            fill="white" opacity="0.72"
+            points="24,100 214,100 232,88 42,88"
+            fill="white" opacity="0.70"
           />
           <line x1={24} y1={100} x2={214} y2={100} stroke="#D4AF37" strokeWidth="1.5" />
           <line x1={42} y1={88}  x2={232} y2={88}  stroke="#D4AF37" strokeWidth="1.5" />
 
-          {/* ── ЛЕНТЫ от банта до ленты на крышке ── */}
-          <path d={`M ${BC[0]-5},${BC[1]} C ${BC[0]-16},${BC[1]+14} ${RIB_CX - RIB_W/2 - 4},${FTL[1]-8} ${RIB_CX - RIB_W/2},${FTL[1]}`}
-            stroke="white" strokeWidth="4.5" fill="none" strokeLinecap="round" />
-          <path d={`M ${BC[0]+5},${BC[1]} C ${BC[0]+16},${BC[1]+14} ${RIB_CX + RIB_W/2 + 4},${FTL[1]-8} ${RIB_CX + RIB_W/2},${FTL[1]}`}
-            stroke="white" strokeWidth="4.5" fill="none" strokeLinecap="round" />
-          <path d={`M ${BC[0]-5},${BC[1]} C ${BC[0]-16},${BC[1]+14} ${RIB_CX - RIB_W/2 - 4},${FTL[1]-8} ${RIB_CX - RIB_W/2},${FTL[1]}`}
-            stroke="#D4AF37" strokeWidth="1.2" fill="none" strokeLinecap="round" />
-          <path d={`M ${BC[0]+5},${BC[1]} C ${BC[0]+16},${BC[1]+14} ${RIB_CX + RIB_W/2 + 4},${FTL[1]-8} ${RIB_CX + RIB_W/2},${FTL[1]}`}
-            stroke="#D4AF37" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          {/* Вертикальная лента на передней грани (под логотипом) */}
+          <rect
+            x={FC_X - 6} y={FTL[1]}
+            width={12} height={FBL[1] - FTL[1]}
+            fill="white" opacity="0.75"
+            clipPath={`url(#fc-${u})`}
+          />
+          <line x1={FC_X-6} y1={FTL[1]} x2={FC_X-6} y2={FBL[1]} stroke="#D4AF37" strokeWidth="1.2" />
+          <line x1={FC_X+6} y1={FTL[1]} x2={FC_X+6} y2={FBL[1]} stroke="#D4AF37" strokeWidth="1.2" />
 
-          {/* ── ПЕТЛИ БАНТА (6 штук, по 3 с каждой стороны) ── */}
-          {[-90, -60, -30, 30, 60, 90].map(angle => (
+          {/* ══ СЛОЙ 3: БАНТ — ЛЕНТЫ ОТ УЗЛА ВНИЗ ══ */}
+
+          {/* Левая лента */}
+          <path
+            d={`M ${BC[0]-5},${BC[1]+10} C ${BC[0]-22},${BC[1]+38} ${FC_X-18},${FTL[1]+30} ${FC_X-6},${FTL[1]+80}`}
+            stroke="#E8621A" strokeWidth="7" fill="none" strokeLinecap="round"
+          />
+          <path
+            d={`M ${BC[0]-5},${BC[1]+10} C ${BC[0]-22},${BC[1]+38} ${FC_X-18},${FTL[1]+30} ${FC_X-6},${FTL[1]+80}`}
+            stroke="#FFD700" strokeWidth="1.5" fill="none" strokeLinecap="round"
+          />
+
+          {/* Правая лента */}
+          <path
+            d={`M ${BC[0]+5},${BC[1]+10} C ${BC[0]+22},${BC[1]+38} ${FC_X+18},${FTL[1]+30} ${FC_X+6},${FTL[1]+80}`}
+            stroke="#E8621A" strokeWidth="7" fill="none" strokeLinecap="round"
+          />
+          <path
+            d={`M ${BC[0]+5},${BC[1]+10} C ${BC[0]+22},${BC[1]+38} ${FC_X+18},${FTL[1]+30} ${FC_X+6},${FTL[1]+80}`}
+            stroke="#FFD700" strokeWidth="1.5" fill="none" strokeLinecap="round"
+          />
+
+          {/* ══ СЛОЙ 4: БАНТ — 8 ПЕТЕЛЬ ══ */}
+
+          {/* Левые петли: -20, -45, -70, -95 */}
+          {/* Правые петли: 20, 45, 70, 95 */}
+          {[-95, -70, -45, -20, 20, 45, 70, 95].map(angle => (
             <ellipse
               key={angle}
               cx={BC[0]} cy={BC[1]}
-              rx="42" ry="20"
-              fill={`url(#bg-${uid})`}
-              stroke="#FFD700" strokeWidth="2"
+              rx="46" ry="22"
+              fill={`url(#petal-${u})`}
+              stroke="#FFD700" strokeWidth="2.5"
               transform={`rotate(${angle}, ${BC[0]}, ${BC[1]})`}
+              style={{ filter: 'drop-shadow(3px 4px 6px rgba(0,0,0,0.28))' }}
             />
           ))}
 
-          {/* ── УЗЕЛ БАНТА ── */}
+          {/* ══ СЛОЙ 5: УЗЕЛ БАНТА ══ */}
           <circle
-            cx={BC[0]} cy={BC[1]} r="11"
-            fill={`url(#kg-${uid})`}
-            stroke="#C8960C" strokeWidth="1.5"
+            cx={BC[0]} cy={BC[1]} r="14"
+            fill={`url(#knot-${u})`}
+            stroke="#FFD700" strokeWidth="2"
+            style={{ filter: 'drop-shadow(2px 3px 5px rgba(0,0,0,0.3))' }}
           />
+
+          {/* ══ СЛОЙ 6: ЛОГОТИП — САМЫЙ ВЕРХНИЙ ══ */}
+          {logo ? (
+            <image
+              href={logo}
+              x={LOGO_X} y={LOGO_Y}
+              width={LOGO_W} height={LOGO_H}
+              preserveAspectRatio="xMidYMid meet"
+              clipPath={`url(#fc-${u})`}
+            />
+          ) : (
+            <text
+              x={FC_X} y={FC_Y}
+              textAnchor="middle" dominantBaseline="middle"
+              fill="white" fontSize="34" fontWeight="900"
+              fontFamily="Inter, system-ui, sans-serif"
+              clipPath={`url(#fc-${u})`}
+            >
+              {initials}
+            </text>
+          )}
         </svg>
       </div>
 
@@ -168,7 +182,7 @@ export default function GiftBox({ partner, count, onClick, delay = 0 }) {
   )
 }
 
-function pts(...coords) {
+function p(...coords) {
   return coords.map(([x, y]) => `${x},${y}`).join(' ')
 }
 
