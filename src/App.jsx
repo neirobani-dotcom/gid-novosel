@@ -9,6 +9,9 @@ import GiftsBoxPage from './pages/GiftsBoxPage'
 import GiftDetailPage from './pages/GiftDetailPage'
 import CompanyPage from './pages/CompanyPage'
 import AdminPage from './pages/AdminPage'
+import CountdownTimer from './components/CountdownTimer'
+import PopupWidget from './components/PopupWidget'
+import WhatsAppButton from './components/WhatsAppButton'
 import './index.css'
 
 const EMPTY_COUNT = 35
@@ -175,6 +178,9 @@ export default function App() {
               Смотреть подарки →
             </button>
           </div>
+
+          {/* Счётчик обратного отсчёта */}
+          <CountdownTimer />
         </div>
       </section>
 
@@ -266,6 +272,30 @@ export default function App() {
           ))}
         </div>
       </section>
+
+      {/* ── КАРТА ── */}
+      <section style={{ padding: '40px 20px 0', maxWidth: 640, margin: '0 auto' }}>
+        <h2 style={{ fontSize: 20, fontWeight: 800, color: '#1A1816', marginBottom: 6 }}>
+          Где нас найти
+        </h2>
+        <p style={{ fontSize: 14, color: '#A09890', marginBottom: 16 }}>
+          Все компании-партнёры в Красноярске
+        </p>
+        <div style={{ borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.09)' }}>
+          <iframe
+            src="https://yandex.ru/map-widget/v1/?ll=92.8932,56.0097&z=12"
+            className="map-iframe"
+            title="Партнёры в Красноярске"
+            allowFullScreen
+          />
+        </div>
+      </section>
+
+      {/* ── КНОПКА WHATSAPP ── */}
+      <WhatsAppButton />
+
+      {/* ── ВСПЛЫВАШКА (30 сек) ── */}
+      <PopupWidget onGiftsClick={() => setPage('gifts-boxes')} />
 
       {/* ── ФУТЕР ── */}
       <footer id="become-partner" style={{ background: '#2D2D2D', marginTop: 40, padding: '32px 20px 24px' }}>
