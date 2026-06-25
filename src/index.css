@@ -113,6 +113,16 @@ body {
 }
 .success-icon { animation: success-pop 0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
 
+/* ── Модальное окно ── */
+@keyframes modalBgFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes modalSlideIn {
+  from { opacity: 0; transform: scale(0.92) translateY(16px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
 /* ── Форма — минимум 16px для iOS (без зума) ── */
 input, textarea, select {
   font-size: 16px !important;
