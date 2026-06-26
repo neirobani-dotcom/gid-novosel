@@ -41,7 +41,7 @@ function handleChange(e) {
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({
         access_key: '2c502e1a-5b57-43a0-b56f-9ffa8c423793',
-        subject:    `Новая заявка — ${company.name}`,
+        subject:    company.emailSubject || `Новая заявка — ${company.name}`,
         from_name:  'Гид Новосёла',
         Компания:   company.name,
         Имя:        form.name,
@@ -251,6 +251,30 @@ function handleChange(e) {
                 <p className="text-sm leading-relaxed" style={{ color: '#6B6560' }}>
                   {company.description}
                 </p>
+              </div>
+            )}
+
+            {/* ── Как это работает ── */}
+            {company.steps?.length > 0 && (
+              <div className="mb-5">
+                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#A09890' }}>
+                  Как это работает
+                </p>
+                <div className="rounded-2xl overflow-hidden" style={{ background: '#FFF', border: '1px solid #EDE8E0' }}>
+                  {company.steps.map((s, i) => (
+                    <div key={i} className="flex items-start gap-3 px-4 py-3"
+                      style={{ borderBottom: i < company.steps.length - 1 ? '1px solid #F0EBE3' : 'none' }}>
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold text-white"
+                        style={{ background: '#E8621A', marginTop: 2, minWidth: 32 }}>
+                        {i + 1}
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold" style={{ color: '#1A1816' }}>{s.title}</p>
+                        <p className="text-xs mt-0.5" style={{ color: '#A09890', lineHeight: 1.4 }}>{s.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
