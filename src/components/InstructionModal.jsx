@@ -33,7 +33,7 @@ function getMbDims() {
   const isMobile = w < 540
   return {
     mbW: isMobile ? Math.min(300, w - 40) : 520,
-    lidH: isMobile ? 210 : 320,
+    lidH: isMobile ? 294 : 448,
   }
 }
 
@@ -309,10 +309,10 @@ export default function InstructionModal() {
                           animation: 'slideIn 0.4s ease forwards',
                         }}
                       >
-                        <div style={{ fontSize: 36, marginBottom: 8, lineHeight: 1 }}>{slide.emoji}</div>
+                        <div style={{ fontSize: 64, marginBottom: 8, lineHeight: 1 }}>{slide.emoji}</div>
                         <div style={{
                           color: '#00FFD1',
-                          fontSize: 11,
+                          fontSize: 20,
                           fontWeight: 'bold',
                           marginBottom: 10,
                           textAlign: 'center',
@@ -323,7 +323,7 @@ export default function InstructionModal() {
                         </div>
                         <div style={{
                           color: '#cccccc',
-                          fontSize: 10,
+                          fontSize: 16,
                           lineHeight: 1.8,
                           textAlign: 'center',
                           whiteSpace: 'pre-line',
@@ -348,8 +348,8 @@ export default function InstructionModal() {
                             key={i}
                             onClick={() => goTo(i)}
                             style={{
-                              width: i === currentSlide ? 8 : 6,
-                              height: i === currentSlide ? 8 : 6,
+                              width: i === currentSlide ? 14 : 10,
+                              height: i === currentSlide ? 14 : 10,
                               borderRadius: '50%',
                               background: i === currentSlide ? '#00FFD1' : '#444',
                               transition: 'all 0.3s',
