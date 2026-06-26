@@ -10,6 +10,7 @@ import GiftDetailPage from './pages/GiftDetailPage'
 import CompanyPage from './pages/CompanyPage'
 import AdminPage from './pages/AdminPage'
 import CountdownTimer from './components/CountdownTimer'
+import VisitorCounter from './components/VisitorCounter'
 import PopupWidget from './components/PopupWidget'
 import WhatsAppButton from './components/WhatsAppButton'
 import './index.css'
@@ -126,6 +127,9 @@ export default function App() {
           }}>
             Скидки и подарки от лучших компаний города — для тех, кто обустраивает новый дом
           </p>
+
+          {/* Счётчик посетителей */}
+          <VisitorCounter />
 
           {/* Строка доверия */}
           <div className="hero-sub" style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 16px', marginBottom: 24 }}>
