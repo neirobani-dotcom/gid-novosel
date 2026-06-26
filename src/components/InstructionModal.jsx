@@ -1,26 +1,31 @@
 import { useState, useEffect } from 'react'
 
-const BLOCKS = [
-  { text: '🏠 ДОБРО ПОЖАЛОВАТЬ, НОВОСЁЛ!', bold: true },
-  { text: '' },
-  { text: 'Этот сайт создан специально для тех, кто только заселился в новую квартиру. Здесь тебя ждут подарки от лучших компаний Красноярска — бесплатно!' },
-  { text: '' },
-  { text: 'КАК ПОЛУЧИТЬ ПОДАРОК:', bold: true },
-  { text: '1️⃣  Выбери раздел и найди компанию' },
-  { text: '2️⃣  Нажми «Активировать подарок»' },
-  { text: '3️⃣  Оставь имя и телефон' },
-  { text: '4️⃣  Менеджер свяжется за 1 час' },
-  { text: '5️⃣  Приходи и забирай подарок!' },
-  { text: '' },
-  { text: 'РАЗДЕЛЫ САЙТА:', bold: true },
-  { text: '🚗 Гид Водителя — кузовной ремонт, автосервис, рассрочка на авто' },
-  { text: '👨‍👩‍👧 Гид для Родителей — товары и услуги для детей (скоро)' },
-  { text: '🔧 Гид Сервис — мастера на дом, ремонт техники (скоро)' },
-  { text: '💼 Гид для Бизнеса — для предпринимателей (скоро)' },
-  { text: '🏠 Гид Новосёла — мебель, кухни, плитка, шторы, сауны и многое другое для нового дома' },
-  { text: '' },
-  { text: '✅ Все подарки — БЕСПЛАТНО!', bold: true },
-  { text: '⏰ Предложения ограничены!', bold: true },
+const slides = [
+  {
+    emoji: '🏠',
+    title: 'ДОБРО ПОЖАЛОВАТЬ, НОВОСЁЛ!',
+    text: 'Этот сайт создан специально для тех,\nкто только заселился в новую квартиру.\nЗдесь тебя ждут подарки от лучших\nкомпаний Красноярска — бесплатно!',
+  },
+  {
+    emoji: '🎁',
+    title: 'КАК ПОЛУЧИТЬ ПОДАРОК?',
+    text: '1️⃣ Выбери раздел и найди компанию\n2️⃣ Нажми «Активировать подарок»\n3️⃣ Оставь имя и телефон\n4️⃣ Менеджер свяжется за 1 час\n5️⃣ Приходи и забирай подарок!',
+  },
+  {
+    emoji: '🚗',
+    title: 'ГИД ВОДИТЕЛЯ',
+    text: 'Всё для твоего автомобиля:\n• Кузовной ремонт — Ирбис\n• Рассрочка на авто —\n  Красноярск Рассрочка Авто',
+  },
+  {
+    emoji: '🏠',
+    title: 'ГИД НОВОСЁЛА',
+    text: 'Всё для нового дома:\n• Шторы и текстиль\n• Мебель и кухни\n• Плитка и отделка\n• Сауны и многое другое',
+  },
+  {
+    emoji: '⏰',
+    title: 'ВАЖНО ЗНАТЬ!',
+    text: '✅ Все подарки — БЕСПЛАТНО\nдля новосёлов Красноярска\n\n⏰ Предложения ограничены\n\n🔒 Сайт проверен и безопасен\n\nНажми «Смотреть подарки»!',
+  },
 ]
 
 function getMbDims() {
@@ -29,7 +34,6 @@ function getMbDims() {
   return {
     mbW: isMobile ? Math.min(300, w - 40) : 520,
     lidH: isMobile ? 210 : 320,
-    fontSize: isMobile ? 9 : 11,
   }
 }
 
@@ -38,6 +42,8 @@ export default function InstructionModal() {
   const [lidOpen, setLidOpen] = useState(false)
   const [textVisible, setTextVisible] = useState(false)
   const [dims, setDims] = useState(getMbDims)
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [slideKey, setSlideKey] = useState(0)
 
   useEffect(() => {
     const onResize = () => setDims(getMbDims())
@@ -53,10 +59,18 @@ export default function InstructionModal() {
     } else {
       setLidOpen(false)
       setTextVisible(false)
+      setCurrentSlide(0)
+      setSlideKey(0)
     }
   }, [open])
 
-  const { mbW, lidH, fontSize } = dims
+  const goTo = (idx) => {
+    setCurrentSlide(idx)
+    setSlideKey(k => k + 1)
+  }
+
+  const { mbW, lidH } = dims
+  const slide = slides[currentSlide]
 
   return (
     <>
@@ -116,10 +130,10 @@ export default function InstructionModal() {
           <p style={{
             margin: 0,
             lineHeight: 1.2,
-            fontSize: 18,
+            fontSize: '18px',
+            fontWeight: '600',
             fontFamily: "'Playfair Display', serif",
             fontStyle: 'italic',
-            fontWeight: 600,
             background: 'linear-gradient(90deg, #FFD700, #FFA500, #00FFD1)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -130,9 +144,9 @@ export default function InstructionModal() {
           <p style={{
             margin: 0,
             marginTop: 4,
-            fontSize: 12,
+            fontSize: '12px',
             fontFamily: "'Inter', sans-serif",
-            color: 'rgba(255,255,255,0.55)',
+            color: 'rgba(255,255,255,0.7)',
           }}>
             Как пользоваться сайтом?
           </p>
@@ -140,7 +154,7 @@ export default function InstructionModal() {
 
         {/* Стрелка */}
         <span style={{
-          fontSize: 22,
+          fontSize: '22px',
           color: '#00FFD1',
           flexShrink: 0,
           animation: 'arrow-bounce 1.5s ease-in-out infinite',
@@ -185,7 +199,6 @@ export default function InstructionModal() {
             onClick={e => e.stopPropagation()}
             style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
           >
-            {/* Обёртка с перспективой */}
             <div style={{ perspective: '1200px' }}>
               {/* Крышка */}
               <div style={{
@@ -240,39 +253,113 @@ export default function InstructionModal() {
                     </span>
                   </div>
 
-                  {/* Контент экрана */}
-                  <div
-                    className="no-scrollbar"
-                    style={{
-                      flex: 1,
-                      overflowY: 'auto',
-                      padding: 14,
-                      fontSize,
-                      color: '#C8C8C8',
-                      lineHeight: 1.75,
-                      fontFamily: 'monospace',
-                    }}
-                  >
-                    {textVisible && BLOCKS.map((b, i) => (
-                      <p
-                        key={i}
+                  {/* Контент экрана — слайдер */}
+                  {textVisible && (
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                      {/* Левая стрелка */}
+                      {currentSlide > 0 && (
+                        <button
+                          onClick={() => goTo(currentSlide - 1)}
+                          style={{
+                            position: 'absolute', left: 6, top: '50%',
+                            transform: 'translateY(-50%)',
+                            width: 22, height: 22, borderRadius: '50%',
+                            background: 'rgba(0,255,200,0.15)',
+                            border: '1px solid rgba(0,255,200,0.4)',
+                            color: '#00FFD1', fontSize: 14,
+                            cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            zIndex: 10,
+                          }}
+                          onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,255,200,0.3)'}
+                          onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,255,200,0.15)'}
+                        >‹</button>
+                      )}
+
+                      {/* Правая стрелка */}
+                      {currentSlide < slides.length - 1 && (
+                        <button
+                          onClick={() => goTo(currentSlide + 1)}
+                          style={{
+                            position: 'absolute', right: 6, top: '50%',
+                            transform: 'translateY(-50%)',
+                            width: 22, height: 22, borderRadius: '50%',
+                            background: 'rgba(0,255,200,0.15)',
+                            border: '1px solid rgba(0,255,200,0.4)',
+                            color: '#00FFD1', fontSize: 14,
+                            cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            zIndex: 10,
+                          }}
+                          onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,255,200,0.3)'}
+                          onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,255,200,0.15)'}
+                        >›</button>
+                      )}
+
+                      {/* Слайд */}
+                      <div
+                        key={slideKey}
                         style={{
-                          margin: 0,
-                          marginBottom: b.text === '' ? '0.5em' : 0,
-                          fontWeight: b.bold ? 700 : 400,
-                          color: b.bold ? '#FFFFFF' : b.text === '' ? 'transparent' : '#C8D0E0',
-                          letterSpacing: b.bold ? '0.04em' : 0,
-                          opacity: 0,
-                          animation: 'screenLineIn 0.55s ease forwards',
-                          animationDelay: `${i * 0.12}s`,
-                          fontFamily: 'monospace',
-                          fontSize: b.bold ? fontSize + 1 : fontSize,
+                          flex: 1,
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          padding: '12px 34px',
+                          animation: 'slideIn 0.4s ease forwards',
                         }}
                       >
-                        {b.text || ' '}
-                      </p>
-                    ))}
-                  </div>
+                        <div style={{ fontSize: 36, marginBottom: 8, lineHeight: 1 }}>{slide.emoji}</div>
+                        <div style={{
+                          color: '#00FFD1',
+                          fontSize: 11,
+                          fontWeight: 'bold',
+                          marginBottom: 10,
+                          textAlign: 'center',
+                          fontFamily: 'monospace',
+                          letterSpacing: '0.03em',
+                        }}>
+                          {slide.title}
+                        </div>
+                        <div style={{
+                          color: '#cccccc',
+                          fontSize: 10,
+                          lineHeight: 1.8,
+                          textAlign: 'center',
+                          whiteSpace: 'pre-line',
+                          fontFamily: 'monospace',
+                        }}>
+                          {slide.text}
+                        </div>
+                      </div>
+
+                      {/* Точки */}
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        gap: 6,
+                        marginTop: 10,
+                        paddingBottom: 10,
+                        flexShrink: 0,
+                      }}>
+                        {slides.map((_, i) => (
+                          <div
+                            key={i}
+                            onClick={() => goTo(i)}
+                            style={{
+                              width: i === currentSlide ? 8 : 6,
+                              height: i === currentSlide ? 8 : 6,
+                              borderRadius: '50%',
+                              background: i === currentSlide ? '#00FFD1' : '#444',
+                              transition: 'all 0.3s',
+                              cursor: 'pointer',
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -288,7 +375,6 @@ export default function InstructionModal() {
               justifyContent: 'center',
               boxShadow: '0 6px 20px rgba(0,0,0,0.5)',
             }}>
-              {/* Ножка */}
               <div style={{
                 width: '60%',
                 height: 5,
