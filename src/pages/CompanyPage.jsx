@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import SiteLogo from '../components/SiteLogo'
 import PhotoSlider from '../components/PhotoSlider'
+import RassrochkaCalculator from '../components/RassrochkaCalculator'
 
 export default function CompanyPage({ company, onBack }) {
   const [form, setForm] = useState({ name: '', phone: '', address: '' })
   const [submitted, setSubmitted] = useState(null)
   const [step, setStep] = useState('form')
   const [activeBtn, setActiveBtn] = useState(company.ctaButtons[0].type)
+  const [showCalc, setShowCalc] = useState(false)
   const [lightbox, setLightbox] = useState(null)
 
 function handleChange(e) {
@@ -283,7 +285,13 @@ function handleChange(e) {
               {company.ctaButtons.map(btn => (
                 <button
                   key={btn.type}
-                  onClick={() => setActiveBtn(btn.type)}
+                  onClick={() => {
+                    if (btn.type === 'discount' && company.calculator === 'rassrochka') {
+                      setShowCalc(true)
+                    } else {
+                      setActiveBtn(btn.type)
+                    }
+                  }}
                   className="w-full text-sm py-3.5 px-4 rounded-xl transition-all font-semibold text-left"
                   style={
                     activeBtn === btn.type
@@ -389,6 +397,9 @@ function handleChange(e) {
           </>
         )}
       </div>
+
+      {/* ── Калькулятор рассрочки ── */}
+      {showCalc && <RassrochkaCalculator onClose={() => setShowCalc(false)} />}
 
       {/* ── Лайтбокс ── */}
       {lightbox !== null && company.images?.length > 0 && (

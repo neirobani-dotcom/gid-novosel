@@ -157,6 +157,7 @@ export const companies = [
     color: '#C0392B',
     promoCode: 'ГИД НОВОСЁЛА',
     emailSubject: '🚗 Заявка — Рассрочка Авто — gidnovosela.ru',
+    calculator: 'rassrochka',
     logo: '/partners/avto/logo.jpeg',
     images: ['/partners/avto/1.jpeg'],
     freebies: [
