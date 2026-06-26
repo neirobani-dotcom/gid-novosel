@@ -324,14 +324,20 @@ export default function App() {
         <p style={{ fontSize: 14, color: '#A09890', marginBottom: 16 }}>
           Все компании-партнёры в Красноярске
         </p>
-        <div style={{ borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.09)' }}>
-          <iframe
-            src="https://yandex.ru/map-widget/v1/?ll=92.8932,56.0097&z=12&pt=92.9057,56.0398,pm2rdm~92.8750,56.0201,pm2rdm~92.8823,56.0127,pm2rdm~92.8932,56.0097,pm2rdm~92.9080,56.0374,pm2rdm~92.9068,56.0385,pm2rdm~92.9640,56.0124,pm2rdm~92.9213,56.0141,pm2rdm~92.8664,56.0103,pm2rdm~92.8678,56.0187,pm2rdm"
+        <a
+          href="https://yandex.ru/maps/?ll=92.8932,56.0097&z=12&pt=92.9057,56.0398~92.8750,56.0201~92.8823,56.0127~92.8932,56.0097~92.9080,56.0374~92.9068,56.0385~92.9640,56.0124~92.9213,56.0141~92.8664,56.0103~92.8678,56.0187"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Открыть карту в Яндекс Картах"
+          style={{ display: 'block', borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.09)', cursor: 'pointer' }}
+        >
+          <img
+            src="https://static-maps.yandex.ru/1.x/?ll=92.8932,56.0097&z=11&l=map&lang=ru_RU&pt=92.9057,56.0398,pm2rdm~92.8750,56.0201,pm2rdm~92.8823,56.0127,pm2rdm~92.8932,56.0097,pm2rdm~92.9080,56.0374,pm2rdm~92.9068,56.0385,pm2rdm~92.9640,56.0124,pm2rdm~92.9213,56.0141,pm2rdm~92.8664,56.0103,pm2rdm~92.8678,56.0187,pm2rdm&size=600,380"
+            alt="Партнёры в Красноярске"
             className="map-iframe"
-            title="Партнёры в Красноярске"
-            allowFullScreen
+            style={{ display: 'block', width: '100%', objectFit: 'cover' }}
           />
-        </div>
+        </a>
       </section>
 
       {/* ── КНОПКА WHATSAPP + НАВЕРХ ── */}

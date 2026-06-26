@@ -180,8 +180,16 @@ input, textarea, select {
   border: none;
   display: block;
 }
+img.map-iframe {
+  height: auto;
+  min-height: 300px;
+  object-fit: cover;
+  transition: opacity 0.2s ease;
+}
+img.map-iframe:hover { opacity: 0.92; }
 @media (max-width: 640px) {
   .map-iframe { height: 300px; }
+  img.map-iframe { min-height: 240px; }
 }
 
 /* ── Счётчик посетителей ── */
