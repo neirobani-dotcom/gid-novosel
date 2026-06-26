@@ -16,10 +16,14 @@ import AnimatedText from './components/AnimatedText'
 import PopupWidget from './components/PopupWidget'
 import WhatsAppButton from './components/WhatsAppButton'
 import ScrollToTop from './components/ScrollToTop'
+import GidHubSection from './components/GidHubSection'
+import GidVoditelya from './pages/GidVoditelya'
+import GidEmpty from './pages/GidEmpty'
 import './index.css'
 
 const EMPTY_COUNT = 35
 const PARTNER_SECTION_ID = 'partners'
+const AUTO_PARTNER_IDS = ['irbis', 'krasnoyarsk-rassrochka-avto']
 
 // Появление при скролле
 function FadeInSection({ children, delay = 0 }) {
@@ -76,23 +80,59 @@ const STEPS = [
 
 export default function App() {
   const [selected, setSelected] = useState(null)
-  const [page, setPage] = useState('home')
+  const [page, setPage] = useState(() => {
+    const p = window.location.pathname
+    if (p === '/gid-voditelya') return 'gid-voditelya'
+    if (p === '/gid-roditelyam') return 'gid-roditelyam'
+    if (p === '/gid-servis') return 'gid-servis'
+    if (p === '/gid-biznes') return 'gid-biznes'
+    return 'home'
+  })
   const [giftPartnerId, setGiftPartnerId] = useState(null)
   const [filter, setFilter] = useState('Все')
   const [tapCount, setTapCount] = useState(0)
   const partnerRef = useRef(null)
+  const prevPageRef = useRef('home')
 
   const totalGifts = companies.reduce((s, c) => s + c.giftAmount, 0)
-  const categories = ['Все', ...new Set(companies.map(c => c.category))]
-  const visibleCompanies = filter === 'Все' ? companies : companies.filter(c => c.category === filter)
+  const mainCompanies = companies.filter(c => !AUTO_PARTNER_IDS.includes(c.id))
+  const categories = ['Все', ...new Set(mainCompanies.map(c => c.category))]
+  const visibleCompanies = filter === 'Все' ? mainCompanies : mainCompanies.filter(c => c.category === filter)
 
   const scrollToPartners = () => {
     document.getElementById(PARTNER_SECTION_ID)?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const navigateTo = (pageName, urlPath) => {
+    window.history.pushState({}, '', urlPath)
+    setPage(pageName)
+  }
+
+  useEffect(() => {
+    const handlePop = () => {
+      const p = window.location.pathname
+      if (p === '/gid-voditelya') setPage('gid-voditelya')
+      else if (p === '/gid-roditelyam') setPage('gid-roditelyam')
+      else if (p === '/gid-servis') setPage('gid-servis')
+      else if (p === '/gid-biznes') setPage('gid-biznes')
+      else setPage('home')
+    }
+    window.addEventListener('popstate', handlePop)
+    return () => window.removeEventListener('popstate', handlePop)
+  }, [])
+
   if (page === 'admin') return <AdminPage onBack={() => setPage('home')} />
+  if (page === 'gid-voditelya') return (
+    <GidVoditelya
+      onNavigate={navigateTo}
+      onPartnerClick={(c) => { setSelected(c); prevPageRef.current = 'gid-voditelya'; setPage('company') }}
+    />
+  )
+  if (page === 'gid-roditelyam') return <GidEmpty title="Гид для Родителей" emoji="👨‍👩‍👧" activePage="gid-roditelyam" onNavigate={navigateTo} />
+  if (page === 'gid-servis') return <GidEmpty title="Гид Сервис" emoji="🔧" activePage="gid-servis" onNavigate={navigateTo} />
+  if (page === 'gid-biznes') return <GidEmpty title="Гид для Бизнеса" emoji="💼" activePage="gid-biznes" onNavigate={navigateTo} />
   if (page === 'gifts') return (
-    <GiftsPage onBack={() => setPage('home')} onSelect={c => { setSelected(c); setPage('company') }} />
+    <GiftsPage onBack={() => setPage('home')} onSelect={c => { setSelected(c); prevPageRef.current = 'home'; setPage('company') }} />
   )
   if (page === 'gifts-boxes') return (
     <GiftsBoxPage
@@ -106,7 +146,12 @@ export default function App() {
       onBack={() => setPage('gifts-boxes')}
     />
   )
-  if (page === 'company' && selected) return <CompanyPage company={selected} onBack={() => setPage('home')} />
+  if (page === 'company' && selected) return (
+    <CompanyPage
+      company={selected}
+      onBack={() => { setPage(prevPageRef.current); prevPageRef.current = 'home' }}
+    />
+  )
 
   return (
     <div className="min-h-screen" style={{ background: '#F7F4F0' }}>
@@ -227,6 +272,9 @@ export default function App() {
         </div>
       </section>
 
+      {/* ── РАЗДЕЛЫ ГИДА ── */}
+      <GidHubSection onNavigate={navigateTo} />
+
       {/* ── КАК ЭТО РАБОТАЕТ ── */}
       <section style={{ padding: '32px 20px' }}>
         <div style={{ maxWidth: 640, margin: '0 auto' }}>
@@ -302,7 +350,7 @@ export default function App() {
             <div key={company.id} className="fade-up-card" style={{ animationDelay: `${Math.min(i, 8) * 0.06}s` }}>
               <GridCard
                 company={company}
-                onClick={c => { setSelected(c); setPage('company') }}
+                onClick={c => { setSelected(c); prevPageRef.current = 'home'; setPage('company') }}
               />
             </div>
           ))}

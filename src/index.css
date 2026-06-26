@@ -279,6 +279,34 @@ img.map-iframe:hover { opacity: 0.92; }
   .hero-title-matrix { font-size: clamp(36px, 10vw, 56px); }
 }
 
+/* ── Разделы Гида ── */
+.gid-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+@media (max-width: 640px) {
+  .gid-hub-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.gid-hub-btn {
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(232,98,26,0.12);
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+}
+.gid-hub-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 28px rgba(232,98,26,0.28);
+}
+
 /* ── Купоны ── */
 @keyframes couponIn {
   from { opacity: 0; transform: translateX(-16px); }
