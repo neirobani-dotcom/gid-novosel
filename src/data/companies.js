@@ -250,6 +250,7 @@ export const companies = [
     color: '#1A1A2E',
     logo: '/partners/neirobanya/logo.png',
     images: [
+      '/partners/neirobanya/photo-9.jpg',
       '/partners/neirobanya/photo-1.jpg',
       '/partners/neirobanya/photo-2.jpg',
       '/partners/neirobanya/photo-3.jpg',
