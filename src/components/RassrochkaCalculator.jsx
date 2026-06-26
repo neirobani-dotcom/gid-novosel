@@ -12,8 +12,9 @@ export default function RassrochkaCalculator({ onClose }) {
   const [phone,   setPhone]   = useState('')
   const [closing, setClosing] = useState(false)
 
-  const monthly = Math.round(price / term)
-  const pct     = ((price - MIN) / (MAX - MIN)) * 100
+  const totalAmount = price * 2
+  const monthly     = Math.round(totalAmount / term)
+  const pct         = ((price - MIN) / (MAX - MIN)) * 100
 
   const close = () => { setClosing(true); setTimeout(onClose, 290) }
 
@@ -36,6 +37,7 @@ export default function RassrochkaCalculator({ onClose }) {
     fd.append('Имя',                 name)
     fd.append('Телефон',             phone)
     fd.append('Сумма автомобиля',    `${fmt(price)} ₽`)
+    fd.append('Сумма выкупа (×2)',   `${fmt(totalAmount)} ₽`)
     fd.append('Срок выкупа',         `${term} месяцев`)
     fd.append('Ежемесячный платёж',  `${fmt(monthly)} ₽`)
     fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd }).catch(console.error)
@@ -127,7 +129,7 @@ export default function RassrochkaCalculator({ onClose }) {
               </div>
 
               {/* Результат */}
-              <div style={{ borderRadius: 16, padding: '18px 20px', marginBottom: 10, textAlign: 'center', background: 'linear-gradient(135deg,#E8621A 0%,#C0392B 100%)' }}>
+              <div style={{ borderRadius: 16, padding: '18px 20px', marginBottom: 12, textAlign: 'center', background: 'linear-gradient(135deg,#E8621A 0%,#C0392B 100%)' }}>
                 <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.75)', textTransform: 'uppercase', marginBottom: 4 }}>
                   ВАШ ЕЖЕМЕСЯЧНЫЙ ПЛАТЁЖ
                 </p>
@@ -136,11 +138,22 @@ export default function RassrochkaCalculator({ onClose }) {
                 </p>
                 <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>в месяц</p>
               </div>
-              <div style={{ textAlign: 'center', marginBottom: 16 }}>
-                <p style={{ fontSize: 12, color: '#A09890', marginBottom: 2 }}>Итого за {term} мес.: {fmt(price)} ₽</p>
-                <p style={{ fontSize: 12, color: '#A09890' }}>
-                  Первоначальный взнос: 0 ₽{' '}
-                  <span style={{ color: '#22C55E', fontWeight: 600 }}>(экономия 100 000 ₽)</span>
+
+              {/* Итоги */}
+              <div style={{ background: '#FFF', border: '1px solid #EDE8E0', borderRadius: 12, padding: '12px 14px', marginBottom: 12 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                  <span style={{ fontSize: 13, color: '#6B6560' }}>Всего выплатите:</span>
+                  <span style={{ fontSize: 15, fontWeight: 800, color: '#1A1816' }}>{fmt(totalAmount)} ₽</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: 13, color: '#6B6560' }}>Первоначальный взнос:</span>
+                  <span>
+                    <span style={{ fontSize: 12, color: '#A09890', textDecoration: 'line-through', marginRight: 6 }}>100 000 ₽</span>
+                    <span style={{ fontSize: 14, fontWeight: 800, color: '#22C55E' }}>0 ₽</span>
+                  </span>
+                </div>
+                <p style={{ fontSize: 12, color: '#22C55E', fontWeight: 600, marginTop: 6 }}>
+                  Вы экономите 100 000 ₽ прямо сейчас по промокоду ГИД НОВОСЁЛА!
                 </p>
               </div>
 
@@ -177,7 +190,7 @@ export default function RassrochkaCalculator({ onClose }) {
                   Автомобиль на {fmt(price)} ₽, срок {term} мес.
                 </p>
                 <p style={{ fontSize: 12, color: '#A09890', marginTop: 3 }}>
-                  Платёж: {fmt(monthly)} ₽/месяц · Взнос: 0 ₽
+                  Платёж: {fmt(monthly)} ₽/мес · Всего: {fmt(totalAmount)} ₽ · Взнос: 0 ₽
                 </p>
               </div>
 
@@ -220,7 +233,7 @@ export default function RassrochkaCalculator({ onClose }) {
               <p style={{ fontSize: 14, color: '#6B6560', marginBottom: 16 }}>Перезвоним в течение часа.</p>
               <div style={{ background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: 12, padding: 14, marginBottom: 20, textAlign: 'left' }}>
                 <p style={{ fontSize: 13, color: '#166534', fontWeight: 600, marginBottom: 4 }}>🚗 Автомобиль на {fmt(price)} ₽</p>
-                <p style={{ fontSize: 13, color: '#166534', fontWeight: 600, marginBottom: 4 }}>📅 Срок: {term} месяцев</p>
+                <p style={{ fontSize: 13, color: '#166534', fontWeight: 600, marginBottom: 4 }}>📅 Срок: {term} месяцев · Всего: {fmt(totalAmount)} ₽</p>
                 <p style={{ fontSize: 13, color: '#166534', fontWeight: 600 }}>💰 Платёж: {fmt(monthly)} ₽/месяц</p>
               </div>
               <button
