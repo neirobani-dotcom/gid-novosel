@@ -105,6 +105,7 @@ export default function App() {
 
   const navigateTo = (pageName, urlPath) => {
     window.history.pushState({}, '', urlPath)
+    window.dispatchEvent(new CustomEvent('gid:navigate'))
     setPage(pageName)
   }
 
