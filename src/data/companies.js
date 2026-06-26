@@ -23,7 +23,6 @@ export const companies = [
     images: [
       '/partners/tac/1.jpeg',
       '/partners/tac/2.jpeg',
-      '/partners/tac/4.jpeg',
       '/partners/tac/5.jpeg',
       '/partners/tac/6.jpeg',
       '/partners/tac/7.jpeg',
