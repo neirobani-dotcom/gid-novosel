@@ -33,7 +33,7 @@ function getMbDims() {
   const isMobile = w < 540
   return {
     mbW: isMobile ? Math.min(300, w - 40) : 520,
-    lidH: isMobile ? 294 : 448,
+    lidH: isMobile ? 420 : 500,
   }
 }
 
@@ -255,7 +255,7 @@ export default function InstructionModal() {
 
                   {/* Контент экрана — слайдер */}
                   {textVisible && (
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                    <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
                       {/* Левая стрелка */}
                       {currentSlide > 0 && (
                         <button
@@ -299,20 +299,23 @@ export default function InstructionModal() {
                       {/* Слайд */}
                       <div
                         key={slideKey}
+                        className="no-scrollbar"
                         style={{
                           flex: 1,
+                          minHeight: 0,
                           display: 'flex',
                           flexDirection: 'column',
                           alignItems: 'center',
-                          justifyContent: 'center',
-                          padding: '12px 34px',
+                          justifyContent: 'flex-start',
+                          padding: '16px 34px 8px',
+                          overflowY: 'auto',
                           animation: 'slideIn 0.4s ease forwards',
                         }}
                       >
-                        <div style={{ fontSize: 64, marginBottom: 8, lineHeight: 1 }}>{slide.emoji}</div>
+                        <div style={{ fontSize: dims.mbW < 400 ? 48 : 64, marginBottom: 8, lineHeight: 1 }}>{slide.emoji}</div>
                         <div style={{
                           color: '#00FFD1',
-                          fontSize: 20,
+                          fontSize: dims.mbW < 400 ? 15 : 20,
                           fontWeight: 'bold',
                           marginBottom: 10,
                           textAlign: 'center',
@@ -323,7 +326,7 @@ export default function InstructionModal() {
                         </div>
                         <div style={{
                           color: '#cccccc',
-                          fontSize: 16,
+                          fontSize: dims.mbW < 400 ? 13 : 16,
                           lineHeight: 1.8,
                           textAlign: 'center',
                           whiteSpace: 'pre-line',
