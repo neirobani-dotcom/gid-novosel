@@ -8,7 +8,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
-        // PHP-скрипты не кешируем — они должны всегда идти на сервер
+        skipWaiting: true,
+        clientsClaim: true,
         globIgnores: ['**/*.php', '**/*.log'],
         navigateFallbackDenylist: [/\.php$/],
       },
