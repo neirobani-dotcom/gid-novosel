@@ -11,7 +11,7 @@ import CompanyPage from './pages/CompanyPage'
 import AdminPage from './pages/AdminPage'
 import CountdownTimer from './components/CountdownTimer'
 import VisitorCounter from './components/VisitorCounter'
-import MatrixText from './components/MatrixText'
+import MatrixTitle from './components/MatrixTitle'
 import AnimatedText from './components/AnimatedText'
 import PopupWidget from './components/PopupWidget'
 import WhatsAppButton from './components/WhatsAppButton'
@@ -185,7 +185,7 @@ export default function App() {
 
           {/* Матрица */}
           <div className="hero-title" style={{ marginBottom: 10 }}>
-            <MatrixText text="Гид Новосёла" className="hero-title-matrix" />
+            <MatrixTitle className="hero-title-matrix" />
           </div>
 
           {/* Заголовок */}
