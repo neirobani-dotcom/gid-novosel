@@ -33,7 +33,7 @@ export default function CouponCard({ gift, partnerColor, onActivate, delay = 0 }
           fontSize: 24, boxShadow: `0 4px 14px ${hexToRgba(partnerColor || '#E8621A', 0.35)}`,
           marginLeft: 8,
         }}>
-          🎁
+          {gift.icon || '🎁'}
         </div>
 
         {/* Текст */}
@@ -41,9 +41,22 @@ export default function CouponCard({ gift, partnerColor, onActivate, delay = 0 }
           <p style={{ fontSize: 9, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A09890', marginBottom: 4 }}>
             Подарок новосёлу
           </p>
-          <p style={{ fontSize: 14, fontWeight: 800, color: '#1A1816', lineHeight: 1.25, marginBottom: 4 }}>
+          <p style={{ fontSize: 14, fontWeight: 800, color: '#1A1816', lineHeight: 1.25, marginBottom: gift.oldPrice ? 6 : 4 }}>
             {gift.title}
           </p>
+          {gift.oldPrice && (
+            <div style={{ marginBottom: 4 }}>
+              <span style={{ fontSize: 11, color: '#A09890', textDecoration: 'line-through', marginRight: 6 }}>
+                {gift.oldPrice}
+              </span>
+              <span style={{ fontSize: 15, fontWeight: 900, color: '#E8621A' }}>
+                {gift.newPrice}
+              </span>
+              <span style={{ fontSize: 10, fontWeight: 600, color: '#22C55E', marginLeft: 6 }}>
+                экономия {gift.savings}
+              </span>
+            </div>
+          )}
           <p style={{ fontSize: 11, color: '#8A8480', lineHeight: 1.4 }}>
             {gift.condition}
           </p>
