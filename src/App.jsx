@@ -15,10 +15,37 @@ import MatrixText from './components/MatrixText'
 import AnimatedText from './components/AnimatedText'
 import PopupWidget from './components/PopupWidget'
 import WhatsAppButton from './components/WhatsAppButton'
+import ScrollToTop from './components/ScrollToTop'
 import './index.css'
 
 const EMPTY_COUNT = 35
 const PARTNER_SECTION_ID = 'partners'
+
+// Появление при скролле
+function FadeInSection({ children, delay = 0 }) {
+  const ref = useRef(null)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); io.disconnect() } },
+      { threshold: 0.12 }
+    )
+    if (ref.current) io.observe(ref.current)
+    return () => io.disconnect()
+  }, [])
+  return (
+    <div
+      ref={ref}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(30px)',
+        transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
 
 // Анимированный счётчик числа
 function AnimatedCounter({ target, duration = 1400 }) {
@@ -101,7 +128,7 @@ export default function App() {
           <div className="hero-title" style={{ marginBottom: 10 }}>
             <span style={{
               display: 'inline-flex', alignItems: 'center', gap: 5,
-              background: '#FFF0DC', border: '1px solid #FFD0A0',
+              background: '#FFF0DC',
               borderRadius: 20, padding: '5px 12px',
               fontSize: 12, fontWeight: 600, color: '#C25820',
             }}>
@@ -299,7 +326,7 @@ export default function App() {
         </p>
         <div style={{ borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.09)' }}>
           <iframe
-            src="https://yandex.ru/map-widget/v1/?ll=92.8932,56.0097&z=12"
+            src="https://yandex.ru/map-widget/v1/?ll=92.8932,56.0097&z=12&pt=92.9057,56.0398,pm2rdm~92.8750,56.0201,pm2rdm~92.8823,56.0127,pm2rdm~92.8932,56.0097,pm2rdm~92.9080,56.0374,pm2rdm~92.9068,56.0385,pm2rdm~92.9640,56.0124,pm2rdm~92.9213,56.0141,pm2rdm~92.8664,56.0103,pm2rdm~92.8678,56.0187,pm2rdm"
             className="map-iframe"
             title="Партнёры в Красноярске"
             allowFullScreen
@@ -307,8 +334,9 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── КНОПКА WHATSAPP ── */}
+      {/* ── КНОПКА WHATSAPP + НАВЕРХ ── */}
       <WhatsAppButton />
+      <ScrollToTop />
 
       {/* ── ВСПЛЫВАШКА (30 сек) ── */}
       <PopupWidget onGiftsClick={() => setPage('gifts-boxes')} />
@@ -316,27 +344,50 @@ export default function App() {
       {/* ── ФУТЕР ── */}
       <footer id="become-partner" style={{ background: '#2D2D2D', marginTop: 40, padding: '32px 20px 24px' }}>
         <div style={{ maxWidth: 640, margin: '0 auto' }}>
-          <SiteLogo variant="footer" />
-          <p style={{ fontSize: 13, color: '#A09890', marginTop: 10, marginBottom: 20, lineHeight: 1.6 }}>
-            Гид Новосёла — подарки для тех,<br />кто обустраивает новый дом в Красноярске
-          </p>
+          <FadeInSection delay={0}>
+            <SiteLogo variant="footer" />
+            <p style={{ fontSize: 13, color: '#A09890', marginTop: 10, marginBottom: 20, lineHeight: 1.6 }}>
+              Гид Новосёла — подарки для тех,<br />кто обустраивает новый дом в Красноярске
+            </p>
+          </FadeInSection>
 
-          <div style={{ borderTop: '1px solid #3D3D3D', paddingTop: 16, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-            <div>
-              <p style={{ fontSize: 12, color: '#6B6560' }}>📧 neirobanya@mail.ru</p>
-              <p style={{ fontSize: 11, color: '#4A4A4A', marginTop: 6 }}>© 2025 Гид Новосёла. Все права защищены.</p>
-            </div>
-            <button
-              onClick={scrollToPartners}
-              style={{
-                background: 'transparent', border: '1px solid #E8621A',
-                color: '#E8621A', borderRadius: 10, padding: '8px 16px',
-                fontSize: 13, fontWeight: 600, cursor: 'pointer',
-              }}
-            >
-              Стать партнёром →
-            </button>
+          {/* Статистика */}
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 20 }}>
+            {[
+              { num: companies.length.toString(), label: 'компаний-партнёров' },
+              { num: '283 000 ₽', label: 'подарков на сумму' },
+              { num: '47', label: 'новосёлов получили' },
+            ].map((stat, i) => (
+              <FadeInSection key={i} delay={i * 100}>
+                <div style={{
+                  background: '#2A2A2A', borderRadius: 12, padding: 16,
+                  minWidth: 90, flex: '1 1 80px',
+                }}>
+                  <p style={{ fontSize: 22, fontWeight: 900, color: '#E8621A', lineHeight: 1, marginBottom: 4 }}>{stat.num}</p>
+                  <p style={{ fontSize: 12, color: '#888888', lineHeight: 1.3 }}>{stat.label}</p>
+                </div>
+              </FadeInSection>
+            ))}
           </div>
+
+          <FadeInSection delay={300}>
+            <div style={{ borderTop: '1px solid #3D3D3D', paddingTop: 16, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+              <div>
+                <p style={{ fontSize: 12, color: '#6B6560' }}>📧 neirobanya@mail.ru</p>
+                <p style={{ fontSize: 11, color: '#4A4A4A', marginTop: 6 }}>© 2026 Гид Новосёла. Все права защищены.</p>
+              </div>
+              <button
+                onClick={scrollToPartners}
+                style={{
+                  background: 'transparent', border: '1px solid #E8621A',
+                  color: '#E8621A', borderRadius: 10, padding: '8px 16px',
+                  fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                }}
+              >
+                Стать партнёром →
+              </button>
+            </div>
+          </FadeInSection>
         </div>
       </footer>
     </div>
