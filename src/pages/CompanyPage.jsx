@@ -337,11 +337,19 @@ function handleChange(e) {
                   <p className="text-xs" style={{ color: '#A09890' }}>🕐 {company.hours}</p>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {company.phones?.length > 0 ? company.phones.map((p, i) => (
+                    <a key={i} href={`tel:${p.number}`}
+                      className="text-sm font-semibold px-4 py-2 rounded-xl transition-colors tap-target"
+                      style={{ background: '#FFF3E8', border: '1px solid #FFD0A0', color: '#E8621A', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      📞 {p.friendly}
+                    </a>
+                  )) : (
                   <a href={`tel:${company.phone}`}
                     className="text-sm font-semibold px-4 py-2 rounded-xl transition-colors tap-target"
                     style={{ background: '#FFF3E8', border: '1px solid #FFD0A0', color: '#E8621A', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     📞 Позвонить
                   </a>
+                  )}
                   {company.address && company.address !== 'Красноярск' && (
                     <a
                       href={`https://yandex.ru/maps/?text=${encodeURIComponent(company.address + ', Красноярск')}`}
