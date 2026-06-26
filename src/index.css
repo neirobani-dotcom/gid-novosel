@@ -336,15 +336,30 @@ img.map-iframe:hover { opacity: 0.92; }
 }
 
 /* ── Инструкция новосёла ── */
-@keyframes pulse-gold {
-  0%, 100% { box-shadow: 0 4px 15px rgba(232,98,26,0.15); }
-  50%       { box-shadow: 0 4px 25px rgba(232,98,26,0.45); }
+@keyframes button-glow {
+  0%, 100% {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 15px rgba(0,255,200,0.1);
+    border-color: rgba(0,255,200,0.25);
+  }
+  50% {
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5), 0 0 30px rgba(0,255,200,0.3);
+    border-color: rgba(0,255,200,0.6);
+  }
+}
+@keyframes macbook-lid {
+  0%, 100% { transform: rotateX(0deg); }
+  40%      { transform: rotateX(75deg); }
+  60%      { transform: rotateX(75deg); }
+}
+@keyframes arrow-bounce {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(5px); }
 }
 .btn-instruction {
-  animation: pulse-gold 3s ease-in-out infinite;
+  animation: button-glow 2.5s ease-in-out infinite;
   transition: filter 0.15s ease;
 }
-.btn-instruction:hover { filter: brightness(0.97); }
+.btn-instruction:hover { filter: brightness(1.1); }
 @keyframes mbFadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }

@@ -68,38 +68,84 @@ export default function InstructionModal() {
           display: 'flex',
           alignItems: 'center',
           width: '100%',
-          height: 70,
-          background: '#FFF8E7',
-          border: '1.5px solid #E8D5B0',
-          borderRadius: 16,
+          height: 80,
+          background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+          border: '1.5px solid rgba(0,255,200,0.25)',
+          borderRadius: 20,
           cursor: 'pointer',
-          padding: '0 16px',
-          gap: 14,
+          padding: '0 20px',
           marginTop: 14,
-          position: 'relative',
-          overflow: 'hidden',
           textAlign: 'left',
         }}
       >
-        {/* Оранжевая полоска слева */}
-        <div style={{
-          position: 'absolute', left: 0, top: 0, bottom: 0,
-          width: 4, background: '#E8621A',
-          borderRadius: '16px 0 0 16px',
-        }} />
+        {/* Мини MacBook */}
+        <div style={{ flexShrink: 0, width: 44, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ perspective: '200px', width: 44 }}>
+            <div style={{
+              width: 44,
+              height: 28,
+              background: 'linear-gradient(180deg, #C8C8C8, #A8A8A8)',
+              borderRadius: '4px 4px 0 0',
+              transformOrigin: 'bottom center',
+              animation: 'macbook-lid 3s ease-in-out infinite',
+              padding: 3,
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
+              <div style={{
+                flex: 1,
+                background: '#1a1a2e',
+                borderRadius: 2,
+                display: 'flex',
+                alignItems: 'flex-start',
+                padding: '2px 3px',
+                gap: 2,
+              }}>
+                {['#FF5F57', '#FFBD2E', '#28C840'].map(c => (
+                  <div key={c} style={{ width: 3, height: 3, borderRadius: '50%', background: c, flexShrink: 0 }} />
+                ))}
+              </div>
+            </div>
+          </div>
+          <div style={{ width: 44, height: 5, background: 'linear-gradient(180deg, #B0B0B0, #909090)', borderRadius: '0 0 3px 3px' }} />
+          <div style={{ width: 20, height: 3, background: '#808080' }} />
+        </div>
 
-        <span style={{ fontSize: 28, marginLeft: 8, flexShrink: 0, lineHeight: 1 }}>📜</span>
-
-        <div style={{ flex: 1 }}>
-          <p style={{ fontSize: 16, fontWeight: 700, color: '#333', margin: 0, lineHeight: 1.2 }}>
+        {/* Текст */}
+        <div style={{ flex: 1, marginLeft: 16 }}>
+          <p style={{
+            margin: 0,
+            lineHeight: 1.2,
+            fontSize: 18,
+            fontFamily: "'Playfair Display', serif",
+            fontStyle: 'italic',
+            fontWeight: 600,
+            background: 'linear-gradient(90deg, #FFD700, #FFA500, #00FFD1)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}>
             Инструкция новосёла
           </p>
-          <p style={{ fontSize: 12, color: '#888', margin: 0, marginTop: 3 }}>
+          <p style={{
+            margin: 0,
+            marginTop: 4,
+            fontSize: 12,
+            fontFamily: "'Inter', sans-serif",
+            color: 'rgba(255,255,255,0.55)',
+          }}>
             Как пользоваться сайтом?
           </p>
         </div>
 
-        <span style={{ fontSize: 24, color: '#E8621A', fontWeight: 300, flexShrink: 0 }}>›</span>
+        {/* Стрелка */}
+        <span style={{
+          fontSize: 22,
+          color: '#00FFD1',
+          flexShrink: 0,
+          animation: 'arrow-bounce 1.5s ease-in-out infinite',
+          display: 'inline-block',
+        }}>›</span>
       </button>
 
       {/* ── МОДАЛ ── */}
