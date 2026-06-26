@@ -11,6 +11,8 @@ import CompanyPage from './pages/CompanyPage'
 import AdminPage from './pages/AdminPage'
 import CountdownTimer from './components/CountdownTimer'
 import VisitorCounter from './components/VisitorCounter'
+import MatrixText from './components/MatrixText'
+import AnimatedText from './components/AnimatedText'
 import PopupWidget from './components/PopupWidget'
 import WhatsAppButton from './components/WhatsAppButton'
 import './index.css'
@@ -96,7 +98,7 @@ export default function App() {
 
         <div style={{ maxWidth: 640, margin: '0 auto', padding: '40px 20px 0' }}>
           {/* Бейдж города */}
-          <div className="hero-title" style={{ marginBottom: 16 }}>
+          <div className="hero-title" style={{ marginBottom: 10 }}>
             <span style={{
               display: 'inline-flex', alignItems: 'center', gap: 5,
               background: '#FFF0DC', border: '1px solid #FFD0A0',
@@ -107,17 +109,25 @@ export default function App() {
             </span>
           </div>
 
+          {/* Матрица */}
+          <div className="hero-title" style={{ marginBottom: 10 }}>
+            <MatrixText text="Гид Новосёла" className="hero-title-matrix" />
+          </div>
+
           {/* Заголовок */}
           <h1 className="hero-title" style={{
             fontSize: 'clamp(26px, 7vw, 38px)',
             fontWeight: 900,
             color: '#1A1816',
-            lineHeight: 1.15,
+            lineHeight: 1.4,
             letterSpacing: '-0.03em',
             marginBottom: 14,
           }}>
-            Подарки для новосёлов<br />
-            <span style={{ color: '#E8621A' }}>Красноярска</span>
+            <AnimatedText text="Подарки для новосёлов" delay={2500} />
+            {' '}
+            <span style={{ color: '#E8621A' }}>
+              <AnimatedText text="Красноярска" delay={2950} />
+            </span>
           </h1>
 
           {/* Подзаголовок */}
@@ -125,7 +135,7 @@ export default function App() {
             fontSize: 16, color: '#6B6560', lineHeight: 1.6,
             marginBottom: 24, maxWidth: '38ch',
           }}>
-            Скидки и подарки от лучших компаний города — для тех, кто обустраивает новый дом
+            <AnimatedText text="Скидки и подарки от лучших компаний города — для тех, кто обустраивает новый дом" delay={3000} />
           </p>
 
           {/* Счётчик посетителей */}
@@ -173,13 +183,14 @@ export default function App() {
           <div className="hero-cta" style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <button
               onClick={() => setPage('gifts-boxes')}
-              className="btn-orange btn-pulse tap-target"
+              className="btn-orange pulse-button tap-target"
               style={{
                 background: 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 100%)',
                 color: '#fff', border: 'none', borderRadius: 16,
                 padding: '0 32px', fontSize: 16, fontWeight: 800,
                 cursor: 'pointer', height: 56, display: 'inline-flex',
                 alignItems: 'center', gap: 8,
+                animationDelay: '4s',
               }}
             >
               Смотреть подарки →
