@@ -19,6 +19,7 @@ import ScrollToTop from './components/ScrollToTop'
 import GidHubSection from './components/GidHubSection'
 import GidVoditelya from './pages/GidVoditelya'
 import GidEmpty from './pages/GidEmpty'
+import InstructionModal from './components/InstructionModal'
 import './index.css'
 
 const EMPTY_COUNT = 35
@@ -269,6 +270,8 @@ export default function App() {
               Смотреть подарки →
             </button>
           </div>
+
+          <InstructionModal />
 
         </div>
       </section>
