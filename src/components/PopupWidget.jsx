@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
+import { companies } from '../data/companies'
 
 export default function PopupWidget({ onGiftsClick }) {
+  const totalGifts = companies.reduce((s, c) => s + c.giftAmount, 0)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -78,7 +80,7 @@ export default function PopupWidget({ onGiftsClick }) {
           marginBottom: 18,
         }}>
           Компании-партнёры Красноярска дарят подарки на сумму{' '}
-          <strong style={{ color: '#E8621A' }}>68 000 ₽</strong> — специально для тех,
+          <strong style={{ color: '#E8621A' }}>{totalGifts.toLocaleString('ru-RU')} ₽</strong> — специально для тех,
           кто обустраивает новый дом
         </p>
         <button
