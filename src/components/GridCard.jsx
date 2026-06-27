@@ -1,14 +1,42 @@
+import { useRef } from 'react'
 import PhotoSlider from './PhotoSlider'
 
 export default function GridCard({ company, onClick }) {
   if (!company) return null
 
+  const cardRef = useRef(null)
   const initials = company.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
+
+  const handleMouseMove = (e) => {
+    if (window.innerWidth < 768) return
+    const card = cardRef.current
+    if (!card) return
+    const rect = card.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -8
+    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 8
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`
+    card.style.transition = 'transform 0.1s ease'
+    card.style.boxShadow = `${-rotateY}px ${rotateX}px 20px rgba(232,98,26,0.2)`
+  }
+
+  const handleMouseLeave = () => {
+    if (window.innerWidth < 768) return
+    const card = cardRef.current
+    if (!card) return
+    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)'
+    card.style.transition = 'transform 0.5s ease'
+    card.style.boxShadow = ''
+  }
 
   return (
     <div
+      ref={cardRef}
       className="partner-card"
       onClick={() => onClick(company)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       style={{
         background: '#FFFFFF',
         border: '1px solid #EDE8E0',

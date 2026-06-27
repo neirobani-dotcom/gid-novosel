@@ -53,24 +53,35 @@ function FadeInSection({ children, delay = 0 }) {
 }
 
 // Анимированный счётчик числа
-function AnimatedCounter({ target, duration = 1400 }) {
+function AnimatedCounter({ target, duration = 2000 }) {
   const [value, setValue] = useState(0)
   const rafRef = useRef(null)
-  const startRef = useRef(null)
+  const startedRef = useRef(false)
+  const elRef = useRef(null)
 
   useEffect(() => {
-    const animate = (ts) => {
-      if (!startRef.current) startRef.current = ts
-      const progress = Math.min((ts - startRef.current) / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3)
-      setValue(Math.round(eased * target))
-      if (progress < 1) rafRef.current = requestAnimationFrame(animate)
-    }
-    rafRef.current = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(rafRef.current)
+    const el = elRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !startedRef.current) {
+        startedRef.current = true
+        observer.disconnect()
+        const startTime = performance.now()
+        const update = (now) => {
+          const elapsed = now - startTime
+          const progress = Math.min(elapsed / duration, 1)
+          const eased = 1 - Math.pow(1 - progress, 3)
+          setValue(Math.floor(eased * target))
+          if (progress < 1) rafRef.current = requestAnimationFrame(update)
+        }
+        rafRef.current = requestAnimationFrame(update)
+      }
+    }, { threshold: 0.3 })
+    observer.observe(el)
+    return () => { observer.disconnect(); cancelAnimationFrame(rafRef.current) }
   }, [target, duration])
 
-  return <>{value.toLocaleString('ru-RU')}</>
+  return <span ref={elRef}>{value.toLocaleString('ru-RU')}</span>
 }
 
 const STEPS = [
