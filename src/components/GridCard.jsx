@@ -107,7 +107,7 @@ export default function GridCard({ company, onClick }) {
 
       {/* Кнопки */}
       <div style={{ padding: '10px 12px 12px', display: 'flex', flexDirection: 'column', gap: 8 }}>
-        <ContactButtons phones={company.phones} partnerName={company.name} />
+        <ContactButtons phones={company.phones} partnerName={company.name} messengers={company.messengers} />
         <div
           className="btn-orange btn-pulse tap-target"
           style={{

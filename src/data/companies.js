@@ -13,6 +13,7 @@ export const companies = [
       { number: '+79059764343', friendly: '+7 (905) 976-43-43' },
       { number: '+79235719807', friendly: '+7 (923) 571-98-07' },
     ],
+    messengers: ['whatsapp', 'telegram', 'max'],
     address: 'ул. 9 Мая, 79, ТЦ Доммер',
     hours: 'Пн–Вс: 10:00–20:00',
     site: 'academia-shtor.ru',
@@ -64,6 +65,7 @@ export const companies = [
       { number: '+73912739073', friendly: '+7 (391) 273-90-73' },
       { number: '+79233001349', friendly: '+7 (923) 300-13-49' },
     ],
+    messengers: ['whatsapp', 'telegram', 'max'],
     phone: '+73912739073',
     phoneFriendly: '+7 (391) 273-90-73',
     address: 'ул. Забобонова, 13, 2 этаж',
@@ -116,6 +118,7 @@ export const companies = [
     phones: [
       { number: '+79632642610', friendly: '+7 (963) 264-26-10' },
     ],
+    messengers: ['whatsapp', 'telegram', 'max'],
     address: 'ул. Маерчака, 113/283',
     hours: 'Уточняйте по телефону',
     site: null,
@@ -156,6 +159,7 @@ export const companies = [
     phones: [
       { number: '+79538420707', friendly: '+7 (953) 842-07-07' },
     ],
+    messengers: ['whatsapp', 'telegram', 'max'],
     address: 'Красноярск',
     hours: 'Уточняйте по телефону',
     site: null,
@@ -203,6 +207,7 @@ export const companies = [
       { number: '+79538546331', friendly: '+7 953 854 63 31' },
       { number: '+79080221301', friendly: '+7 908 022 13 01' },
     ],
+    messengers: ['whatsapp', 'telegram', 'max'],
     address: 'ул. Авиаторов 5, ТК Авиатор, 1 этаж',
     hours: 'Уточняйте по телефону',
     site: null,
@@ -249,6 +254,7 @@ export const companies = [
     phones: [
       { number: '+79131801182', friendly: '+7 913 180 11 82' },
     ],
+    messengers: ['whatsapp', 'telegram', 'max'],
     address: 'ул. Шахтёров 65, ТЦ Континент',
     hours: '10:00 — 20:00, ежедневно',
     site: null,
@@ -309,6 +315,7 @@ export const companies = [
       { number: '+73912881010', friendly: '+7 391 288 10 10' },
       { number: '+79029408074', friendly: '+7 902 940 80 74' },
     ],
+    messengers: ['whatsapp', 'telegram', 'max'],
     address: 'ул. Петра Славцова, 5',
     hours: '9:00 — 19:30',
     site: 'https://link.2gis.ru/4.3/B6CF6819/aHR0cDovL3huLS0yNC05a2NhdGJyMmFmMWM0aC54bi0tcDFhaS8=',
@@ -343,6 +350,7 @@ export const companies = [
     phones: [
       { number: '+79130401111', friendly: '+7 (913) 040-11-11' },
     ],
+    messengers: ['whatsapp', 'max'],
     address: 'Красноярск',
     hours: 'Уточняйте по телефону',
     site: null,
@@ -385,6 +393,7 @@ export const companies = [
     phones: [
       { number: '+79103243262', friendly: '+7 910 324 32 62' },
     ],
+    messengers: ['whatsapp', 'telegram', 'max'],
     address: 'пер. Телевизорный, 9д, оф. 4-14',
     hours: '9:00 — 19:30',
     site: null,
