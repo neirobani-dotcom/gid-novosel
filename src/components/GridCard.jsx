@@ -131,23 +131,23 @@ export default function GridCard({ company, onClick }) {
             onClick={e => { e.stopPropagation(); setShowCert(true) }}
             style={{
               width: '100%',
-              padding: '10px 0',
+              height: 52,
               borderRadius: 12,
-              textAlign: 'center',
-              fontSize: 13,
-              fontWeight: 600,
-              color: '#E8621A',
-              background: '#FFF4EE',
-              border: '1.5px solid #E8621A',
+              border: '2px solid #E8621A',
+              background: '#fff',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              gap: 6,
-              minHeight: 48,
+              justifyContent: 'space-between',
+              padding: '0 14px',
+              animation: 'cert-glow 3s ease-in-out infinite',
             }}
           >
-            📜 Получить сертификат
+            <span style={{ fontSize: 16 }}>📜</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#E8621A', flex: 1, textAlign: 'center' }}>
+              Получить сертификат
+            </span>
+            <span style={{ fontSize: 14, color: '#E8621A', fontWeight: 700 }}>›</span>
           </button>
         )}
       </div>
