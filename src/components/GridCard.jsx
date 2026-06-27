@@ -1,10 +1,25 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import PhotoSlider from './PhotoSlider'
+import Certificate from './Certificate'
+
+const CERT_CODES = {
+  'akademiya-shtor-tas': 'GNS-TAC-2025',
+  'olkon': 'GNS-OLK-2025',
+  'irbis': 'GNS-IRB-2025',
+  'krasnoyarsk-rassrochka-avto': 'GNS-KRA-2025',
+  'kafel-emarti': 'GNS-EMR-2025',
+  'shatura': 'GNS-SHA-2025',
+  'sibmebel': 'GNS-SIB-2025',
+  'neirobanya': 'GNS-NBN-2025',
+  'kuhni-shik': 'GNS-KSH-2025',
+}
 
 export default function GridCard({ company, onClick }) {
   if (!company) return null
 
+  const [showCert, setShowCert] = useState(false)
   const cardRef = useRef(null)
+  const certCode = CERT_CODES[company.id]
   const initials = company.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
 
   const handleMouseMove = (e) => {
@@ -119,8 +134,8 @@ export default function GridCard({ company, onClick }) {
         </div>
       )}
 
-      {/* Кнопка */}
-      <div style={{ padding: '10px 12px 12px' }}>
+      {/* Кнопки */}
+      <div style={{ padding: '10px 12px 12px', display: 'flex', flexDirection: 'column', gap: 8 }}>
         <div
           className="btn-orange btn-pulse tap-target"
           style={{
@@ -139,7 +154,39 @@ export default function GridCard({ company, onClick }) {
         >
           Активировать подарок →
         </div>
+        {certCode && (
+          <button
+            onClick={e => { e.stopPropagation(); setShowCert(true) }}
+            style={{
+              width: '100%',
+              padding: '10px 0',
+              borderRadius: 12,
+              textAlign: 'center',
+              fontSize: 13,
+              fontWeight: 600,
+              color: '#E8621A',
+              background: '#FFF4EE',
+              border: '1.5px solid #E8621A',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 6,
+              minHeight: 48,
+            }}
+          >
+            📜 Получить сертификат
+          </button>
+        )}
       </div>
+
+      {showCert && certCode && (
+        <Certificate
+          company={company}
+          certCode={certCode}
+          onClose={() => setShowCert(false)}
+        />
+      )}
     </div>
   )
 }
