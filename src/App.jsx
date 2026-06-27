@@ -87,6 +87,7 @@ export default function App() {
     if (p === '/gid-roditelyam') return 'gid-roditelyam'
     if (p === '/gid-servis') return 'gid-servis'
     if (p === '/gid-biznes') return 'gid-biznes'
+    if (p === '/gid-zdorovya') return 'gid-zdorovya'
     return 'home'
   })
   const [giftPartnerId, setGiftPartnerId] = useState(null)
@@ -118,6 +119,7 @@ export default function App() {
       else if (p === '/gid-roditelyam') setPage('gid-roditelyam')
       else if (p === '/gid-servis') setPage('gid-servis')
       else if (p === '/gid-biznes') setPage('gid-biznes')
+      else if (p === '/gid-zdorovya') setPage('gid-zdorovya')
       else setPage('home')
     }
     window.addEventListener('popstate', handlePop)
@@ -139,6 +141,7 @@ export default function App() {
   if (page === 'gid-roditelyam') return <GidEmpty title="Гид для Родителей" emoji="👨‍👩‍👧" activePage="gid-roditelyam" onNavigate={navigateTo} />
   if (page === 'gid-servis') return <GidEmpty title="Гид Сервис" emoji="🔧" activePage="gid-servis" onNavigate={navigateTo} />
   if (page === 'gid-biznes') return <GidEmpty title="Гид для Бизнеса" emoji="💼" activePage="gid-biznes" onNavigate={navigateTo} />
+  if (page === 'gid-zdorovya') return <GidEmpty title="Гид Здоровья" emoji="🏥" activePage="gid-zdorovya" onNavigate={navigateTo} />
   if (page === 'gifts') return (
     <GiftsPage onBack={() => setPage('home')} onSelect={c => { setSelected(c); prevPageRef.current = 'home'; setPage('company') }} />
   )
