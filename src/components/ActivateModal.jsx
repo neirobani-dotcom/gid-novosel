@@ -2,15 +2,18 @@ import { useState, useEffect, useCallback } from 'react'
 
 const WEB3FORMS_KEY = '2c502e1a-5b57-43a0-b56f-9ffa8c423793'
 
-const formatPhone = (value) => {
-  const digits = value.replace(/\D/g, '')
-  if (digits.length === 0) return ''
-  let result = '+7'
-  if (digits.length > 1) result += ' (' + digits.substring(1, 4)
-  if (digits.length >= 4) result += ') ' + digits.substring(4, 7)
-  if (digits.length >= 7) result += '-' + digits.substring(7, 9)
-  if (digits.length >= 9) result += '-' + digits.substring(9, 11)
-  return result
+const formatPhone = (input) => {
+  const raw = input.replace(/\D/g, '')
+  if (raw.length === 0) return ''
+  let d = raw.startsWith('7') ? raw
+        : raw.startsWith('8') ? '7' + raw.slice(1)
+        : '7' + raw
+  d = d.substring(0, 11)
+  if (d.length <= 1) return '+7'
+  if (d.length <= 4) return '+7 (' + d.substring(1)
+  if (d.length <= 7) return '+7 (' + d.substring(1,4) + ') ' + d.substring(4)
+  if (d.length <= 9) return '+7 (' + d.substring(1,4) + ') ' + d.substring(4,7) + '-' + d.substring(7)
+  return '+7 (' + d.substring(1,4) + ') ' + d.substring(4,7) + '-' + d.substring(7,9) + '-' + d.substring(9,11)
 }
 
 export default function ActivateModal({ isOpen, onClose, giftTitle, partnerName, partnerColor }) {
@@ -49,25 +52,25 @@ export default function ActivateModal({ isOpen, onClose, giftTitle, partnerName,
 
   const nameValid    = name.trim().length >= 2
   const phoneValid   = phone.replace(/\D/g, '').length === 11
-  const addressValid = address.length >= 5 && /[а-яёА-ЯЁa-zA-Z]/.test(address) && /\d/.test(address)
+  const addressValid = address.trim().length >= 5
   const isFormValid  = nameValid && phoneValid && addressValid
 
   const nameHint = () => {
     if (!touched.name) return { text: 'Только буквы, без цифр', color: '#999' }
-    if (!nameValid)    return { text: 'Введите настоящее имя', color: '#EF4444' }
-    return               { text: '✓ Имя заполнено', color: '#22C55E' }
+    if (!nameValid)    return { text: 'Введите настоящее имя (только буквы)', color: '#EF4444' }
+    return               { text: 'Имя заполнено', color: '#22C55E' }
   }
 
   const phoneHint = () => {
     if (!touched.phone) return { text: 'Формат: +7 (XXX) XXX-XX-XX', color: '#999' }
-    if (!phoneValid)    return { text: 'Введите полный номер телефона', color: '#EF4444' }
-    return                { text: '✓ Номер заполнен', color: '#22C55E' }
+    if (!phoneValid)    return { text: 'Введите полный номер: +7 (XXX) XXX-XX-XX', color: '#EF4444' }
+    return                { text: 'Номер заполнен', color: '#22C55E' }
   }
 
   const addressHint = () => {
     if (!touched.address) return { text: 'Улица, номер дома, название ЖК', color: '#999' }
-    if (!addressValid)    return { text: 'Укажите улицу, номер дома и название ЖК', color: '#EF4444' }
-    return                  { text: '✓ Адрес заполнен', color: '#22C55E' }
+    if (!addressValid)    return { text: 'Укажите адрес и название ЖК', color: '#EF4444' }
+    return                  { text: 'Адрес заполнен', color: '#22C55E' }
   }
 
   const fieldBorder = (isValid, isTouched) => {
@@ -187,25 +190,30 @@ export default function ActivateModal({ isOpen, onClose, giftTitle, partnerName,
                   <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#6B6560', marginBottom: 4 }}>
                     Ваше имя <span style={{ color: '#E8621A' }}>*</span>
                   </label>
-                  <input
-                    type="text"
-                    value={name}
-                    placeholder="Иван Иванов"
-                    onChange={e => {
-                      const v = e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z\s]/g, '')
-                      setName(v)
-                      setTouched(t => ({ ...t, name: true }))
-                    }}
-                    onBlur={() => setTouched(t => ({ ...t, name: true }))}
-                    style={{
-                      width: '100%', padding: '11px 13px',
-                      border: fieldBorder(nameValid, touched.name),
-                      borderRadius: 10, fontSize: 14, color: '#1A1816',
-                      background: fieldBg(nameValid, touched.name),
-                      outline: 'none', boxSizing: 'border-box', fontFamily: 'inherit',
-                      transition: 'border-color 0.2s, background 0.2s',
-                    }}
-                  />
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type="text"
+                      value={name}
+                      placeholder="Ваше имя"
+                      onChange={e => {
+                        const v = e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z\s]/g, '')
+                        setName(v)
+                        setTouched(t => ({ ...t, name: true }))
+                      }}
+                      onBlur={() => setTouched(t => ({ ...t, name: true }))}
+                      style={{
+                        width: '100%', padding: touched.name && nameValid ? '11px 36px 11px 13px' : '11px 13px',
+                        border: fieldBorder(nameValid, touched.name),
+                        borderRadius: 10, fontSize: 14, color: '#1A1816',
+                        background: fieldBg(nameValid, touched.name),
+                        outline: 'none', boxSizing: 'border-box', fontFamily: 'inherit',
+                        transition: 'border-color 0.2s, background 0.2s',
+                      }}
+                    />
+                    {touched.name && nameValid && (
+                      <span style={{ position: 'absolute', right: 11, top: '50%', transform: 'translateY(-50%)', color: '#22C55E', fontWeight: 700, fontSize: 16, pointerEvents: 'none' }}>✓</span>
+                    )}
+                  </div>
                   <p style={{ fontSize: 11, color: nh.color, marginTop: 3 }}>{nh.text}</p>
                 </div>
 
@@ -214,51 +222,61 @@ export default function ActivateModal({ isOpen, onClose, giftTitle, partnerName,
                   <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#6B6560', marginBottom: 4 }}>
                     Номер телефона <span style={{ color: '#E8621A' }}>*</span>
                   </label>
-                  <input
-                    type="tel"
-                    value={phone}
-                    placeholder="+7 (___) ___-__-__"
-                    onChange={e => {
-                      setPhone(formatPhone(e.target.value))
-                      setTouched(t => ({ ...t, phone: true }))
-                    }}
-                    onBlur={() => setTouched(t => ({ ...t, phone: true }))}
-                    style={{
-                      width: '100%', padding: '11px 13px',
-                      border: fieldBorder(phoneValid, touched.phone),
-                      borderRadius: 10, fontSize: 14, color: '#1A1816',
-                      background: fieldBg(phoneValid, touched.phone),
-                      outline: 'none', boxSizing: 'border-box', fontFamily: 'inherit',
-                      transition: 'border-color 0.2s, background 0.2s',
-                    }}
-                  />
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type="tel"
+                      value={phone}
+                      placeholder="+7 (_) _-_-_"
+                      onChange={e => {
+                        setPhone(formatPhone(e.target.value))
+                        setTouched(t => ({ ...t, phone: true }))
+                      }}
+                      onBlur={() => setTouched(t => ({ ...t, phone: true }))}
+                      style={{
+                        width: '100%', padding: touched.phone && phoneValid ? '11px 36px 11px 13px' : '11px 13px',
+                        border: fieldBorder(phoneValid, touched.phone),
+                        borderRadius: 10, fontSize: 14, color: '#1A1816',
+                        background: fieldBg(phoneValid, touched.phone),
+                        outline: 'none', boxSizing: 'border-box', fontFamily: 'inherit',
+                        transition: 'border-color 0.2s, background 0.2s',
+                      }}
+                    />
+                    {touched.phone && phoneValid && (
+                      <span style={{ position: 'absolute', right: 11, top: '50%', transform: 'translateY(-50%)', color: '#22C55E', fontWeight: 700, fontSize: 16, pointerEvents: 'none' }}>✓</span>
+                    )}
+                  </div>
                   <p style={{ fontSize: 11, color: ph.color, marginTop: 3 }}>{ph.text}</p>
                 </div>
 
                 {/* Адрес */}
                 <div style={{ marginBottom: 12 }}>
                   <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#6B6560', marginBottom: 4 }}>
-                    Адрес дома / название ЖК <span style={{ color: '#E8621A' }}>*</span>
+                    Адрес и название ЖК <span style={{ color: '#E8621A' }}>*</span>
                   </label>
-                  <input
-                    type="text"
-                    value={address}
-                    placeholder="Например: ул. Тотмина 25А, ЖК Орбита"
-                    onChange={e => {
-                      const v = e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z0-9\s.,\-\/]/g, '')
-                      setAddress(v)
-                      setTouched(t => ({ ...t, address: true }))
-                    }}
-                    onBlur={() => setTouched(t => ({ ...t, address: true }))}
-                    style={{
-                      width: '100%', padding: '11px 13px',
-                      border: fieldBorder(addressValid, touched.address),
-                      borderRadius: 10, fontSize: 14, color: '#1A1816',
-                      background: fieldBg(addressValid, touched.address),
-                      outline: 'none', boxSizing: 'border-box', fontFamily: 'inherit',
-                      transition: 'border-color 0.2s, background 0.2s',
-                    }}
-                  />
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type="text"
+                      value={address}
+                      placeholder="Адрес и название ЖК"
+                      onChange={e => {
+                        const v = e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z0-9\s.,\-\/]/g, '')
+                        setAddress(v)
+                        setTouched(t => ({ ...t, address: true }))
+                      }}
+                      onBlur={() => setTouched(t => ({ ...t, address: true }))}
+                      style={{
+                        width: '100%', padding: touched.address && addressValid ? '11px 36px 11px 13px' : '11px 13px',
+                        border: fieldBorder(addressValid, touched.address),
+                        borderRadius: 10, fontSize: 14, color: '#1A1816',
+                        background: fieldBg(addressValid, touched.address),
+                        outline: 'none', boxSizing: 'border-box', fontFamily: 'inherit',
+                        transition: 'border-color 0.2s, background 0.2s',
+                      }}
+                    />
+                    {touched.address && addressValid && (
+                      <span style={{ position: 'absolute', right: 11, top: '50%', transform: 'translateY(-50%)', color: '#22C55E', fontWeight: 700, fontSize: 16, pointerEvents: 'none' }}>✓</span>
+                    )}
+                  </div>
                   <p style={{ fontSize: 11, color: ah.color, marginTop: 3 }}>{ah.text}</p>
                 </div>
 
@@ -286,7 +304,7 @@ export default function ActivateModal({ isOpen, onClose, giftTitle, partnerName,
                     transition: 'all 0.3s ease',
                   }}
                 >
-                  {status === 'sending' ? 'Отправляем...' : 'Получить подарок →'}
+                  {status === 'sending' ? 'Отправляем...' : 'Активировать подарок →'}
                 </button>
               </form>
             </>
