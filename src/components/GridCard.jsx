@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import PhotoSlider from './PhotoSlider'
 import Certificate from './Certificate'
+import ContactButtons from './ContactButtons'
 
 const CERT_CODES = {
   'akademiya-shtor-tas': 'GNS-TAC-2025',
@@ -106,6 +107,7 @@ export default function GridCard({ company, onClick }) {
 
       {/* Кнопки */}
       <div style={{ padding: '10px 12px 12px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <ContactButtons phones={company.phones} partnerName={company.name} />
         <div
           className="btn-orange btn-pulse tap-target"
           style={{
