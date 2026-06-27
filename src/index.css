@@ -376,11 +376,6 @@ img.map-iframe:hover { opacity: 0.92; }
   to   { opacity: 1; transform: translateX(0); }
 }
 
-/* ── Кастомный курсор (только десктоп) ── */
-@media (min-width: 768px) {
-  * { cursor: none !important; }
-}
-
 /* ── Огненный заголовок партнёров ── */
 @keyframes fire-glow {
   0%, 100% { filter: drop-shadow(0 0 4px rgba(232,98,26,0.3)); }
