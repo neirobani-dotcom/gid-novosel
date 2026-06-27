@@ -4,15 +4,15 @@ import Certificate from './Certificate'
 import ContactButtons from './ContactButtons'
 
 const CERT_CODES = {
-  'akademiya-shtor-tas': 'GNS-TAC-2025',
-  'olkon': 'GNS-OLK-2025',
-  'irbis': 'GNS-IRB-2025',
-  'krasnoyarsk-rassrochka-avto': 'GNS-KRA-2025',
-  'kafel-emarti': 'GNS-EMR-2025',
-  'shatura': 'GNS-SHA-2025',
-  'sibmebel': 'GNS-SIB-2025',
-  'neirobanya': 'GNS-NBN-2025',
-  'kuhni-shik': 'GNS-KSH-2025',
+  'akademiya-shtor-tas': 'GNS-TAC-2026',
+  'olkon': 'GNS-OLK-2026',
+  'irbis': 'GNS-IRB-2026',
+  'krasnoyarsk-rassrochka-avto': 'GNS-KRA-2026',
+  'kafel-emarti': 'GNS-EMR-2026',
+  'shatura': 'GNS-SHA-2026',
+  'sibmebel': 'GNS-SIB-2026',
+  'neirobanya': 'GNS-NBN-2026',
+  'kuhni-shik': 'GNS-KSH-2026',
 }
 
 export default function GridCard({ company, onClick }) {

@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import './Certificate.css'
 
 const WEB3FORMS_KEY = '2c502e1a-5b57-43a0-b56f-9ffa8c423793'
 
@@ -37,36 +38,46 @@ const sendReport = async ({ lastName, firstName, phone, partnerName, certCode })
       `Фамилия: ${lastName}\nИмя: ${firstName}\nТелефон: ${phone}\nПартнёр: ${partnerName}\nКод: ${certCode}\nДата: ${when} (Красноярск)`
     )
     await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
-  } catch (e) {
-    // silent — email is a bonus, not a blocker
-  }
+  } catch (_) {}
 }
 
-// ── Watermark layer ─────────────────────────────────────────────────────────
+// ── Corner decoration helper ─────────────────────────────────────────────────
+function Corner({ pos }) {
+  const style = {
+    position: 'absolute', width: 24, height: 24, zIndex: 2,
+    ...pos,
+  }
+  return <div style={style} />
+}
+
+// ── Watermark ────────────────────────────────────────────────────────────────
 function Watermark() {
-  const text = 'ГИД НОВОСЁЛА'
-  const lines = Array(8).fill(null)
   return (
     <div style={{
-      position: 'absolute', inset: 0, overflow: 'hidden',
-      borderRadius: 'inherit', pointerEvents: 'none', zIndex: 0,
-      display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly',
-      opacity: 0.035,
+      position: 'absolute', top: 0, left: 0,
+      width: '100%', height: '100%',
+      zIndex: 0, pointerEvents: 'none',
+      overflow: 'hidden',
     }}>
-      {lines.map((_, i) => (
+      {Array.from({ length: 18 }).map((_, i) => (
         <div key={i} style={{
-          whiteSpace: 'nowrap', fontSize: 14, fontWeight: 800,
-          color: '#E8621A', letterSpacing: '4px',
-          transform: 'rotate(-30deg) translateX(-20px)',
-        }}>
-          {Array(6).fill(text).join('   ')}
-        </div>
+          position: 'absolute',
+          color: 'rgba(232,98,26,0.045)',
+          fontSize: '15px',
+          fontWeight: '800',
+          whiteSpace: 'nowrap',
+          transform: 'rotate(-28deg)',
+          top: `${(i % 6) * 18}%`,
+          left: `${Math.floor(i / 6) * 38 - 8}%`,
+          userSelect: 'none',
+          letterSpacing: '2px',
+        }}>ГИД НОВОСЁЛА</div>
       ))}
     </div>
   )
 }
 
-// ── Form step ───────────────────────────────────────────────────────────────
+// ── Form step (identity) ─────────────────────────────────────────────────────
 function FormStep({ company, certCode, onClose, onSubmit }) {
   const [lastName, setLastName] = useState('')
   const [firstName, setFirstName] = useState('')
@@ -74,6 +85,11 @@ function FormStep({ company, certCode, onClose, onSubmit }) {
   const [lnT, setLNT] = useState(false)
   const [fnT, setFNT] = useState(false)
   const [phT, setPHT] = useState(false)
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [])
 
   const lnValid = lastName.trim().length >= 2
   const fnValid = firstName.trim().length >= 2
@@ -86,8 +102,6 @@ function FormStep({ company, certCode, onClose, onSubmit }) {
   const bg = (valid, touched) => touched
     ? (valid ? '#F0FDF4' : '#FFF5F5')
     : '#FDFBF8'
-  const icon = (valid, touched) => touched ? (valid ? '✓' : '!') : null
-  const iconColor = (valid) => valid ? '#22C55E' : '#EF4444'
 
   const handleSubmit = () => {
     setLNT(true); setFNT(true); setPHT(true)
@@ -95,10 +109,6 @@ function FormStep({ company, certCode, onClose, onSubmit }) {
     sendReport({ lastName: lastName.trim(), firstName: firstName.trim(), phone, partnerName: company.name, certCode })
     onSubmit({ lastName: lastName.trim(), firstName: firstName.trim(), phone })
   }
-
-  const fieldWrap = (children) => (
-    <div style={{ position: 'relative' }}>{children}</div>
-  )
 
   const fieldStyle = (valid, touched) => ({
     width: '100%', padding: '11px 36px 11px 12px', borderRadius: 10,
@@ -108,34 +118,40 @@ function FormStep({ company, certCode, onClose, onSubmit }) {
     boxSizing: 'border-box',
   })
 
-  const iconStyle = (valid) => ({
-    position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)',
-    fontSize: 15, fontWeight: 700, color: iconColor(valid), pointerEvents: 'none',
-  })
-
   return (
     <div
-      onClick={onClose}
       style={{
-        position: 'fixed', inset: 0, zIndex: 10000,
-        background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(6px)',
+        position: 'fixed',
+        top: 0, left: 0,
+        width: '100vw', height: '100vh',
+        background: 'rgba(0,0,0,0.92)',
+        zIndex: 10000,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: 16, willChange: 'transform',
+        overflowY: 'auto',
+        padding: '20px',
+        boxSizing: 'border-box',
+        willChange: 'opacity',
+        transform: 'translateZ(0)',
+        WebkitTransform: 'translateZ(0)',
       }}
+      onClick={onClose}
     >
       <div
         onClick={e => e.stopPropagation()}
         style={{
-          width: '100%', maxWidth: 380,
+          width: '100%', maxWidth: 400,
           background: '#FFFEF9',
           borderRadius: 20, border: '2px solid #E8621A',
           padding: '28px 24px 24px',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
-          animation: 'cert-appear 0.4s cubic-bezier(0.34,1.56,0.64,1) both',
-          willChange: 'transform', isolation: 'isolate', transform: 'translateZ(0)',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+          willChange: 'transform',
+          transform: 'translateZ(0)',
+          WebkitTransform: 'translateZ(0)',
+          isolation: 'isolate',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
         }}
       >
-        {/* Шапка */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
           <img src="/site-logo.png" alt="Гид Новосёла" style={{ width: 28, height: 28, objectFit: 'contain' }} />
           <span style={{ fontSize: 12, fontWeight: 800, color: '#E8621A', letterSpacing: '0.5px' }}>ГИД НОВОСЁЛА</span>
@@ -148,55 +164,60 @@ function FormStep({ company, certCode, onClose, onSubmit }) {
           Введите данные — сертификат откроется сразу
         </p>
 
-        {/* Поля */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {fieldWrap(
-            <>
-              <input
-                type="text"
-                placeholder="Фамилия"
-                value={lastName}
-                onChange={e => {
-                  setLastName(e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z\s-]/g, ''))
-                  if (!lnT) setLNT(true)
-                }}
-                style={fieldStyle(lnValid, lnT)}
-              />
-              {lnT && <span style={iconStyle(lnValid)}>{icon(lnValid, lnT)}</span>}
-            </>
-          )}
+          <div style={{ position: 'relative' }}>
+            <input
+              type="text"
+              placeholder="Фамилия"
+              value={lastName}
+              onChange={e => {
+                setLastName(e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z\s-]/g, ''))
+                if (!lnT) setLNT(true)
+              }}
+              style={fieldStyle(lnValid, lnT)}
+            />
+            {lnT && (
+              <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 15, fontWeight: 700, color: lnValid ? '#22C55E' : '#EF4444' }}>
+                {lnValid ? '✓' : '!'}
+              </span>
+            )}
+          </div>
 
-          {fieldWrap(
-            <>
-              <input
-                type="text"
-                placeholder="Имя"
-                value={firstName}
-                onChange={e => {
-                  setFirstName(e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z\s-]/g, ''))
-                  if (!fnT) setFNT(true)
-                }}
-                style={fieldStyle(fnValid, fnT)}
-              />
-              {fnT && <span style={iconStyle(fnValid)}>{icon(fnValid, fnT)}</span>}
-            </>
-          )}
+          <div style={{ position: 'relative' }}>
+            <input
+              type="text"
+              placeholder="Имя"
+              value={firstName}
+              onChange={e => {
+                setFirstName(e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z\s-]/g, ''))
+                if (!fnT) setFNT(true)
+              }}
+              style={fieldStyle(fnValid, fnT)}
+            />
+            {fnT && (
+              <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 15, fontWeight: 700, color: fnValid ? '#22C55E' : '#EF4444' }}>
+                {fnValid ? '✓' : '!'}
+              </span>
+            )}
+          </div>
 
-          {fieldWrap(
-            <>
-              <input
-                type="tel"
-                placeholder="+7 (___) ___-__-__"
-                value={phone}
-                onChange={e => {
-                  setPhone(formatPhone(e.target.value))
-                  if (!phT) setPHT(true)
-                }}
-                style={fieldStyle(phValid, phT)}
-              />
-              {phT && <span style={iconStyle(phValid)}>{icon(phValid, phT)}</span>}
-            </>
-          )}
+          <div style={{ position: 'relative' }}>
+            <input
+              type="tel"
+              placeholder="+7 (___) ___-__-__"
+              value={phone}
+              onChange={e => {
+                setPhone(formatPhone(e.target.value))
+                if (!phT) setPHT(true)
+              }}
+              style={fieldStyle(phValid, phT)}
+            />
+            {phT && (
+              <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 15, fontWeight: 700, color: phValid ? '#22C55E' : '#EF4444' }}>
+                {phValid ? '✓' : '!'}
+              </span>
+            )}
+          </div>
 
           <input
             type="text"
@@ -211,12 +232,12 @@ function FormStep({ company, certCode, onClose, onSubmit }) {
           />
         </div>
 
-        {/* Кнопка */}
         <button
           onClick={handleSubmit}
           style={{
             width: '100%', marginTop: 18, padding: '13px',
-            borderRadius: 12, border: 'none', cursor: formValid ? 'pointer' : 'not-allowed',
+            borderRadius: 12, border: 'none',
+            cursor: formValid ? 'pointer' : 'not-allowed',
             background: formValid
               ? 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 100%)'
               : '#D0C8BC',
@@ -244,213 +265,311 @@ function FormStep({ company, certCode, onClose, onSubmit }) {
 
 // ── Certificate step ─────────────────────────────────────────────────────────
 function CertStep({ company, certCode, recipient, onClose }) {
-  const [zoomed, setZoomed] = useState(false)
+  const [showHint, setShowHint] = useState(false)
   const gifts = company.gifts || [company.giftLabel]
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [])
 
   return (
     <div
-      onClick={zoomed ? undefined : onClose}
       style={{
-        position: 'fixed', inset: 0, zIndex: 10000,
-        background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: 16, willChange: 'transform',
+        position: 'fixed',
+        top: 0, left: 0,
+        width: '100vw', height: '100vh',
+        background: 'rgba(0,0,0,0.92)',
+        zIndex: 10000,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         overflowY: 'auto',
+        padding: '20px',
+        boxSizing: 'border-box',
+        willChange: 'opacity',
+        transform: 'translateZ(0)',
+        WebkitTransform: 'translateZ(0)',
       }}
     >
-      <div
-        onClick={e => e.stopPropagation()}
-        style={{
-          position: 'relative',
-          width: '100%', maxWidth: zoomed ? 420 : 360,
-          background: 'linear-gradient(160deg, #FFFEF5 0%, #FFF5E8 100%)',
-          borderRadius: 20, overflow: 'hidden',
-          boxShadow: '0 24px 80px rgba(0,0,0,0.5), 0 0 0 3px rgba(232,98,26,0.15)',
-          animation: 'cert-appear 0.4s cubic-bezier(0.34,1.56,0.64,1) both',
-          willChange: 'transform', isolation: 'isolate', transform: 'translateZ(0)',
-          transition: 'max-width 0.3s ease',
-        }}
-      >
-        <Watermark />
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-        {/* Верхняя полоса */}
-        <div style={{
-          position: 'relative', zIndex: 1,
-          background: 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 50%, #E8621A 100%)',
-          padding: '14px 20px 12px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <img src="/site-logo.png" alt="" style={{ width: 26, height: 26, objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
-            <span style={{ fontSize: 11, fontWeight: 800, color: '#fff', letterSpacing: '1px' }}>ГИД НОВОСЁЛА</span>
+        {/* ── Outer gradient border wrapper ── */}
+        <div
+          className="cert-width cert-card-animate"
+          style={{
+            padding: 3,
+            background: 'linear-gradient(145deg, #FF6B35, #E8621A, #FF8C00)',
+            borderRadius: 22,
+            boxShadow: '0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,140,0,0.2)',
+            willChange: 'transform',
+            transform: 'translateZ(0)',
+            WebkitTransform: 'translateZ(0)',
+            isolation: 'isolate',
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
+          }}
+        >
+          {/* ── Inner card ── */}
+          <div
+            style={{
+              background: 'linear-gradient(145deg, #FFFEF5, #FFF8E7, #FFFEF5)',
+              borderRadius: 20,
+              overflow: 'hidden',
+              position: 'relative',
+            }}
+          >
+            {/* Corner decorations */}
+            <div style={{ position: 'absolute', top: 10, left: 10, width: 24, height: 24, zIndex: 2, borderTop: '2.5px solid #E8621A', borderLeft: '2.5px solid #E8621A', borderRadius: '4px 0 0 0' }} />
+            <div style={{ position: 'absolute', top: 10, right: 10, width: 24, height: 24, zIndex: 2, borderTop: '2.5px solid #E8621A', borderRight: '2.5px solid #E8621A', borderRadius: '0 4px 0 0' }} />
+            <div style={{ position: 'absolute', bottom: 10, left: 10, width: 24, height: 24, zIndex: 2, borderBottom: '2.5px solid #E8621A', borderLeft: '2.5px solid #E8621A', borderRadius: '0 0 0 4px' }} />
+            <div style={{ position: 'absolute', bottom: 10, right: 10, width: 24, height: 24, zIndex: 2, borderBottom: '2.5px solid #E8621A', borderRight: '2.5px solid #E8621A', borderRadius: '0 0 4px 0' }} />
+
+            {/* Watermark */}
+            <Watermark />
+
+            {/* Top stripe */}
+            <div style={{
+              height: 5,
+              background: 'linear-gradient(90deg, #FF4500, #E8621A, #FF8C00, #E8621A, #FF4500)',
+              width: '100%',
+              position: 'relative', zIndex: 1,
+            }} />
+
+            {/* Header */}
+            <div style={{
+              background: 'linear-gradient(135deg, #FF4500 0%, #E8621A 50%, #FF8C00 100%)',
+              padding: '20px 24px 18px',
+              textAlign: 'center',
+              position: 'relative', zIndex: 1,
+            }}>
+              <img
+                src="/site-logo.png"
+                alt="Гид Новосёла"
+                style={{
+                  width: 52, height: 52,
+                  borderRadius: '50%',
+                  border: '3px solid rgba(255,255,255,0.6)',
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
+                  display: 'block',
+                  margin: '0 auto 10px',
+                  background: 'white',
+                  padding: 2,
+                  objectFit: 'contain',
+                }}
+              />
+              <div style={{
+                fontSize: 22, fontWeight: 900,
+                color: 'white',
+                letterSpacing: 4,
+                textShadow: '0 2px 12px rgba(0,0,0,0.4)',
+                marginBottom: 4,
+              }}>
+                ГИД НОВОСЁЛА
+              </div>
+              <div style={{
+                fontSize: 10, fontWeight: 600,
+                color: 'rgba(255,255,255,0.85)',
+                letterSpacing: 5,
+              }}>
+                ЭЛЕКТРОННЫЙ СЕРТИФИКАТ
+              </div>
+              <div style={{
+                width: 60, height: 2,
+                background: 'rgba(255,255,255,0.5)',
+                margin: '10px auto 0',
+                borderRadius: 2,
+              }} />
+            </div>
+
+            {/* Body */}
+            <div style={{ padding: '20px 24px', position: 'relative', zIndex: 1 }}>
+
+              {/* Partner logo */}
+              <div style={{
+                width: 76, height: 76,
+                margin: '0 auto 12px',
+                borderRadius: 16,
+                border: '2px solid #F0E8D8',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                background: 'white',
+                padding: 4,
+                overflow: 'hidden',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                {company.logo
+                  ? <img src={company.logo} alt={company.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                  : <span style={{ fontSize: 26, fontWeight: 800, color: company.color || '#E8621A' }}>
+                      {company.name.split(' ').map(w => w[0]).join('').slice(0, 2)}
+                    </span>
+                }
+              </div>
+
+              {/* Partner name */}
+              <p style={{ fontSize: 22, fontWeight: 900, color: '#1a1a1a', textAlign: 'center', margin: 0 }}>
+                {company.name}
+              </p>
+              <p style={{ fontSize: 12, color: '#999', textAlign: 'center', margin: '3px 0 16px' }}>
+                {company.category}
+              </p>
+
+              <div style={{ borderTop: '2px dashed #E8D5B0', marginBottom: 16 }} />
+
+              {/* Recipient block */}
+              <div style={{
+                background: 'rgba(232,98,26,0.06)',
+                borderRadius: 14, padding: '14px 18px',
+                border: '1px solid rgba(232,98,26,0.12)',
+                marginBottom: 16,
+              }}>
+                <p style={{ fontSize: 9, color: '#bbb', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 8px' }}>
+                  Получатель
+                </p>
+                <p style={{ fontSize: 18, fontWeight: 800, color: '#1a1a1a', margin: 0 }}>
+                  {recipient.lastName} {recipient.firstName}
+                </p>
+                <p style={{ fontSize: 14, color: '#E8621A', fontWeight: 600, margin: '4px 0 0' }}>
+                  {recipient.phone}
+                </p>
+                <p style={{ fontSize: 12, color: '#999', margin: '4px 0 0' }}>
+                  {getTodayStr()}
+                </p>
+              </div>
+
+              <div style={{ borderTop: '2px dashed #E8D5B0', marginBottom: 16 }} />
+
+              {/* Gifts */}
+              <div>
+                <span style={{
+                  display: 'inline-block',
+                  background: 'linear-gradient(90deg, #FF4500, #E8621A)',
+                  color: 'white', fontSize: 10, fontWeight: 800,
+                  letterSpacing: 2, padding: '5px 14px',
+                  borderRadius: 20, marginBottom: 12,
+                }}>
+                  🎁 ВАШИ ПОДАРКИ
+                </span>
+                {gifts.map((gift, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 8 }}>
+                    <span style={{ color: '#22C55E', fontWeight: 800, marginRight: 10, flexShrink: 0, fontSize: 16, lineHeight: 1.3 }}>✓</span>
+                    <span style={{ fontSize: 14, color: '#333', lineHeight: 1.4 }}>{gift}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ borderTop: '2px dashed #E8D5B0', margin: '16px 0 12px' }} />
+
+              {/* Code + expiry */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 8 }}>
+                <div>
+                  <p style={{ fontSize: 9, color: '#bbb', letterSpacing: '1.5px', textTransform: 'uppercase', margin: '0 0 4px' }}>
+                    Код сертификата
+                  </p>
+                  <p style={{ fontSize: 15, fontWeight: 700, color: '#E8621A', margin: 0, letterSpacing: 1 }}>
+                    {certCode}
+                  </p>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <p style={{ fontSize: 9, color: '#bbb', letterSpacing: '1.5px', textTransform: 'uppercase', margin: '0 0 4px' }}>
+                    Действует до
+                  </p>
+                  <p style={{ fontSize: 14, fontWeight: 700, color: '#333', margin: 0 }}>
+                    31 декабря 2026
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Stamp */}
+            <div style={{
+              position: 'absolute', right: 22, bottom: 95,
+              zIndex: 2,
+              width: 64, height: 64,
+              border: '2.5px solid rgba(232,98,26,0.5)',
+              borderRadius: '50%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transform: 'rotate(-14deg)',
+              opacity: 0.45,
+              pointerEvents: 'none',
+            }}>
+              <span style={{ fontSize: 20, fontWeight: 900, color: '#E8621A' }}>ГН</span>
+            </div>
+
+            {/* Bottom stripe */}
+            <div style={{
+              height: 5,
+              background: 'linear-gradient(90deg, #FF4500, #E8621A, #FF8C00, #E8621A, #FF4500)',
+            }} />
           </div>
-          <span style={{
-            fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,0.8)',
-            letterSpacing: '2px', textTransform: 'uppercase',
-          }}>
-            ЭЛЕКТРОННЫЙ СЕРТИФИКАТ
-          </span>
         </div>
 
-        {/* Тело сертификата */}
-        <div style={{ position: 'relative', zIndex: 1, padding: '20px 20px 0' }}>
-
-          {/* Инструкция при зуме */}
-          {zoomed && (
+        {/* ── Buttons below card ── */}
+        <div className="cert-width" style={{ marginTop: 20 }}>
+          {showHint && (
             <div style={{
-              background: '#1a1a2e', color: 'white',
-              fontSize: 12, padding: '10px 14px',
-              borderRadius: 10, marginBottom: 14,
-              textAlign: 'center', lineHeight: 1.5,
+              background: 'rgba(26,26,46,0.95)',
+              borderRadius: 12, padding: '14px 18px',
+              marginBottom: 12, color: 'white',
+              fontSize: 12, lineHeight: 2,
+              textAlign: 'center',
+              border: '1px solid rgba(255,255,255,0.1)',
             }}>
-              Сделайте скриншот экрана<br />
-              <span style={{ opacity: 0.7 }}>Shift+Cmd+3 (Mac) · кнопка питания+громкость (телефон)</span>
+              📱 iPhone — кнопка питания + громкость ↑<br />
+              🤖 Android — питание + громкость ↓<br />
+              💻 Mac — Shift + Cmd + 3
             </div>
           )}
-
-          {/* Лого партнёра */}
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
-            <div style={{
-              width: 72, height: 72, borderRadius: 14,
-              border: '2px solid #F0E5D0',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
-              overflow: 'hidden', background: '#fff',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              {company.logo
-                ? <img src={company.logo} alt={company.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                : <span style={{ fontSize: 26, fontWeight: 800, color: company.color || '#E8621A' }}>
-                    {company.name.split(' ').map(w => w[0]).join('').slice(0, 2)}
-                  </span>
-              }
-            </div>
-          </div>
-
-          {/* Компания */}
-          <p style={{ fontSize: 17, fontWeight: 800, color: '#1a1a1a', textAlign: 'center', margin: '0 0 3px' }}>
-            {company.name}
-          </p>
-          <p style={{ fontSize: 11, color: '#999', textAlign: 'center', margin: 0, letterSpacing: '0.3px' }}>
-            {company.category}
-          </p>
-
-          <div style={{ borderTop: '2px dashed #E8D5B0', margin: '14px 0 12px' }} />
-
-          {/* Получатель */}
-          <div style={{
-            background: 'rgba(232,98,26,0.05)',
-            border: '1px solid rgba(232,98,26,0.15)',
-            borderRadius: 12, padding: '12px 14px', marginBottom: 14,
-          }}>
-            <p style={{ fontSize: 9, color: '#E8621A', fontWeight: 700, letterSpacing: '2px', margin: '0 0 6px', textTransform: 'uppercase' }}>
-              Получатель
-            </p>
-            <p style={{ fontSize: 17, fontWeight: 800, color: '#1a1a1a', margin: '0 0 3px' }}>
-              {recipient.lastName} {recipient.firstName}
-            </p>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <p style={{ fontSize: 12, color: '#666', margin: 0 }}>{recipient.phone}</p>
-              <p style={{ fontSize: 11, color: '#999', margin: 0 }}>{getTodayStr()}</p>
-            </div>
-          </div>
-
-          {/* Подарки */}
-          <p style={{ fontSize: 9, color: '#E8621A', fontWeight: 700, letterSpacing: '2px', margin: '0 0 8px', textTransform: 'uppercase' }}>
-            Ваши подарки
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 5, marginBottom: 14 }}>
-            {gifts.map((gift, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-                <span style={{
-                  flexShrink: 0, width: 18, height: 18, borderRadius: '50%',
-                  background: '#E8621A', color: '#fff',
-                  fontSize: 10, fontWeight: 700,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  marginTop: 1,
-                }}>✓</span>
-                <span style={{ fontSize: 13, color: '#333', lineHeight: 1.35 }}>{gift}</span>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ borderTop: '2px dashed #E8D5B0', margin: '0 0 12px' }} />
-
-          {/* Код + срок */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-            <div>
-              <p style={{ fontSize: 9, color: '#999', margin: '0 0 3px', textTransform: 'uppercase', letterSpacing: '1px' }}>Код сертификата</p>
-              <p style={{ fontSize: 14, fontWeight: 800, color: '#E8621A', margin: 0, letterSpacing: '1.5px' }}>{certCode}</p>
-            </div>
-            <div style={{ textAlign: 'right' }}>
-              <p style={{ fontSize: 9, color: '#999', margin: '0 0 3px', textTransform: 'uppercase', letterSpacing: '1px' }}>Действует до</p>
-              <p style={{ fontSize: 13, fontWeight: 700, color: '#333', margin: 0 }}>31 декабря 2026</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Печать */}
-        <div style={{
-          position: 'absolute', right: 20, bottom: 100,
-          width: 60, height: 60, borderRadius: '50%',
-          border: '2.5px solid #E8621A', opacity: 0.25,
-          transform: 'rotate(-15deg) translateZ(0)',
-          display: 'flex', flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'center',
-          pointerEvents: 'none', zIndex: 2,
-        }}>
-          <span style={{ fontSize: 14, fontWeight: 900, color: '#E8621A', lineHeight: 1 }}>ГН</span>
-          <span style={{ fontSize: 5, color: '#E8621A', fontWeight: 700, textAlign: 'center', letterSpacing: '0.5px', marginTop: 2 }}>
-            ГИД НОВОСЁЛА
-          </span>
-        </div>
-
-        {/* Нижняя полоса с кнопками */}
-        <div style={{
-          position: 'relative', zIndex: 1,
-          background: 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 50%, #E8621A 100%)',
-          padding: '10px 16px',
-        }}>
-          {zoomed ? (
-            <button
-              onClick={onClose}
-              style={{
-                width: '100%', padding: '11px',
-                borderRadius: 10, border: 'none',
-                background: '#22C55E', color: '#fff',
-                fontSize: 14, fontWeight: 700, cursor: 'pointer',
-              }}
-            >
-              ✓ Готово — закрыть
-            </button>
-          ) : (
-            <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ display: 'flex', gap: 12 }}>
+            {showHint ? (
               <button
-                onClick={() => setZoomed(true)}
+                className="cert-btn-screenshot"
+                onClick={onClose}
                 style={{
-                  flex: 1, padding: '10px',
-                  borderRadius: 10, border: '1.5px solid rgba(255,255,255,0.4)',
-                  background: 'rgba(255,255,255,0.15)', color: '#fff',
-                  fontSize: 13, fontWeight: 700, cursor: 'pointer',
-                  backdropFilter: 'blur(4px)',
+                  flex: 1, height: 52,
+                  background: '#22C55E',
+                  color: 'white', border: 'none',
+                  borderRadius: 14,
+                  fontSize: 15, fontWeight: 700,
+                  cursor: 'pointer',
+                }}
+              >
+                ✅ Готово — закрыть
+              </button>
+            ) : (
+              <button
+                className="cert-btn-screenshot"
+                onClick={() => setShowHint(true)}
+                style={{
+                  flex: 1, height: 52,
+                  background: 'linear-gradient(135deg, #FF8C42, #E8621A)',
+                  color: 'white', border: 'none',
+                  borderRadius: 14,
+                  fontSize: 15, fontWeight: 700,
+                  boxShadow: '0 4px 16px rgba(232,98,26,0.4)',
+                  cursor: 'pointer',
                 }}
               >
                 📸 Скриншот
               </button>
-              <button
-                onClick={onClose}
-                style={{
-                  flex: 1, padding: '10px',
-                  borderRadius: 10, border: '1.5px solid rgba(255,255,255,0.4)',
-                  background: 'rgba(255,255,255,0.15)', color: '#fff',
-                  fontSize: 13, fontWeight: 600, cursor: 'pointer',
-                  backdropFilter: 'blur(4px)',
-                }}
-              >
-                Закрыть
-              </button>
-            </div>
-          )}
+            )}
+            <button
+              className="cert-btn-close"
+              onClick={onClose}
+              style={{
+                flex: 1, height: 52,
+                background: 'rgba(255,255,255,0.1)',
+                color: 'white',
+                border: '2px solid rgba(255,255,255,0.3)',
+                borderRadius: 14,
+                fontSize: 15, fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
+              Закрыть
+            </button>
+          </div>
         </div>
+
       </div>
     </div>
   )
