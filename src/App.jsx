@@ -91,6 +91,7 @@ export default function App() {
   })
   const [giftPartnerId, setGiftPartnerId] = useState(null)
   const [filter, setFilter] = useState('Все')
+  const [barWidth, setBarWidth] = useState(0)
   const [tapCount, setTapCount] = useState(0)
   const partnerRef = useRef(null)
   const prevPageRef = useRef('home')
@@ -121,6 +122,11 @@ export default function App() {
     }
     window.addEventListener('popstate', handlePop)
     return () => window.removeEventListener('popstate', handlePop)
+  }, [])
+
+  useEffect(() => {
+    const t = setTimeout(() => setBarWidth((companies.length / 40) * 100), 300)
+    return () => clearTimeout(t)
   }, [])
 
   if (page === 'admin') return <AdminPage onBack={() => setPage('home')} />
@@ -315,12 +321,71 @@ export default function App() {
 
       {/* ── ПАРТНЁРЫ ── */}
       <section id={PARTNER_SECTION_ID} style={{ padding: '0 16px 16px', maxWidth: 640, margin: '0 auto' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 800, color: '#1A1816' }}>Компании-партнёры</h2>
-          <span style={{ fontSize: 12, fontWeight: 600, padding: '3px 10px', borderRadius: 20, background: '#FFF0DC', color: '#C25820' }}>
+        {/* Огненная плашка */}
+        <div style={{ marginBottom: 8 }}>
+          <span style={{
+            display: 'inline-block',
+            background: 'linear-gradient(90deg, #FF4500, #E8621A)',
+            color: '#fff',
+            fontSize: 11,
+            fontWeight: 600,
+            letterSpacing: '1.5px',
+            padding: '4px 12px',
+            borderRadius: 20,
+          }}>
+            🔥 ЭКСКЛЮЗИВНО ДЛЯ НОВОСЁЛОВ
+          </span>
+        </div>
+
+        {/* Заголовок с огненным градиентом */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+          <h2 style={{
+            fontSize: 18,
+            fontWeight: 800,
+            background: 'linear-gradient(90deg, #FF4500 0%, #E8621A 50%, #FF8C00 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            animation: 'fire-glow 2s ease-in-out infinite',
+            margin: 0,
+          }}>
+            Компании-партнёры
+          </h2>
+          <span style={{ fontSize: 12, fontWeight: 600, padding: '3px 10px', borderRadius: 20, background: '#FFF0DC', color: '#C25820', flexShrink: 0 }}>
             {companies.length} из 40
           </span>
         </div>
+
+        {/* Прогресс-бар мест */}
+        <div style={{
+          background: '#fff',
+          borderRadius: 16,
+          padding: '14px 16px',
+          marginBottom: 16,
+          boxShadow: '0 2px 12px rgba(232,98,26,0.1)',
+          border: '1px solid rgba(232,98,26,0.15)',
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+            <span style={{ fontSize: 12, color: '#6B6560' }}>Занято мест партнёров</span>
+            <span style={{ fontSize: 12, fontWeight: 800, color: '#E8621A' }}>{companies.length} из 40</span>
+          </div>
+          <div style={{ width: '100%', height: 10, borderRadius: 10, background: '#E8E8E8', overflow: 'hidden' }}>
+            <div style={{
+              height: '100%',
+              width: `${barWidth}%`,
+              borderRadius: 10,
+              background: 'linear-gradient(90deg, #FF4500, #E8621A, #FF8C00)',
+              transition: 'width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            }} />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8 }}>
+            <span style={{ fontSize: 12, color: '#22C55E' }}>✅ {40 - companies.length} мест ещё доступно</span>
+            <span style={{ fontSize: 12, color: '#EF4444', animation: 'urgent-pulse 1.2s ease-in-out infinite', display: 'inline-block' }}>
+              🔴 Торопитесь!
+            </span>
+          </div>
+        </div>
+
         <p style={{ fontSize: 13, color: '#A09890', marginBottom: 14 }}>
           Предъявите{' '}
           <span style={{ fontWeight: 800, color: '#E8621A', fontSize: '1rem' }}>СЕРТИФИКАТ</span>

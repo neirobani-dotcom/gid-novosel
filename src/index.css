@@ -373,6 +373,16 @@ img.map-iframe:hover { opacity: 0.92; }
   to   { opacity: 1; transform: translateX(0); }
 }
 
+/* ── Огненный заголовок партнёров ── */
+@keyframes fire-glow {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(232,98,26,0.3)); }
+  50%       { filter: drop-shadow(0 0 12px rgba(255,69,0,0.6)) drop-shadow(0 0 20px rgba(232,98,26,0.3)); }
+}
+@keyframes urgent-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
 /* ── Купоны ── */
 @keyframes couponIn {
   from { opacity: 0; transform: translateX(-16px); }
