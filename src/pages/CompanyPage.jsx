@@ -3,13 +3,50 @@ import SiteLogo from '../components/SiteLogo'
 import PhotoSlider from '../components/PhotoSlider'
 import RassrochkaCalculator from '../components/RassrochkaCalculator'
 
+const formatPhone = (input) => {
+  const raw = input.replace(/\D/g, '')
+  if (raw.length === 0) return ''
+  let d = raw.startsWith('7') ? raw
+        : raw.startsWith('8') ? '7' + raw.slice(1)
+        : '7' + raw
+  d = d.substring(0, 11)
+  if (d.length <= 1) return '+7'
+  if (d.length <= 4) return '+7 (' + d.substring(1)
+  if (d.length <= 7) return '+7 (' + d.substring(1,4) + ') ' + d.substring(4)
+  if (d.length <= 9) return '+7 (' + d.substring(1,4) + ') ' + d.substring(4,7) + '-' + d.substring(7)
+  return '+7 (' + d.substring(1,4) + ') ' + d.substring(4,7) + '-' + d.substring(7,9) + '-' + d.substring(9,11)
+}
+
 export default function CompanyPage({ company, onBack }) {
   const [form, setForm] = useState({ name: '', phone: '', address: '' })
+  const [touched, setTouched] = useState({ name: false, phone: false, address: false })
   const [submitted, setSubmitted] = useState(null)
   const [step, setStep] = useState('form')
   const [activeBtn, setActiveBtn] = useState(company.ctaButtons[0].type)
   const [showCalc, setShowCalc] = useState(false)
   const [lightbox, setLightbox] = useState(null)
+
+  const nameValid    = form.name.trim().length >= 2
+  const phoneValid   = form.phone.replace(/\D/g, '').length === 11
+  const addressValid = form.address.trim().length >= 5
+  const isFormValid  = nameValid && phoneValid && addressValid
+
+  const fieldBorder = (isValid, isTouched) => {
+    if (!isTouched) return '1px solid #EDE8E0'
+    return isValid ? '1.5px solid #22C55E' : '2px solid #EF4444'
+  }
+  const fieldBg = (isValid, isTouched) => {
+    if (!isTouched) return '#FFF'
+    return isValid ? '#F0FDF4' : '#FFF8F8'
+  }
+  const hint = (isValid, isTouched, errText, okText) => {
+    if (!isTouched) return null
+    return (
+      <p style={{ fontSize: 11, color: isValid ? '#22C55E' : '#EF4444', marginTop: 3 }}>
+        {isValid ? okText : errText}
+      </p>
+    )
+  }
 
 function handleChange(e) {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }))
@@ -17,7 +54,8 @@ function handleChange(e) {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    if (!form.name || !form.phone || !form.address) return
+    setTouched({ name: true, phone: true, address: true })
+    if (!isFormValid) return
 
     localStorage.setItem('gid_user', JSON.stringify({ name: form.name, phone: form.phone }))
 
@@ -305,29 +343,103 @@ function handleChange(e) {
             </div>
 
             {/* ── Форма ── */}
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3 mb-5">
-              {[
-                { name: 'name', placeholder: 'Ваше имя', type: 'text' },
-                { name: 'phone', placeholder: 'Номер телефона', type: 'tel' },
-                { name: 'address', placeholder: 'Адрес дома / название ЖК', type: 'text' },
-              ].map(field => (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-2 mb-5">
+
+              {/* Имя */}
+              <div style={{ position: 'relative' }}>
                 <input
-                  key={field.name}
-                  name={field.name}
-                  value={form[field.name]}
-                  onChange={handleChange}
-                  placeholder={field.placeholder}
-                  type={field.type}
-                  required
-                  className="rounded-xl px-4 py-3 text-sm focus:outline-none transition-all"
-                  style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#1A1816' }}
-                  onFocus={e => { e.target.style.borderColor = '#E8621A' }}
-                  onBlur={e => { e.target.style.borderColor = '#EDE8E0' }}
+                  name="name"
+                  type="text"
+                  value={form.name}
+                  placeholder="Ваше имя"
+                  onChange={e => {
+                    const v = e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z\s]/g, '')
+                    setForm(f => ({ ...f, name: v }))
+                    setTouched(t => ({ ...t, name: true }))
+                  }}
+                  onBlur={() => setTouched(t => ({ ...t, name: true }))}
+                  className="rounded-xl text-sm focus:outline-none w-full"
+                  style={{
+                    padding: touched.name && nameValid ? '12px 36px 12px 16px' : '12px 16px',
+                    background: fieldBg(nameValid, touched.name),
+                    border: fieldBorder(nameValid, touched.name),
+                    color: '#1A1816',
+                    transition: 'border-color 0.2s, background 0.2s',
+                  }}
                 />
-              ))}
-              <button type="submit"
+                {touched.name && nameValid && (
+                  <span style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#22C55E', fontWeight: 700, fontSize: 16, pointerEvents: 'none' }}>✓</span>
+                )}
+                {hint(nameValid, touched.name, 'Введите настоящее имя (только буквы)', '✓ Имя заполнено')}
+              </div>
+
+              {/* Телефон */}
+              <div style={{ position: 'relative' }}>
+                <input
+                  name="phone"
+                  type="tel"
+                  value={form.phone}
+                  placeholder="+7 (_) _-_-_"
+                  onChange={e => {
+                    setForm(f => ({ ...f, phone: formatPhone(e.target.value) }))
+                    setTouched(t => ({ ...t, phone: true }))
+                  }}
+                  onBlur={() => setTouched(t => ({ ...t, phone: true }))}
+                  className="rounded-xl text-sm focus:outline-none w-full"
+                  style={{
+                    padding: touched.phone && phoneValid ? '12px 36px 12px 16px' : '12px 16px',
+                    background: fieldBg(phoneValid, touched.phone),
+                    border: fieldBorder(phoneValid, touched.phone),
+                    color: '#1A1816',
+                    transition: 'border-color 0.2s, background 0.2s',
+                  }}
+                />
+                {touched.phone && phoneValid && (
+                  <span style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#22C55E', fontWeight: 700, fontSize: 16, pointerEvents: 'none' }}>✓</span>
+                )}
+                {hint(phoneValid, touched.phone, 'Введите полный номер: +7 (XXX) XXX-XX-XX', '✓ Номер заполнен')}
+              </div>
+
+              {/* Адрес */}
+              <div style={{ position: 'relative' }}>
+                <input
+                  name="address"
+                  type="text"
+                  value={form.address}
+                  placeholder="Адрес и название ЖК"
+                  onChange={e => {
+                    const v = e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z0-9\s.,\-\/]/g, '')
+                    setForm(f => ({ ...f, address: v }))
+                    setTouched(t => ({ ...t, address: true }))
+                  }}
+                  onBlur={() => setTouched(t => ({ ...t, address: true }))}
+                  className="rounded-xl text-sm focus:outline-none w-full"
+                  style={{
+                    padding: touched.address && addressValid ? '12px 36px 12px 16px' : '12px 16px',
+                    background: fieldBg(addressValid, touched.address),
+                    border: fieldBorder(addressValid, touched.address),
+                    color: '#1A1816',
+                    transition: 'border-color 0.2s, background 0.2s',
+                  }}
+                />
+                {touched.address && addressValid && (
+                  <span style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#22C55E', fontWeight: 700, fontSize: 16, pointerEvents: 'none' }}>✓</span>
+                )}
+                {hint(addressValid, touched.address, 'Укажите адрес и название ЖК', '✓ Адрес заполнен')}
+              </div>
+
+              <button
+                type="submit"
+                disabled={!isFormValid}
                 className="w-full font-bold py-4 rounded-2xl mt-1 text-white"
-                style={{ background: 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 100%)' }}>
+                style={{
+                  background: isFormValid
+                    ? 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 100%)'
+                    : '#D0D0D0',
+                  cursor: isFormValid ? 'pointer' : 'not-allowed',
+                  opacity: isFormValid ? 1 : 0.6,
+                  transition: 'all 0.3s ease',
+                }}>
                 Активировать подарок →
               </button>
             </form>
