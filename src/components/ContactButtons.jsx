@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const WEB3FORMS_KEY = '2c502e1a-5b57-43a0-b56f-9ffa8c423793'
 
@@ -105,7 +105,14 @@ export default function ContactButtons({ phones, partnerName, messengers }) {
   const phoneValid = phone.replace(/\D/g, '').length === 11
   const canContinue = nameValid && phoneValid
 
-  const openPopup = () => { setOpen(true); setStep('A') }
+  useEffect(() => {
+    if (!open) return
+    const handler = (e) => { if (e.key === 'Escape') closePopup() }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [open])
+
+  const openPopup = (e) => { e.stopPropagation(); setOpen(true); setStep('A') }
   const closePopup = () => {
     setOpen(false)
     setTimeout(() => {
@@ -161,7 +168,7 @@ export default function ContactButtons({ phones, partnerName, messengers }) {
     <>
       {/* ── Триггер-кнопка ── */}
       <button
-        onClick={openPopup}
+        onClick={e => openPopup(e)}
         onMouseEnter={() => setBtnHover(true)}
         onMouseLeave={() => setBtnHover(false)}
         style={{
@@ -202,7 +209,7 @@ export default function ContactButtons({ phones, partnerName, messengers }) {
       {/* ── Попап ── */}
       {open && (
         <div
-          onClick={closePopup}
+          onClick={e => { e.stopPropagation(); closePopup() }}
           style={{
             position: 'fixed', inset: 0, zIndex: 10000,
             background: 'rgba(0,0,0,0.6)',
