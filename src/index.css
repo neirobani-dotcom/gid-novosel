@@ -489,23 +489,40 @@ img.map-iframe:hover { opacity: 0.92; }
   }
 }
 
-/* ── Баннер iPad ── */
-.ipad-frame      { width: 100%; max-width: 500px; }
-.ipad-screen     { height: 320px; }
-.ipad-title      { font-size: 26px; }
-.ipad-sub        { font-size: 15px; }
-.ipad-icon       { font-size: 52px; }
-.ipad-logo-wrap  { width: 100px; height: 100px; }
-.ipad-logo-img   { width: 82px; height: 82px; }
+/* ── Рекламный монитор ── */
+@keyframes adScan {
+  0%   { left: -35%; }
+  100% { left: 110%; }
+}
+@keyframes adParticle {
+  0%   { transform: translate(0, 0) scale(1);    opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 0.5; }
+  100% { transform: translate(30px, -120px) scale(0.3); opacity: 0; }
+}
+@keyframes adProgress {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+.ad-screen       { height: 260px; }
+.ad-content      { gap: 28px; height: calc(100% - 18px); }
+.ad-logo-wrap    { width: 120px; height: 120px; }
+.ad-logo-img     { width: 98px; height: 98px; }
+.ad-logo-initials { font-size: 22px; }
+.ad-title        { font-size: 32px; }
+.ad-sub          { font-size: 18px; }
+.ad-text         { text-align: left; }
 
 @media (max-width: 480px) {
-  .ipad-frame     { width: 90% !important; }
-  .ipad-screen    { height: 240px !important; }
-  .ipad-title     { font-size: 18px !important; letter-spacing: 1px !important; }
-  .ipad-sub       { font-size: 13px !important; }
-  .ipad-icon      { font-size: 38px !important; }
-  .ipad-logo-wrap { width: 70px !important; height: 70px !important; }
-  .ipad-logo-img  { width: 56px !important; height: 56px !important; }
+  .ad-screen    { height: 180px !important; }
+  .ad-content   { flex-direction: column !important; gap: 10px !important; padding: 12px 16px 0 !important; justify-content: flex-start !important; height: calc(100% - 18px) !important; }
+  .ad-logo-wrap { width: 80px !important; height: 80px !important; }
+  .ad-logo-img  { width: 64px !important; height: 64px !important; }
+  .ad-logo-initials { font-size: 16px !important; }
+  .ad-title     { font-size: 22px !important; letter-spacing: 1px !important; }
+  .ad-sub       { font-size: 13px !important; }
+  .ad-text      { text-align: center !important; }
 }
 
 /* ── Нейробаня ── */
