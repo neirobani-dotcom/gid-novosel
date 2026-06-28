@@ -364,11 +364,11 @@ export const companies = [
     images: ['/partners/sibmebel/kuhni/4.jpeg', ...Array.from({ length: 18 }, (_, i) => `/partners/sibmebel/shkafy/${i + 1}.jpeg`)],
     galleries: [
       {
-        title: '🛋️ Галерея — Шкафы-купе и распашные шкафы',
+        title: '🛋️ Шкафы-купе и распашные шкафы',
         images: Array.from({ length: 19 }, (_, i) => `/partners/sibmebel/shkafy/${i + 1}.jpeg`),
       },
       {
-        title: '🍳 Галерея — Кухни',
+        title: '🍳 Кухни на заказ',
         images: Array.from({ length: 12 }, (_, i) => `/partners/sibmebel/kuhni/${i + 1}.jpeg`),
       },
     ],

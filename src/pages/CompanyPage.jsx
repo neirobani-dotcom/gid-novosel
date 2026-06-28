@@ -4,28 +4,50 @@ import PhotoSlider from '../components/PhotoSlider'
 import RassrochkaCalculator from '../components/RassrochkaCalculator'
 import Lightbox from '../components/Lightbox'
 
-function GalleryGrid({ images, onPhotoClick }) {
+function PinterestGallery({ images, onPhotoClick }) {
   const [failed, setFailed] = useState(new Set())
+
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 4 }}>
-      {images.map((src, i) => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+      {/* Первое фото — на всю ширину */}
+      {!failed.has(0) && images[0] && (
         <div
-          key={i}
-          style={{
-            aspectRatio: '1 / 1', borderRadius: 8, overflow: 'hidden',
-            background: '#F0EBE3',
-            display: failed.has(i) ? 'none' : 'block',
-          }}
+          className="gallery-hero"
+          style={{ borderRadius: 10, overflow: 'hidden', cursor: 'pointer', flexShrink: 0 }}
+          onClick={() => onPhotoClick(0)}
         >
           <img
-            src={src}
-            alt={`фото ${i + 1}`}
-            onError={() => setFailed(p => new Set([...p, i]))}
-            onClick={() => onPhotoClick(i)}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer', display: 'block' }}
+            src={images[0]}
+            alt="фото 1"
+            onError={() => setFailed(p => new Set([...p, 0]))}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
           />
         </div>
-      ))}
+      )}
+
+      {/* Остальные — сетка */}
+      {images.length > 1 && (
+        <div className="gallery-rest" style={{ display: 'grid', gap: 4 }}>
+          {images.slice(1).map((src, j) => {
+            const i = j + 1
+            if (failed.has(i)) return null
+            return (
+              <div
+                key={i}
+                style={{ aspectRatio: '1 / 1', borderRadius: 6, overflow: 'hidden', cursor: 'pointer' }}
+                onClick={() => onPhotoClick(i)}
+              >
+                <img
+                  src={src}
+                  alt={`фото ${i + 1}`}
+                  onError={() => setFailed(p => new Set([...p, i]))}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              </div>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }
@@ -284,17 +306,29 @@ function handleChange(e) {
 
             {/* ── Галереи: несколько именованных (galleries) или одна (images) ── */}
             {company.galleries?.length > 0 ? (
-              company.galleries.map((gallery, gi) => (
-                <div key={gi} className="mb-6">
-                  <p className="text-sm font-bold mb-3" style={{ color: '#1A1816' }}>
-                    {gallery.title}
-                  </p>
-                  <GalleryGrid
-                    images={gallery.images}
-                    onPhotoClick={(i) => openLightbox(gallery.images, i)}
-                  />
-                </div>
-              ))
+              <div className="mb-6">
+                {company.galleries.map((gallery, gi) => (
+                  <div key={gi}>
+                    {/* Заголовок с оранжевой полоской */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                      <div style={{ width: 4, height: 26, background: '#E8621A', borderRadius: 2, flexShrink: 0 }} />
+                      <p style={{ fontSize: 17, fontWeight: 800, color: '#1A1816', margin: 0, lineHeight: 1.2 }}>
+                        {gallery.title}
+                      </p>
+                    </div>
+
+                    <PinterestGallery
+                      images={gallery.images}
+                      onPhotoClick={(i) => openLightbox(gallery.images, i)}
+                    />
+
+                    {/* Оранжевый разделитель между галереями */}
+                    {gi < company.galleries.length - 1 && (
+                      <div style={{ height: 2, background: '#E8621A', margin: '24px 0', borderRadius: 1, opacity: 0.25 }} />
+                    )}
+                  </div>
+                ))}
+              </div>
             ) : company.images?.length > 0 ? (
               <div className="mb-5">
                 <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: '#A09890' }}>
