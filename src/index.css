@@ -490,15 +490,29 @@ img.map-iframe:hover { opacity: 0.92; }
 }
 
 /* ── Баннер iMac ── */
-.imac-screen  { height: 280px; }
-.imac-title   { font-size: 30px; }
-.imac-sub     { font-size: 17px; }
-.imac-stand   { display: flex; }
-@media (max-width: 480px) {
-  .imac-screen { height: 200px !important; }
-  .imac-title  { font-size: 22px !important; }
+@keyframes greenDot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px #22c55e; }
+  50%       { opacity: 0.4; box-shadow: 0 0 2px #22c55e; }
+}
+.imac-screen     { height: 300px; }
+.imac-title      { font-size: 22px; }
+.imac-sub        { font-size: 16px; }
+.imac-icon       { font-size: 48px; }
+.imac-stand-wrap { display: flex; flex-direction: column; align-items: center; }
+
+@media (max-width: 768px) {
+  .imac-bezel  { border-radius: 14px !important; padding: 9px !important; }
+  .imac-screen { height: 260px !important; }
+  .imac-title  { font-size: 20px !important; }
   .imac-sub    { font-size: 14px !important; }
-  .imac-stand  { display: none !important; }
+}
+@media (max-width: 480px) {
+  .imac-bezel      { border-radius: 12px !important; padding: 7px !important; }
+  .imac-screen     { height: 220px !important; }
+  .imac-title      { font-size: 18px !important; }
+  .imac-sub        { font-size: 13px !important; }
+  .imac-icon       { font-size: 36px !important; }
+  .imac-stand-wrap { display: none !important; }
 }
 
 /* ── Нейробаня ── */
