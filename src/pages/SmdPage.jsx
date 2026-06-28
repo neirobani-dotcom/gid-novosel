@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Certificate from '../components/Certificate'
 import ContactButtons from '../components/ContactButtons'
 import Lightbox from '../components/Lightbox'
+import PartnerBackButton from '../components/PartnerBackButton'
 import { companies } from '../data/companies'
 
 const CERT_CODE = 'GNS-SMD-2026'
@@ -30,17 +31,7 @@ export default function SmdPage({ onBack }) {
         padding: '12px 16px',
         display: 'flex', alignItems: 'center', gap: 12,
       }}>
-        <button
-          onClick={onBack}
-          style={{
-            background: 'none', border: 'none', cursor: 'pointer',
-            fontSize: 20, color: '#E8621A', padding: '4px 8px 4px 0',
-            display: 'flex', alignItems: 'center', gap: 4,
-          }}
-        >
-          ‹
-        </button>
-        <span style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a' }}>Партнёры Гид Новосёла</span>
+        <PartnerBackButton onClick={onBack} />
       </div>
 
       {/* ── Шапка партнёра ── */}

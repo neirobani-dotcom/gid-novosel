@@ -3,6 +3,7 @@ import SiteLogo from '../components/SiteLogo'
 import PhotoSlider from '../components/PhotoSlider'
 import RassrochkaCalculator from '../components/RassrochkaCalculator'
 import Lightbox from '../components/Lightbox'
+import PartnerBackButton from '../components/PartnerBackButton'
 
 function PinterestGallery({ images, onPhotoClick }) {
   const [failed, setFailed] = useState(new Set())
@@ -166,11 +167,7 @@ function handleChange(e) {
       {/* Шапка */}
       <div className="sticky top-0 z-10 flex items-center gap-3 px-4 py-3"
         style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0', visibility: lbImages !== null ? 'hidden' : 'visible' }}>
-        <button onClick={onBack}
-          className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
-          style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#6B6560' }}>
-          ←
-        </button>
+        <PartnerBackButton onClick={onBack} />
         <SiteLogo variant="small" />
         <div className="min-w-0">
           <p className="text-[10px] font-semibold uppercase tracking-wide truncate" style={{ color: '#E8621A' }}>

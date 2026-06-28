@@ -416,6 +416,18 @@ img.map-iframe:hover { opacity: 0.92; }
   to   { opacity: 1; }
 }
 
+/* ── Кнопка назад на страницах партнёров ── */
+@keyframes partner-back-pulse {
+  0%, 100% { box-shadow: 0 2px 10px rgba(232,98,26,0.35); }
+  50%       { box-shadow: 0 4px 20px rgba(232,98,26,0.7), 0 0 0 4px rgba(232,98,26,0.15); }
+}
+.partner-back-btn {
+  animation: partner-back-pulse 2s ease-in-out infinite;
+}
+@media (max-width: 480px) {
+  .partner-back-btn { font-size: 12px !important; padding: 7px 12px !important; }
+}
+
 /* ── Анимация пульсации суммы подарка ── */
 @keyframes gift-pulse {
   0%, 100% { transform: scale(1); }
