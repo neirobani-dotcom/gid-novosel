@@ -4,6 +4,32 @@ import PhotoSlider from '../components/PhotoSlider'
 import RassrochkaCalculator from '../components/RassrochkaCalculator'
 import Lightbox from '../components/Lightbox'
 
+function GalleryGrid({ images, onPhotoClick }) {
+  const [failed, setFailed] = useState(new Set())
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 4 }}>
+      {images.map((src, i) => (
+        <div
+          key={i}
+          style={{
+            aspectRatio: '1 / 1', borderRadius: 8, overflow: 'hidden',
+            background: '#F0EBE3',
+            display: failed.has(i) ? 'none' : 'block',
+          }}
+        >
+          <img
+            src={src}
+            alt={`фото ${i + 1}`}
+            onError={() => setFailed(p => new Set([...p, i]))}
+            onClick={() => onPhotoClick(i)}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer', display: 'block' }}
+          />
+        </div>
+      ))}
+    </div>
+  )
+}
+
 const formatPhone = (input) => {
   const raw = input.replace(/\D/g, '')
   if (raw.length === 0) return ''
@@ -25,7 +51,11 @@ export default function CompanyPage({ company, onBack }) {
   const [step, setStep] = useState('form')
   const [activeBtn, setActiveBtn] = useState(company.ctaButtons[0].type)
   const [showCalc, setShowCalc] = useState(false)
-  const [lightbox, setLightbox] = useState(null)
+  const [lbImages, setLbImages] = useState(null)
+  const [lbIndex,  setLbIndex]  = useState(0)
+
+  const openLightbox = (images, index) => { setLbImages(images); setLbIndex(index) }
+  const closeLightbox = () => setLbImages(null)
 
   const nameValid    = form.name.trim().length >= 2
   const phoneValid   = form.phone.replace(/\D/g, '').length === 11
@@ -113,7 +143,7 @@ function handleChange(e) {
 
       {/* Шапка */}
       <div className="sticky top-0 z-10 flex items-center gap-3 px-4 py-3"
-        style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0', visibility: lightbox !== null ? 'hidden' : 'visible' }}>
+        style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0', visibility: lbImages !== null ? 'hidden' : 'visible' }}>
         <button onClick={onBack}
           className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
           style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#6B6560' }}>
@@ -252,8 +282,20 @@ function handleChange(e) {
               </div>
             )}
 
-            {/* ── Галерея работ ── */}
-            {company.images?.length > 0 && (
+            {/* ── Галереи: несколько именованных (galleries) или одна (images) ── */}
+            {company.galleries?.length > 0 ? (
+              company.galleries.map((gallery, gi) => (
+                <div key={gi} className="mb-6">
+                  <p className="text-sm font-bold mb-3" style={{ color: '#1A1816' }}>
+                    {gallery.title}
+                  </p>
+                  <GalleryGrid
+                    images={gallery.images}
+                    onPhotoClick={(i) => openLightbox(gallery.images, i)}
+                  />
+                </div>
+              ))
+            ) : company.images?.length > 0 ? (
               <div className="mb-5">
                 <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: '#A09890' }}>
                   Примеры работ
@@ -262,11 +304,11 @@ function handleChange(e) {
                   images={company.images}
                   height={260}
                   borderRadius={16}
-                  onPhotoClick={(i) => setLightbox(i)}
+                  onPhotoClick={(i) => openLightbox(company.images, i)}
                   showDots
                 />
               </div>
-            )}
+            ) : null}
 
             {/* ── Преимущества ── */}
             {company.advantages?.length > 0 && (
@@ -515,12 +557,12 @@ function handleChange(e) {
       {showCalc && <RassrochkaCalculator onClose={() => setShowCalc(false)} />}
 
       {/* ── Лайтбокс ── */}
-      {lightbox !== null && company.images?.length > 0 && (
+      {lbImages !== null && (
         <Lightbox
-          images={company.images}
-          index={lightbox}
-          onClose={() => setLightbox(null)}
-          onNavigate={setLightbox}
+          images={lbImages}
+          index={lbIndex}
+          onClose={closeLightbox}
+          onNavigate={setLbIndex}
         />
       )}
     </div>

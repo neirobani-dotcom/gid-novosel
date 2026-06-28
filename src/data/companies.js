@@ -360,6 +360,17 @@ export const companies = [
     site: 'https://link.2gis.ru/4.3/B6CF6819/aHR0cDovL3huLS0yNC05a2NhdGJyMmFmMWM0aC54bi0tcDFhaS8=',
     email: 'krassibmebel@gmail.com',
     color: '#1A3A5C',
+    logo: '/partners/sibmebel/logo.jpeg',
+    galleries: [
+      {
+        title: '🛋️ Галерея — Шкафы-купе и распашные шкафы',
+        images: Array.from({ length: 19 }, (_, i) => `/partners/sibmebel/shkafy/${i + 1}.jpeg`),
+      },
+      {
+        title: '🍳 Галерея — Кухни',
+        images: Array.from({ length: 12 }, (_, i) => `/partners/sibmebel/kuhni/${i + 1}.jpeg`),
+      },
+    ],
     freebies: [
       'Замер и выезд консультанта — бесплатно',
       'Проект шкафа — бесплатно',
