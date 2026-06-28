@@ -128,6 +128,8 @@ export default function App() {
     document.getElementById(PARTNER_SECTION_ID)?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  useEffect(() => { window.scrollTo(0, 0) }, [page])
+
   const navigateTo = (pageName, urlPath) => {
     window.history.pushState({}, '', urlPath)
     window.dispatchEvent(new CustomEvent('gid:navigate'))
