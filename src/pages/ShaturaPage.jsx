@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import PartnerBackButton from '../components/PartnerBackButton'
 import ContactButtons from '../components/ContactButtons'
+import PhotoSlider from '../components/PhotoSlider'
 import { companies } from '../data/companies'
 
 const ACCENT = '#E8621A'
@@ -51,6 +52,19 @@ const ADVANTAGES = [
   'Бренд года 2025 — мебель по индивидуальному проекту',
   'Сертифицированное качество и гарантия до 5 лет',
 ]
+
+const ALL_PHOTOS = [
+  ...Array.from({ length: 4 }, (_, i) => `/partners/shatura/nabor-kuhni/${i + 1}.jpeg`),
+  ...Array.from({ length: 6 }, (_, i) => `/partners/shatura/kuhni-zakaz/${i + 1}.jpeg`),
+  ...Array.from({ length: 5 }, (_, i) => `/partners/shatura/spalni/${i + 1}.jpeg`),
+  '/partners/shatura/zamer/1.jpeg',
+]
+const GALLERY_KUHNI = [
+  ...Array.from({ length: 4 }, (_, i) => `/partners/shatura/nabor-kuhni/${i + 1}.jpeg`),
+  ...Array.from({ length: 6 }, (_, i) => `/partners/shatura/kuhni-zakaz/${i + 1}.jpeg`),
+]
+const GALLERY_SPALNI = Array.from({ length: 5 }, (_, i) => `/partners/shatura/spalni/${i + 1}.jpeg`)
+const GALLERY_ZAMER  = ['/partners/shatura/zamer/1.jpeg']
 
 export default function ShaturaPage({ onBack }) {
   const company = companies.find(c => c.id === 'shatura')
@@ -273,6 +287,9 @@ export default function ShaturaPage({ onBack }) {
         </p>
       </div>
 
+      {/* ── СЛАЙДЕР ФОТО ── */}
+      <PhotoSlider images={ALL_PHOTOS} height={280} borderRadius={0} />
+
       <div style={{ maxWidth: 600, margin: '0 auto', padding: '24px 16px 48px' }}>
 
         {/* ── БЛОК ПОДАРКА ── */}
@@ -379,6 +396,45 @@ export default function ShaturaPage({ onBack }) {
                 Дизайнер приедет к вам бесплатно. Подберём мебель, цветовые решения и материалы с учётом вашего интерьера. Привезём образцы фасадов, тканей и отделки.
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* ── ГАЛЕРЕЯ: КУХНИ ── */}
+        <div style={{ marginBottom: 24 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A09890', margin: '0 0 12px' }}>
+            Кухни Шатура
+          </p>
+          <div className="shatura-gallery" style={{ display: 'flex', gap: 12, overflowX: 'auto' }}>
+            {GALLERY_KUHNI.map((src, i) => (
+              <img key={i} src={src} alt={`Кухни Шатура ${i + 1}`}
+                style={{ height: 280, width: 'auto', minWidth: 200, borderRadius: 12, objectFit: 'cover', flexShrink: 0, boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }} />
+            ))}
+          </div>
+        </div>
+
+        {/* ── ГАЛЕРЕЯ: СПАЛЬНИ ── */}
+        <div style={{ marginBottom: 24 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A09890', margin: '0 0 12px' }}>
+            Спальни Шатура
+          </p>
+          <div className="shatura-gallery" style={{ display: 'flex', gap: 12, overflowX: 'auto' }}>
+            {GALLERY_SPALNI.map((src, i) => (
+              <img key={i} src={src} alt={`Спальни Шатура ${i + 1}`}
+                style={{ height: 280, width: 'auto', minWidth: 200, borderRadius: 12, objectFit: 'cover', flexShrink: 0, boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }} />
+            ))}
+          </div>
+        </div>
+
+        {/* ── ГАЛЕРЕЯ: ЗАМЕР ── */}
+        <div style={{ marginBottom: 24 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A09890', margin: '0 0 12px' }}>
+            Выездной замер бесплатно
+          </p>
+          <div className="shatura-gallery" style={{ display: 'flex', gap: 12, overflowX: 'auto' }}>
+            {GALLERY_ZAMER.map((src, i) => (
+              <img key={i} src={src} alt={`Замер ${i + 1}`}
+                style={{ height: 280, width: 'auto', minWidth: 200, borderRadius: 12, objectFit: 'cover', flexShrink: 0, boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }} />
+            ))}
           </div>
         </div>
 
