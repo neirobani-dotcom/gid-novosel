@@ -441,8 +441,8 @@ export const companies = [
     site: null,
     email: 'smd.company@mail.ru',
     color: '#5D4037',
-    logo: '/partners/smd/logo.jpeg',
-    images: Array.from({ length: 20 }, (_, i) => `/partners/smd/${i + 1}.jpeg`),
+    logo: '/smd/logo.jpeg',
+    images: Array.from({ length: 20 }, (_, i) => `/smd/${i + 1}.jpeg`),
     gifts: [
       'до 12 000 ₽ на царговые двери (3 000 ₽/полотно)',
       'Скидка 10% на щитовые двери',
