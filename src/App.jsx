@@ -21,6 +21,7 @@ import GidVoditelya from './pages/GidVoditelya'
 import GidEmpty from './pages/GidEmpty'
 import SmdPage from './pages/SmdPage'
 import SibmebelPage from './pages/SibmebelPage'
+import PartnerNavArrows from './components/PartnerNavArrows'
 import InstructionModal from './components/InstructionModal'
 import './index.css'
 
@@ -127,6 +128,13 @@ export default function App() {
     setPage(pageName)
   }
 
+  const navigateToPartner = (company) => {
+    window.scrollTo(0, 0)
+    if (company.id === 'smd') { navigateTo('smd', '/gifts/smd') }
+    else if (company.id === 'sibmebel') { navigateTo('sibmebel', '/gifts/sibmebel') }
+    else { setSelected(company); prevPageRef.current = 'home'; setPage('company') }
+  }
+
   useEffect(() => {
     const handlePop = () => {
       const p = window.location.pathname
@@ -175,16 +183,25 @@ export default function App() {
     />
   )
   if (page === 'smd') return (
-    <SmdPage onBack={() => navigateTo('home', '/')} />
+    <>
+      <SmdPage onBack={() => navigateTo('home', '/')} />
+      <PartnerNavArrows currentId="smd" onNavigate={navigateToPartner} />
+    </>
   )
   if (page === 'sibmebel') return (
-    <SibmebelPage onBack={() => navigateTo('home', '/')} />
+    <>
+      <SibmebelPage onBack={() => navigateTo('home', '/')} />
+      <PartnerNavArrows currentId="sibmebel" onNavigate={navigateToPartner} />
+    </>
   )
   if (page === 'company' && selected) return (
-    <CompanyPage
-      company={selected}
-      onBack={() => { setPage(prevPageRef.current); prevPageRef.current = 'home' }}
-    />
+    <>
+      <CompanyPage
+        company={selected}
+        onBack={() => { setPage(prevPageRef.current); prevPageRef.current = 'home' }}
+      />
+      <PartnerNavArrows currentId={selected.id} onNavigate={navigateToPartner} />
+    </>
   )
 
   return (

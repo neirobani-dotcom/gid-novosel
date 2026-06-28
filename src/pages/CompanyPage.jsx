@@ -164,10 +164,11 @@ function handleChange(e) {
   return (
     <div className="min-h-screen" style={{ background: '#F7F4F0' }}>
 
+      <PartnerBackButton onClick={onBack} hidden={lbImages !== null} />
+
       {/* Шапка */}
       <div className="sticky top-0 z-10 flex items-center gap-3 px-4 py-3"
-        style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0', visibility: lbImages !== null ? 'hidden' : 'visible' }}>
-        <PartnerBackButton onClick={onBack} />
+        style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0' }}>
         <SiteLogo variant="small" />
         <div className="min-w-0">
           <p className="text-[10px] font-semibold uppercase tracking-wide truncate" style={{ color: '#E8621A' }}>

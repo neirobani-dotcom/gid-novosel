@@ -24,15 +24,7 @@ export default function SmdPage({ onBack }) {
   return (
     <div style={{ minHeight: '100vh', background: '#F7F4F0', fontFamily: 'Inter, system-ui, sans-serif' }}>
 
-      {/* ── Навигация ── */}
-      <div style={{
-        position: 'sticky', top: 0, zIndex: 100,
-        background: '#fff', borderBottom: '1px solid #EDE8E0',
-        padding: '12px 16px',
-        display: 'flex', alignItems: 'center', gap: 12,
-      }}>
-        <PartnerBackButton onClick={onBack} />
-      </div>
+      <PartnerBackButton onClick={onBack} />
 
       {/* ── Шапка партнёра ── */}
       <div style={{ background: '#fff', padding: '20px 16px 16px', borderBottom: '1px solid #EDE8E0' }}>
