@@ -19,24 +19,6 @@ const SHIMMER_STYLE = {
   display: 'inline-block',
 }
 
-const GALLERIES = [
-  {
-    title: 'Готовые наборы кухни',
-    photos: Array.from({ length: 4 }, (_, i) => `/partners/shatura/nabor-kuhni/${i + 1}.jpeg`),
-  },
-  {
-    title: 'Кухни на заказ',
-    photos: Array.from({ length: 6 }, (_, i) => `/partners/shatura/kuhni-zakaz/${i + 1}.jpeg`),
-  },
-  {
-    title: 'Спальни Шатура',
-    photos: Array.from({ length: 5 }, (_, i) => `/partners/shatura/spalni/${i + 1}.jpeg`),
-  },
-  {
-    title: 'Выездной замер',
-    photos: ['/partners/shatura/zamer/1.jpeg'],
-  },
-]
 
 const formatPhone = (input) => {
   const raw = input.replace(/\D/g, '')
@@ -399,44 +381,6 @@ export default function ShaturaPage({ onBack }) {
             </div>
           </div>
         </div>
-
-        {/* ── 4 ФОТОГАЛЕРЕИ ── */}
-        {GALLERIES.map((gallery, gi) => (
-          <div key={gi} style={{ marginBottom: 28 }}>
-            <h3 style={{
-              fontSize: 15, fontWeight: 800, color: '#1A1A1A',
-              margin: '0 0 12px', paddingLeft: 2,
-            }}>
-              {gallery.title}
-            </h3>
-            <div
-              className="shatura-gallery"
-              style={{
-                display: 'flex', gap: 12,
-                overflowX: 'auto', WebkitOverflowScrolling: 'touch',
-                paddingBottom: 8,
-              }}
-            >
-              {gallery.photos.map((src, pi) => (
-                <img
-                  key={pi}
-                  src={src}
-                  alt={`${gallery.title} — фото ${pi + 1}`}
-                  style={{
-                    height: 300, width: 'auto', flexShrink: 0,
-                    borderRadius: 12,
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
-                    objectFit: 'cover',
-                    display: 'block',
-                  }}
-                />
-              ))}
-            </div>
-            <p style={{ fontSize: 12, color: '#A09890', margin: '8px 0 0 2px' }}>
-              {gallery.title}
-            </p>
-          </div>
-        ))}
 
         {/* ── CTA КНОПКИ ── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
