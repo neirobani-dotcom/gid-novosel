@@ -2,6 +2,7 @@ import { useState } from 'react'
 import SiteLogo from '../components/SiteLogo'
 import PhotoSlider from '../components/PhotoSlider'
 import RassrochkaCalculator from '../components/RassrochkaCalculator'
+import Lightbox from '../components/Lightbox'
 
 const formatPhone = (input) => {
   const raw = input.replace(/\D/g, '')
@@ -515,64 +516,12 @@ function handleChange(e) {
 
       {/* ── Лайтбокс ── */}
       {lightbox !== null && company.images?.length > 0 && (
-        <div
-          className="fixed inset-0 flex items-center justify-center"
-          style={{ background: 'rgba(0,0,0,0.93)', zIndex: 9999 }}
-          onClick={() => setLightbox(null)}
-        >
-          <button
-            className="absolute top-4 right-4 flex items-center justify-center rounded-full text-white"
-            style={{ width: 40, height: 40, background: 'rgba(255,255,255,0.15)', fontSize: 20, lineHeight: 1 }}
-            onClick={() => setLightbox(null)}
-          >×</button>
-
-          <p className="absolute top-5 left-0 right-0 text-center text-sm font-semibold"
-            style={{ color: 'rgba(255,255,255,0.7)' }}>
-            {lightbox + 1} / {company.images.length}
-          </p>
-
-          {lightbox > 0 && (
-            <button
-              className="absolute left-3 flex items-center justify-center rounded-full text-white"
-              style={{ width: 44, height: 44, background: 'rgba(255,255,255,0.15)', fontSize: 22, top: '50%', transform: 'translateY(-50%)' }}
-              onClick={e => { e.stopPropagation(); setLightbox(l => l - 1) }}
-            >‹</button>
-          )}
-
-          <img
-            src={company.images[lightbox]}
-            alt={`${company.name} — фото ${lightbox + 1}`}
-            style={{ maxWidth: '90vw', maxHeight: '80vh', objectFit: 'contain', borderRadius: 12 }}
-            onClick={e => e.stopPropagation()}
-          />
-
-          {lightbox < company.images.length - 1 && (
-            <button
-              className="absolute right-3 flex items-center justify-center rounded-full text-white"
-              style={{ width: 44, height: 44, background: 'rgba(255,255,255,0.15)', fontSize: 22, top: '50%', transform: 'translateY(-50%)' }}
-              onClick={e => { e.stopPropagation(); setLightbox(l => l + 1) }}
-            >›</button>
-          )}
-
-          <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-1.5">
-            {company.images.map((_, i) => (
-              <button
-                key={i}
-                onClick={e => { e.stopPropagation(); setLightbox(i) }}
-                style={{
-                  width: i === lightbox ? 20 : 6,
-                  height: 6,
-                  borderRadius: 3,
-                  background: i === lightbox ? '#E8621A' : 'rgba(255,255,255,0.4)',
-                  transition: 'all 0.2s ease',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: 0,
-                }}
-              />
-            ))}
-          </div>
-        </div>
+        <Lightbox
+          images={company.images}
+          index={lightbox}
+          onClose={() => setLightbox(null)}
+          onNavigate={setLightbox}
+        />
       )}
     </div>
   )

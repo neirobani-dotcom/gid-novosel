@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { createPortal } from 'react-dom'
 import Certificate from '../components/Certificate'
 import ContactButtons from '../components/ContactButtons'
+import Lightbox from '../components/Lightbox'
 import { companies } from '../data/companies'
 
 const CERT_CODE = 'GNS-SMD-2026'
@@ -10,12 +10,13 @@ const MAPS_URL = 'https://yandex.ru/maps/?text=%D0%9A%D1%80%D0%B0%D1%81%D0%BD%D0
 export default function SmdPage({ onBack }) {
   const company = companies.find(c => c.id === 'smd')
   const [doors, setDoors] = useState(1)
-  const [lightboxImg, setLightboxImg] = useState(null)
+  const [lightboxIndex, setLightboxIndex] = useState(null)
   const [showCert, setShowCert] = useState(false)
   const [failedImgs, setFailedImgs] = useState(new Set())
 
   const giftAmount = doors * 3000
   const images = Array.from({ length: 20 }, (_, i) => `/smd/${i + 1}.jpeg`)
+  const validImages = images.filter((_, i) => !failedImgs.has(i))
 
   if (!company) return null
 
@@ -266,7 +267,7 @@ export default function SmdPage({ onBack }) {
                 src={src}
                 alt={`СМД фото ${i + 1}`}
                 onError={() => setFailedImgs(prev => new Set([...prev, i]))}
-                onClick={() => setLightboxImg(src)}
+                onClick={() => { const vi = validImages.indexOf(src); if (vi >= 0) setLightboxIndex(vi) }}
                 style={{
                   width: '100%', height: '100%', objectFit: 'cover',
                   cursor: 'pointer', display: 'block',
@@ -349,36 +350,13 @@ export default function SmdPage({ onBack }) {
       )}
 
       {/* ── Лайтбокс галереи ── */}
-      {lightboxImg && createPortal(
-        <div
-          onClick={() => setLightboxImg(null)}
-          style={{
-            position: 'fixed', inset: 0, zIndex: 20000,
-            background: 'rgba(0,0,0,0.92)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: 16,
-          }}
-        >
-          <img
-            src={lightboxImg}
-            alt="Фото СМД"
-            style={{
-              maxWidth: '95vw', maxHeight: '90vh',
-              objectFit: 'contain', borderRadius: 8,
-            }}
-          />
-          <button
-            onClick={() => setLightboxImg(null)}
-            style={{
-              position: 'absolute', top: 20, right: 20,
-              background: 'rgba(255,255,255,0.15)', border: 'none',
-              color: '#fff', fontSize: 24, width: 40, height: 40,
-              borderRadius: '50%', cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}
-          >×</button>
-        </div>,
-        document.body
+      {lightboxIndex !== null && validImages.length > 0 && (
+        <Lightbox
+          images={validImages}
+          index={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onNavigate={setLightboxIndex}
+        />
       )}
     </div>
   )
