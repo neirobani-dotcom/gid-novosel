@@ -489,6 +489,17 @@ img.map-iframe:hover { opacity: 0.92; }
   }
 }
 
+/* ── Нейробаня ── */
+@keyframes nbFadeIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes nb-book-pulse {
+  0%, 100% { box-shadow: 0 6px 28px rgba(232,98,26,0.45); }
+  50%       { box-shadow: 0 8px 36px rgba(232,98,26,0.75), 0 0 0 6px rgba(232,98,26,0.12); }
+}
+.nb-book-btn { animation: nb-book-pulse 2s ease-in-out infinite; }
+
 /* ── Сертификат — кнопка на карточке ── */
 @keyframes cert-glow {
   0%, 100% { box-shadow: 0 2px 8px rgba(232,98,26,0.10), 0 0 0 0 rgba(232,98,26,0); }

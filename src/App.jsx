@@ -21,6 +21,7 @@ import GidVoditelya from './pages/GidVoditelya'
 import GidEmpty from './pages/GidEmpty'
 import SmdPage from './pages/SmdPage'
 import SibmebelPage from './pages/SibmebelPage'
+import NeirobanyaPage from './pages/NeirobanyaPage'
 import PartnerNavArrows from './components/PartnerNavArrows'
 import InstructionModal from './components/InstructionModal'
 import './index.css'
@@ -104,6 +105,7 @@ export default function App() {
     if (p === '/gid-zdorovya') return 'gid-zdorovya'
     if (p === '/gifts/smd') return 'smd'
     if (p === '/gifts/sibmebel') return 'sibmebel'
+    if (p === '/gifts/neirobanya') return 'neirobanya'
     return 'home'
   })
   const [giftPartnerId, setGiftPartnerId] = useState(null)
@@ -132,6 +134,7 @@ export default function App() {
     window.scrollTo(0, 0)
     if (company.id === 'smd') { navigateTo('smd', '/gifts/smd') }
     else if (company.id === 'sibmebel') { navigateTo('sibmebel', '/gifts/sibmebel') }
+    else if (company.id === 'neirobanya') { navigateTo('neirobanya', '/gifts/neirobanya') }
     else { setSelected(company); prevPageRef.current = 'home'; setPage('company') }
   }
 
@@ -145,6 +148,7 @@ export default function App() {
       else if (p === '/gid-zdorovya') setPage('gid-zdorovya')
       else if (p === '/gifts/smd') setPage('smd')
       else if (p === '/gifts/sibmebel') setPage('sibmebel')
+      else if (p === '/gifts/neirobanya') setPage('neirobanya')
       else setPage('home')
     }
     window.addEventListener('popstate', handlePop)
@@ -181,6 +185,12 @@ export default function App() {
       partnerId={giftPartnerId}
       onBack={() => setPage('gifts-boxes')}
     />
+  )
+  if (page === 'neirobanya') return (
+    <>
+      <NeirobanyaPage onBack={() => navigateTo('home', '/')} />
+      <PartnerNavArrows currentId="neirobanya" onNavigate={navigateToPartner} />
+    </>
   )
   if (page === 'smd') return (
     <>
@@ -465,6 +475,7 @@ export default function App() {
                 onClick={c => {
                   if (c.id === 'smd') { navigateTo('smd', '/gifts/smd'); return }
                   if (c.id === 'sibmebel') { navigateTo('sibmebel', '/gifts/sibmebel'); return }
+                  if (c.id === 'neirobanya') { navigateTo('neirobanya', '/gifts/neirobanya'); return }
                   setSelected(c); prevPageRef.current = 'home'; setPage('company')
                 }}
               />
