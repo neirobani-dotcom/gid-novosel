@@ -19,6 +19,7 @@ import ScrollToTop from './components/ScrollToTop'
 import GidHubSection from './components/GidHubSection'
 import GidVoditelya from './pages/GidVoditelya'
 import GidEmpty from './pages/GidEmpty'
+import SmdPage from './pages/SmdPage'
 import InstructionModal from './components/InstructionModal'
 import './index.css'
 
@@ -99,6 +100,7 @@ export default function App() {
     if (p === '/gid-servis') return 'gid-servis'
     if (p === '/gid-biznes') return 'gid-biznes'
     if (p === '/gid-zdorovya') return 'gid-zdorovya'
+    if (p === '/gifts/smd') return 'smd'
     return 'home'
   })
   const [giftPartnerId, setGiftPartnerId] = useState(null)
@@ -131,6 +133,7 @@ export default function App() {
       else if (p === '/gid-servis') setPage('gid-servis')
       else if (p === '/gid-biznes') setPage('gid-biznes')
       else if (p === '/gid-zdorovya') setPage('gid-zdorovya')
+      else if (p === '/gifts/smd') setPage('smd')
       else setPage('home')
     }
     window.addEventListener('popstate', handlePop)
@@ -167,6 +170,9 @@ export default function App() {
       partnerId={giftPartnerId}
       onBack={() => setPage('gifts-boxes')}
     />
+  )
+  if (page === 'smd') return (
+    <SmdPage onBack={() => navigateTo('home', '/')} />
   )
   if (page === 'company' && selected) return (
     <CompanyPage
@@ -433,7 +439,10 @@ export default function App() {
             <div key={company.id} className="fade-up-card" style={{ animationDelay: `${Math.min(i, 8) * 0.06}s` }}>
               <GridCard
                 company={company}
-                onClick={c => { setSelected(c); prevPageRef.current = 'home'; setPage('company') }}
+                onClick={c => {
+                  if (c.id === 'smd') { navigateTo('smd', '/gifts/smd'); return }
+                  setSelected(c); prevPageRef.current = 'home'; setPage('company')
+                }}
               />
             </div>
           ))}
