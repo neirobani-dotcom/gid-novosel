@@ -19,44 +19,41 @@ const SHIMMER_STYLE = {
   display: 'inline-block',
 }
 
-const imgSrc = (folder, file) =>
-  `/partners/shatura/shatura-photos/${encodeURIComponent(folder)}/${encodeURIComponent(file)}`
-
 const GALLERIES = [
   {
     title: 'Готовые наборы кухни Шатура',
     photos: [
-      imgSrc('shatura nabor kuhni', 'photo-06-29 at 03.02.55 (1).jpeg'),
-      imgSrc('shatura nabor kuhni', 'photo-06-29 at 03.02.55.jpeg'),
-      imgSrc('shatura nabor kuhni', 'photo-06-29 at 03.02.56 (1).jpeg'),
-      imgSrc('shatura nabor kuhni', 'photo-06-29 at 03.02.56.jpeg'),
+      '/partners/shatura/nabor-kuhni/photo-06-29 at 03.02.55 (1).jpeg',
+      '/partners/shatura/nabor-kuhni/photo-06-29 at 03.02.55.jpeg',
+      '/partners/shatura/nabor-kuhni/photo-06-29 at 03.02.56 (1).jpeg',
+      '/partners/shatura/nabor-kuhni/photo-06-29 at 03.02.56.jpeg',
     ],
   },
   {
     title: 'Кухни на заказ по индивидуальным размерам',
     photos: [
-      imgSrc('shatura kuhni na zakaz', 'WhatsApp Image 2026-06-29 at 03.14.00 (1).jpeg'),
-      imgSrc('shatura kuhni na zakaz', 'WhatsApp Image 2026-06-29 at 03.14.00.jpeg'),
-      imgSrc('shatura kuhni na zakaz', 'WhatsApp Image 2026-06-29 at 03.14.01 (1).jpeg'),
-      imgSrc('shatura kuhni na zakaz', 'WhatsApp Image 2026-06-29 at 03.14.01 (2).jpeg'),
-      imgSrc('shatura kuhni na zakaz', 'WhatsApp Image 2026-06-29 at 03.14.01.jpeg'),
-      imgSrc('shatura kuhni na zakaz', 'WhatsApp Image 2026-06-29 at 03.14.02.jpeg'),
+      '/partners/shatura/kuhni-zakaz/WhatsApp Image 2026-06-29 at 03.14.00 (1).jpeg',
+      '/partners/shatura/kuhni-zakaz/WhatsApp Image 2026-06-29 at 03.14.00.jpeg',
+      '/partners/shatura/kuhni-zakaz/WhatsApp Image 2026-06-29 at 03.14.01 (1).jpeg',
+      '/partners/shatura/kuhni-zakaz/WhatsApp Image 2026-06-29 at 03.14.01 (2).jpeg',
+      '/partners/shatura/kuhni-zakaz/WhatsApp Image 2026-06-29 at 03.14.01.jpeg',
+      '/partners/shatura/kuhni-zakaz/WhatsApp Image 2026-06-29 at 03.14.02.jpeg',
     ],
   },
   {
     title: 'Спальни Шатура',
     photos: [
-      imgSrc('shatura spalni', 'WhatsApp Image 2026-06-29 at 03.23.51.jpeg'),
-      imgSrc('shatura spalni', 'WhatsApp Image 2026-06-29 at 03.23.52 (1).jpeg'),
-      imgSrc('shatura spalni', 'WhatsApp Image 2026-06-29 at 03.23.52 (2).jpeg'),
-      imgSrc('shatura spalni', 'WhatsApp Image 2026-06-29 at 03.23.52.jpeg'),
-      imgSrc('shatura spalni', 'WhatsApp Image 2026-06-29 at 03.23.53.jpeg'),
+      '/partners/shatura/spalni/WhatsApp Image 2026-06-29 at 03.23.51.jpeg',
+      '/partners/shatura/spalni/WhatsApp Image 2026-06-29 at 03.23.52 (1).jpeg',
+      '/partners/shatura/spalni/WhatsApp Image 2026-06-29 at 03.23.52 (2).jpeg',
+      '/partners/shatura/spalni/WhatsApp Image 2026-06-29 at 03.23.52.jpeg',
+      '/partners/shatura/spalni/WhatsApp Image 2026-06-29 at 03.23.53.jpeg',
     ],
   },
   {
     title: 'Выездной замер бесплатно',
     photos: [
-      imgSrc('zamer', 'WhatsApp Image 2026-06-29 at 03.28.31.jpeg'),
+      '/partners/shatura/zamer/WhatsApp Image 2026-06-29 at 03.28.31.jpeg',
     ],
   },
 ]
@@ -443,7 +440,7 @@ export default function ShaturaPage({ onBack }) {
               {gallery.photos.map((src, pi) => (
                 <img
                   key={pi}
-                  src={src}
+                  src={encodeURI(src)}
                   alt={`${gallery.title} — фото ${pi + 1}`}
                   style={{
                     height: 400, width: 'auto', flexShrink: 0,
