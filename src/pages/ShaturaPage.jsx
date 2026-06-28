@@ -7,6 +7,7 @@ const ACCENT = '#E8621A'
 const GOLD   = '#F5A623'
 const BG     = '#FFF8F0'
 const WEB3   = '2c502e1a-5b57-43a0-b56f-9ffa8c423793'
+const EXPERT_PHONE = '89920130522'
 
 const SHIMMER_STYLE = {
   background: 'linear-gradient(90deg, #E8621A 0%, #FFD700 50%, #E8621A 100%)',
@@ -17,6 +18,48 @@ const SHIMMER_STYLE = {
   animation: 'shaturaShimmer 3s linear infinite',
   display: 'inline-block',
 }
+
+const imgSrc = (folder, file) =>
+  `/partners/shatura/shatura-photos/${encodeURIComponent(folder)}/${encodeURIComponent(file)}`
+
+const GALLERIES = [
+  {
+    title: 'Готовые наборы кухни Шатура',
+    photos: [
+      imgSrc('shatura nabor kuhni', 'photo-06-29 at 03.02.55 (1).jpeg'),
+      imgSrc('shatura nabor kuhni', 'photo-06-29 at 03.02.55.jpeg'),
+      imgSrc('shatura nabor kuhni', 'photo-06-29 at 03.02.56 (1).jpeg'),
+      imgSrc('shatura nabor kuhni', 'photo-06-29 at 03.02.56.jpeg'),
+    ],
+  },
+  {
+    title: 'Кухни на заказ по индивидуальным размерам',
+    photos: [
+      imgSrc('shatura kuhni na zakaz', 'WhatsApp Image 2026-06-29 at 03.14.00 (1).jpeg'),
+      imgSrc('shatura kuhni na zakaz', 'WhatsApp Image 2026-06-29 at 03.14.00.jpeg'),
+      imgSrc('shatura kuhni na zakaz', 'WhatsApp Image 2026-06-29 at 03.14.01 (1).jpeg'),
+      imgSrc('shatura kuhni na zakaz', 'WhatsApp Image 2026-06-29 at 03.14.01 (2).jpeg'),
+      imgSrc('shatura kuhni na zakaz', 'WhatsApp Image 2026-06-29 at 03.14.01.jpeg'),
+      imgSrc('shatura kuhni na zakaz', 'WhatsApp Image 2026-06-29 at 03.14.02.jpeg'),
+    ],
+  },
+  {
+    title: 'Спальни Шатура',
+    photos: [
+      imgSrc('shatura spalni', 'WhatsApp Image 2026-06-29 at 03.23.51.jpeg'),
+      imgSrc('shatura spalni', 'WhatsApp Image 2026-06-29 at 03.23.52 (1).jpeg'),
+      imgSrc('shatura spalni', 'WhatsApp Image 2026-06-29 at 03.23.52 (2).jpeg'),
+      imgSrc('shatura spalni', 'WhatsApp Image 2026-06-29 at 03.23.52.jpeg'),
+      imgSrc('shatura spalni', 'WhatsApp Image 2026-06-29 at 03.23.53.jpeg'),
+    ],
+  },
+  {
+    title: 'Выездной замер бесплатно',
+    photos: [
+      imgSrc('zamer', 'WhatsApp Image 2026-06-29 at 03.28.31.jpeg'),
+    ],
+  },
+]
 
 const formatPhone = (input) => {
   const raw = input.replace(/\D/g, '')
@@ -38,16 +81,16 @@ const FREEBIES = [
 ]
 
 const ADDRESSES = [
-  { label: 'ТЦ «Континент»',      address: 'ул. Шахтёров, 65',                         phone: '+7 913 180 11 82' },
-  { label: 'ТЦ «Доммер»',         address: 'ул. 9 Мая, 79',                             phone: '+7 913 180 12 08' },
-  { label: 'ТЦ «Атмосфера Дома»', address: 'ул. Академика Вавилова, 1, стр. 39',        phone: '+7 913 180 11 78' },
+  { label: 'ТЦ «Континент»',      address: 'ул. Шахтёров, 65',                       phone: '+7 913 180 11 82' },
+  { label: 'ТЦ «Доммер»',         address: 'ул. 9 Мая, 79',                           phone: '+7 913 180 12 08' },
+  { label: 'ТЦ «Атмосфера Дома»', address: 'ул. Академика Вавилова, 1, стр. 39',      phone: '+7 913 180 11 78' },
 ]
 
 const ADVANTAGES = [
-  'Мебель в наличии: спальни, гостиные, прихожие, шкафы-купе',
-  'Готовые и индивидуальные дизайн-проекты квартир',
-  'Экологичные материалы, современные решения',
-  'Три шоурума в Красноярске',
+  'История с 1961 года — поколения доверяют Шатуре',
+  'Полный ассортимент мебели от кухни до спальни',
+  'Бренд года 2025 — мебель по индивидуальному проекту',
+  'Сертифицированное качество и гарантия до 5 лет',
 ]
 
 export default function ShaturaPage({ onBack }) {
@@ -166,7 +209,6 @@ export default function ShaturaPage({ onBack }) {
   return (
     <div style={{ minHeight: '100vh', background: BG, fontFamily: 'Inter, system-ui, sans-serif' }}>
 
-      {/* CSS-анимации */}
       <style>{`
         @keyframes shaturaShimmer {
           0%   { background-position: 0% center; }
@@ -184,6 +226,8 @@ export default function ShaturaPage({ onBack }) {
           transform: translateY(-4px);
           box-shadow: 0 8px 28px rgba(0,0,0,0.12) !important;
         }
+        .shatura-gallery::-webkit-scrollbar { display: none; }
+        .shatura-gallery { scrollbar-width: none; -ms-overflow-style: none; }
       `}</style>
 
       <PartnerBackButton onClick={onBack} />
@@ -223,57 +267,50 @@ export default function ShaturaPage({ onBack }) {
           />
         </div>
 
-        {/* Бейдж с shimmer */}
+        {/* Бейдж shimmer */}
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: 6,
           background: 'rgba(232,98,26,0.08)', border: '1px solid rgba(232,98,26,0.2)',
           borderRadius: 20, padding: '6px 16px', marginBottom: 16,
         }}>
-          <span style={{
-            fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
-            ...SHIMMER_STYLE,
-          }}>
+          <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', ...SHIMMER_STYLE }}>
             ПАРТНЁР ГИДА НОВОСЁЛА · КРАСНОЯРСК
           </span>
         </div>
 
-        {/* Заголовок "Шатура" */}
+        {/* Заголовок */}
         <h1 style={{
-          fontSize: 48, fontWeight: 800,
-          color: '#1A1A1A', margin: '0 0 10px', lineHeight: 1.1,
+          fontSize: 48, fontWeight: 800, color: '#1A1A1A',
+          margin: '0 0 10px', lineHeight: 1.1,
           textShadow: '0 2px 4px rgba(0,0,0,0.2)',
         }}>
           Шатура
         </h1>
 
-        {/* "Мебель для всего дома" */}
         <p style={{ fontSize: 18, color: '#333', margin: '0 0 6px', fontWeight: 500 }}>
           Мебель для всего дома
         </p>
 
-        {/* "с 1961 года" shimmer */}
         <p style={{ margin: '0 0 14px' }}>
-          <span style={{
-            fontSize: 22, fontWeight: 700,
-            ...SHIMMER_STYLE,
-          }}>
-            с 1961 года
-          </span>
+          <span style={{ fontSize: 22, fontWeight: 700, ...SHIMMER_STYLE }}>с 1961 года</span>
         </p>
 
-        {/* Звёзды + "Бренд года 2025" */}
-        <p style={{ margin: 0, fontSize: 14 }}>
+        {/* Звёзды */}
+        <p style={{ margin: '0 0 20px', fontSize: 14 }}>
           {[0, 1, 2, 3, 4].map(i => (
-            <span
-              key={i}
-              style={{
-                display: 'inline-block',
-                animation: `shaturaStarPulse 1.5s ease-in-out ${i * 0.2}s infinite`,
-              }}
-            >⭐</span>
+            <span key={i} style={{ display: 'inline-block', animation: `shaturaStarPulse 1.5s ease-in-out ${i * 0.2}s infinite` }}>⭐</span>
           ))}
           {' '}
           <span style={{ color: '#333', fontWeight: 600, fontSize: 14 }}>Бренд года 2025</span>
+        </p>
+
+        {/* Основной текст */}
+        <p style={{
+          fontSize: 15, color: '#555', lineHeight: 1.7,
+          maxWidth: 520, margin: '0 auto',
+          textAlign: 'left',
+        }}>
+          Мебель для всего дома в наличии и под заказ. Современные функциональные дизайнерские решения и экологичный состав продукции — коллекции мебели МК «Шатура» предпочитают те, кто выбирает для себя самое лучшее.
         </p>
       </div>
 
@@ -302,14 +339,8 @@ export default function ShaturaPage({ onBack }) {
           <p style={{ fontSize: 16, fontWeight: 700, color: '#fff', margin: '0 0 12px' }}>
             на мебель для нового дома
           </p>
-          <div style={{
-            display: 'inline-block',
-            background: 'rgba(255,255,255,0.2)',
-            borderRadius: 20, padding: '6px 18px',
-          }}>
-            <span style={{ fontSize: 12, color: '#fff', fontWeight: 600 }}>
-              * до 10% от суммы заказа
-            </span>
+          <div style={{ display: 'inline-block', background: 'rgba(255,255,255,0.2)', borderRadius: 20, padding: '6px 18px' }}>
+            <span style={{ fontSize: 12, color: '#fff', fontWeight: 600 }}>* до 10% от суммы заказа</span>
           </div>
         </div>
 
@@ -317,10 +348,7 @@ export default function ShaturaPage({ onBack }) {
         <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A09890', margin: '0 0 12px' }}>
           Бесплатно для вас
         </p>
-        <div style={{
-          display: 'grid', gridTemplateColumns: '1fr 1fr',
-          gap: 12, marginBottom: 24,
-        }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
           {FREEBIES.map((f, i) => (
             <div
               key={i}
@@ -330,9 +358,7 @@ export default function ShaturaPage({ onBack }) {
               style={{
                 background: '#fff', borderRadius: 18,
                 border: '1px solid #F0E8DC',
-                boxShadow: hoveredCard === i
-                  ? '0 8px 28px rgba(0,0,0,0.12)'
-                  : '0 4px 20px rgba(0,0,0,0.08)',
+                boxShadow: hoveredCard === i ? '0 8px 28px rgba(0,0,0,0.12)' : '0 4px 20px rgba(0,0,0,0.08)',
                 padding: '20px 16px',
                 display: 'flex', flexDirection: 'column', alignItems: 'flex-start',
                 transform: hoveredCard === i ? 'translateY(-4px)' : 'none',
@@ -347,17 +373,13 @@ export default function ShaturaPage({ onBack }) {
               }}>
                 {f.icon}
               </div>
-              <p style={{ fontSize: 13, fontWeight: 800, color: '#1A1816', margin: '0 0 4px', lineHeight: 1.3 }}>
-                {f.label}
-              </p>
-              <p style={{ fontSize: 11, color: '#A09890', margin: 0, lineHeight: 1.4 }}>
-                {f.sub}
-              </p>
+              <p style={{ fontSize: 13, fontWeight: 800, color: '#1A1816', margin: '0 0 4px', lineHeight: 1.3 }}>{f.label}</p>
+              <p style={{ fontSize: 11, color: '#A09890', margin: 0, lineHeight: 1.4 }}>{f.sub}</p>
             </div>
           ))}
         </div>
 
-        {/* ── ПОЧЕМУ ШАТУРА ── */}
+        {/* ── ПОЧЕМУ ВЫБИРАЮТ НАС ── */}
         <div style={{
           background: '#fff', borderRadius: 20,
           border: '1px solid #F0E8DC',
@@ -365,32 +387,79 @@ export default function ShaturaPage({ onBack }) {
           padding: '22px', marginBottom: 24,
         }}>
           <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A09890', margin: '0 0 16px' }}>
-            Почему выбирают Шатуру
+            Почему выбирают нас
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {ADVANTAGES.map((text, i) => (
               <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <span style={{
-                  fontSize: 18, flexShrink: 0, lineHeight: 1.4,
-                  color: ACCENT, fontWeight: 900,
-                }}>✓</span>
+                <span style={{ fontSize: 18, flexShrink: 0, lineHeight: 1.4, color: ACCENT, fontWeight: 900 }}>✓</span>
                 <span style={{ fontSize: 16, color: '#333', lineHeight: 1.5 }}>{text}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* ── ФОТО — PLACEHOLDER ── */}
+        {/* ── ВЫЕЗДНОЙ ДИЗАЙНЕР ── */}
         <div style={{
-          background: '#fff', borderRadius: 20,
-          border: '2px dashed #E8D5C0',
-          padding: '40px 20px', marginBottom: 24,
-          textAlign: 'center',
+          background: `linear-gradient(135deg, #FFF5EC 0%, #FFF8F0 100%)`,
+          borderRadius: 20, border: `1px solid rgba(232,98,26,0.2)`,
+          boxShadow: '0 4px 20px rgba(232,98,26,0.08)',
+          padding: '24px 22px', marginBottom: 24,
         }}>
-          <div style={{ fontSize: 42, marginBottom: 12 }}>🛋️</div>
-          <p style={{ fontSize: 15, fontWeight: 700, color: '#A09890', margin: '0 0 4px' }}>Фото скоро появятся</p>
-          <p style={{ fontSize: 13, color: '#C0B8B0', margin: 0 }}>Галерея в разработке</p>
+          <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+            <div style={{
+              width: 52, height: 52, borderRadius: 14, flexShrink: 0,
+              background: 'rgba(232,98,26,0.12)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26,
+            }}>🚗</div>
+            <div>
+              <h3 style={{ fontSize: 17, fontWeight: 800, color: '#1A1A1A', margin: '0 0 8px' }}>
+                Выездной дизайнер
+              </h3>
+              <p style={{ fontSize: 14, color: '#555', lineHeight: 1.6, margin: 0 }}>
+                Дизайнер приедет к вам бесплатно. Подберём мебель, цветовые решения и материалы с учётом вашего интерьера. Привезём образцы фасадов, тканей и отделки.
+              </p>
+            </div>
+          </div>
         </div>
+
+        {/* ── 4 ФОТОГАЛЕРЕИ ── */}
+        {GALLERIES.map((gallery, gi) => (
+          <div key={gi} style={{ marginBottom: 28 }}>
+            <h3 style={{
+              fontSize: 15, fontWeight: 800, color: '#1A1A1A',
+              margin: '0 0 12px', paddingLeft: 2,
+            }}>
+              {gallery.title}
+            </h3>
+            <div
+              className="shatura-gallery"
+              style={{
+                display: 'flex', gap: 12,
+                overflowX: 'auto', WebkitOverflowScrolling: 'touch',
+                paddingBottom: 8,
+              }}
+            >
+              {gallery.photos.map((src, pi) => (
+                <img
+                  key={pi}
+                  src={src}
+                  alt={`${gallery.title} — фото ${pi + 1}`}
+                  style={{
+                    height: 400, width: 'auto', flexShrink: 0,
+                    borderRadius: 12,
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
+                    objectFit: 'cover',
+                    display: 'block',
+                  }}
+                />
+              ))}
+            </div>
+            <p style={{ fontSize: 12, color: '#A09890', margin: '8px 0 0 2px' }}>
+              {gallery.title}
+            </p>
+          </div>
+        ))}
 
         {/* ── CTA КНОПКИ ── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
@@ -429,6 +498,20 @@ export default function ShaturaPage({ onBack }) {
               🚗 Вызвать дизайнера
             </button>
           </div>
+
+          {/* Кнопка "Задать вопрос эксперту" */}
+          <a
+            href={`tel:${EXPERT_PHONE}`}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              width: '100%', height: 52, borderRadius: 14,
+              background: ACCENT, color: '#fff',
+              fontSize: 15, fontWeight: 700, textDecoration: 'none',
+              boxShadow: '0 4px 16px rgba(232,98,26,0.3)',
+            }}
+          >
+            💬 Задать вопрос эксперту
+          </a>
         </div>
 
         {/* ── ФОРМА ── */}
@@ -448,7 +531,6 @@ export default function ShaturaPage({ onBack }) {
           </p>
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {/* Имя */}
             <div>
               <input
                 type="text"
@@ -466,7 +548,6 @@ export default function ShaturaPage({ onBack }) {
               )}
             </div>
 
-            {/* Телефон */}
             <div>
               <input
                 type="tel"
@@ -484,7 +565,6 @@ export default function ShaturaPage({ onBack }) {
               )}
             </div>
 
-            {/* Адрес ЖК */}
             <div>
               <input
                 type="text"
@@ -507,9 +587,7 @@ export default function ShaturaPage({ onBack }) {
               disabled={!isFormValid}
               style={{
                 width: '100%', height: 56, borderRadius: 14, border: 'none',
-                background: isFormValid
-                  ? `linear-gradient(90deg, ${ACCENT} 0%, ${GOLD} 100%)`
-                  : '#D0C8BC',
+                background: isFormValid ? `linear-gradient(90deg, ${ACCENT} 0%, ${GOLD} 100%)` : '#D0C8BC',
                 color: '#fff', fontSize: 16, fontWeight: 800,
                 cursor: isFormValid ? 'pointer' : 'not-allowed',
                 opacity: isFormValid ? 1 : 0.6,
