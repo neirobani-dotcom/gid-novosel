@@ -23,6 +23,7 @@ import SmdPage from './pages/SmdPage'
 import SibmebelPage from './pages/SibmebelPage'
 import NeirobanyaPage from './pages/NeirobanyaPage'
 import PartnerNavArrows from './components/PartnerNavArrows'
+import AnimatedBanner from './components/AnimatedBanner'
 import InstructionModal from './components/InstructionModal'
 import './index.css'
 
@@ -222,6 +223,9 @@ export default function App() {
 
       {/* ── СЧЁТЧИК-БАННЕР ── */}
       <CountdownTimer />
+
+      {/* ── АНИМИРОВАННЫЙ БАННЕР ── */}
+      <AnimatedBanner />
 
       {/* ── ГЕРОЙ ── */}
       <section style={{ background: 'linear-gradient(160deg, #FFF3E0 0%, #FFFAF5 50%, #F7F4F0 100%)', paddingBottom: 40, position: 'relative', overflow: 'hidden' }}>

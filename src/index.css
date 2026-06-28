@@ -489,6 +489,21 @@ img.map-iframe:hover { opacity: 0.92; }
   }
 }
 
+/* ── Анимированный баннер ── */
+@keyframes bannerParticle {
+  0%   { transform: translateY(0) scale(1);   opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 0.5; }
+  100% { transform: translateY(-180px) scale(0.4); opacity: 0; }
+}
+.anim-banner-title { font-size: 24px; }
+.anim-banner-sub   { font-size: 16px; }
+@media (max-width: 480px) {
+  .anim-banner       { height: 180px !important; }
+  .anim-banner-title { font-size: 19px !important; }
+  .anim-banner-sub   { font-size: 13px !important; }
+}
+
 /* ── Нейробаня ── */
 @keyframes nbFadeIn {
   from { opacity: 0; transform: translateY(14px); }
