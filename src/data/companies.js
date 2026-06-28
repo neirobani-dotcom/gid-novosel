@@ -361,7 +361,7 @@ export const companies = [
     email: 'krassibmebel@gmail.com',
     color: '#1A3A5C',
     logo: '/partners/sibmebel/logo.jpeg',
-    images: Array.from({ length: 18 }, (_, i) => `/partners/sibmebel/shkafy/${i + 1}.jpeg`),
+    images: ['/partners/sibmebel/kuhni/4.jpeg', ...Array.from({ length: 18 }, (_, i) => `/partners/sibmebel/shkafy/${i + 1}.jpeg`)],
     galleries: [
       {
         title: '🛋️ Галерея — Шкафы-купе и распашные шкафы',
