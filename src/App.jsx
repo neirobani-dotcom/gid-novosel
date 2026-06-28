@@ -11,8 +11,8 @@ import CompanyPage from './pages/CompanyPage'
 import AdminPage from './pages/AdminPage'
 import CountdownTimer from './components/CountdownTimer'
 import VisitorCounter from './components/VisitorCounter'
-import MatrixTitle from './components/MatrixTitle'
 import AnimatedText from './components/AnimatedText'
+import ParticlesCanvas from './components/ParticlesCanvas'
 import PopupWidget from './components/PopupWidget'
 import WhatsAppButton from './components/WhatsAppButton'
 import ScrollToTop from './components/ScrollToTop'
@@ -248,34 +248,35 @@ export default function App() {
       <AnimatedBanner />
 
       {/* ── ГЕРОЙ ── */}
-      <section style={{ background: 'linear-gradient(160deg, #FFF3E0 0%, #FFFAF5 50%, #F7F4F0 100%)', paddingBottom: 40, position: 'relative', overflow: 'hidden' }}>
-        {/* Декоративные блики */}
-        <div style={{ position: 'absolute', top: -80, right: -80, width: 320, height: 320, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,176,64,0.18) 0%, transparent 65%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: -40, left: -60, width: 260, height: 260, borderRadius: '50%', background: 'radial-gradient(circle, rgba(232,98,26,0.07) 0%, transparent 65%)', pointerEvents: 'none' }} />
+      <section style={{ background: '#1A0F00', paddingBottom: 40, position: 'relative', overflow: 'hidden' }}>
+        <ParticlesCanvas />
 
-        <div style={{ maxWidth: 640, margin: '0 auto', padding: '40px 20px 0' }}>
+        <div style={{ maxWidth: 640, margin: '0 auto', padding: '40px 20px 0', position: 'relative', zIndex: 1 }}>
           {/* Бейдж города */}
           <div className="hero-title" style={{ marginBottom: 10 }}>
             <span style={{
               display: 'inline-flex', alignItems: 'center', gap: 5,
-              background: '#FFF0DC',
+              background: 'rgba(232,98,26,0.15)',
+              border: '1px solid rgba(232,98,26,0.35)',
               borderRadius: 20, padding: '5px 12px',
-              fontSize: 12, fontWeight: 600, color: '#C25820',
+              fontSize: 12, fontWeight: 600, color: '#F5A623',
             }}>
               📍 Красноярск
             </span>
           </div>
 
-          {/* Матрица */}
+          {/* Лого-текст */}
           <div className="hero-title" style={{ marginBottom: 10 }}>
-            <MatrixTitle className="hero-title-matrix" />
+            <span className="hero-title-matrix" style={{ color: '#E8621A', fontWeight: 900 }}>
+              Гид Новосёла
+            </span>
           </div>
 
           {/* Заголовок */}
           <h1 className="hero-title" style={{
             fontSize: 'clamp(26px, 7vw, 38px)',
             fontWeight: 900,
-            color: '#1A1816',
+            color: '#FFFFFF',
             lineHeight: 1.4,
             letterSpacing: '-0.03em',
             marginBottom: 14,
@@ -289,7 +290,7 @@ export default function App() {
 
           {/* Подзаголовок */}
           <p className="hero-sub" style={{
-            fontSize: 16, color: '#6B6560', lineHeight: 1.6,
+            fontSize: 16, color: '#C0A898', lineHeight: 1.6,
             marginBottom: 24, maxWidth: '38ch',
           }}>
             <AnimatedText text="Скидки и подарки от лучших компаний города — для тех, кто обустраивает новый дом" delay={3000} />
@@ -305,7 +306,7 @@ export default function App() {
               `✓ Подарки на сумму ${totalGifts.toLocaleString('ru-RU')} ₽`,
               '✓ Бесплатно для новосёлов',
             ].map((t, i) => (
-              <span key={i} style={{ fontSize: 13, color: '#22C55E', fontWeight: 600 }}>{t}</span>
+              <span key={i} style={{ fontSize: 13, color: '#4ADE80', fontWeight: 600 }}>{t}</span>
             ))}
           </div>
 
