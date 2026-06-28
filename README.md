@@ -1,16 +1,114 @@
-# React + Vite
+# Гид Новосёла
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Сайт-маркетплейс подарков для новосёлов Красноярска. Новосёл выбирает партнёра из каталога, активирует сертификат — и получает скидку или подарок при визите.
 
-Currently, two official plugins are available:
+Продакшн: **gidnovosela.ru**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Стек
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19 + Vite 8
+- Tailwind CSS 3
+- PWA (vite-plugin-pwa) — устанавливается как приложение на телефон
+- Без бэкенда: все данные — статические JS-файлы
+- Внешний сервис: [Web3Forms](https://web3forms.com) — отправка писем при активации сертификата
+- На хостинге лежит `public/send-lead.php` — дополнительная отправка лидов на почту партнёров
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Запуск локально
+
+```bash
+npm install
+npm run dev
+```
+
+Открыть: http://localhost:5173
+
+---
+
+## Сборка
+
+```bash
+npm run build
+```
+
+Результат в папке `dist/`.
+
+---
+
+## Деплой
+
+### Вариант 1 — FTP (SprintHost, продакшн)
+
+```bash
+npm run build
+FTP_HOST=ftp.sprinthost.ru FTP_USER=a1269574 FTP_PASS=... FTP_PATH=/public_html ./deploy.sh
+```
+
+Требует `lftp` (`brew install lftp`).
+
+Также есть `deploy-ftp.js` (Node.js, vinyl-ftp) — запускается `node deploy-ftp.js`.
+
+> **Внимание:** `deploy-ftp.js` содержит жёстко прописанные учётные данные FTP. Перед публикацией в открытый репозиторий вынесите их в переменные окружения.
+
+### Вариант 2 — Vercel
+
+`vercel.json` настроен: все маршруты ведут в `index.html`. Достаточно подключить репозиторий в Vercel Dashboard.
+
+---
+
+## Партнёры
+
+Текущий список в `src/data/companies.js` (11 компаний):
+
+| id | Название | Категория |
+|----|----------|-----------|
+| akademiya-shtor-tas | Академия штор ТАС | Шторы и текстиль |
+| olkon | Олкон | Окна и балконы |
+| irbis | Ирбис | Кузовной ремонт |
+| krasnoyarsk-rassrochka-avto | Красноярск Рассрочка Авто | Автомобили в рассрочку |
+| kafel-emarti | Кафель Эмарти | Кафель и плитка |
+| shatura | Шатура | Мебель для дома |
+| sibmebel | СибМебель | Шкафы на заказ |
+| neirobanya | Нейробаня | Баня и восстановление |
+| smd | СМД | Двери |
+| proclimat | ПроКлимат | Климат и вентиляция |
+| kuhni-shik | Кухни Шик | Кухонная мебель |
+
+---
+
+## Добавить нового партнёра
+
+1. Добавить объект в `src/data/companies.js`
+2. Добавить изображения в `public/partners/<id>/`
+3. Если нужна кастомная страница — создать `src/pages/<Name>Page.jsx` и добавить маршрут в `src/App.jsx`
+4. Если партнёр участвует в «коробках подарков» — добавить в `src/data/gifts.js`
+
+---
+
+## Переменные окружения
+
+Скопируйте `.env.example` в `.env` и заполните значения:
+
+```bash
+cp .env.example .env
+```
+
+---
+
+## Структура проекта
+
+```
+src/
+  App.jsx          — корневой компонент, вся клиентская маршрутизация
+  data/
+    companies.js   — данные всех партнёров
+    gifts.js       — подарки для страницы «коробок» (/gifts)
+  pages/           — страницы (одна страница = один партнёр или раздел)
+  components/      — переиспользуемые компоненты
+public/
+  partners/<id>/   — фото и логотип каждого партнёра
+  send-lead.php    — PHP-скрипт отправки лидов на почту
+```

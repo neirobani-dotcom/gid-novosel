@@ -1,4 +1,18 @@
-# Logs
+# Зависимости
+node_modules
+
+# Сборка
+dist
+dist-ssr
+
+# Переменные окружения — НИКОГДА не коммитить
+.env
+.env.local
+.env.*.local
+.env.production
+.env.staging
+
+# Логи
 logs
 *.log
 npm-debug.log*
@@ -6,19 +20,23 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+leads.log
 
-node_modules
-dist
-dist-ssr
-*.local
+# macOS
+.DS_Store
+**/.DS_Store
 
-# Editor directories and files
+# Тесты
+test-results/
+playwright-report/
+
+# Редакторы
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.local
