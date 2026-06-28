@@ -13,6 +13,7 @@ const CERT_CODES = {
   'sibmebel': 'GNS-SIB-2026',
   'neirobanya': 'GNS-NBN-2026',
   'kuhni-shik': 'GNS-KSH-2026',
+  'smd': 'GNS-SMD-2026',
 }
 
 export default function GridCard({ company, onClick }) {
