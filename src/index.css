@@ -489,30 +489,23 @@ img.map-iframe:hover { opacity: 0.92; }
   }
 }
 
-/* ── Баннер iMac ── */
-@keyframes greenDot {
-  0%, 100% { opacity: 1; box-shadow: 0 0 6px #22c55e; }
-  50%       { opacity: 0.4; box-shadow: 0 0 2px #22c55e; }
-}
-.imac-screen     { height: 300px; }
-.imac-title      { font-size: 22px; }
-.imac-sub        { font-size: 16px; }
-.imac-icon       { font-size: 48px; }
-.imac-stand-wrap { display: flex; flex-direction: column; align-items: center; }
+/* ── Баннер iPad ── */
+.ipad-frame      { width: 100%; max-width: 500px; }
+.ipad-screen     { height: 320px; }
+.ipad-title      { font-size: 26px; }
+.ipad-sub        { font-size: 15px; }
+.ipad-icon       { font-size: 52px; }
+.ipad-logo-wrap  { width: 100px; height: 100px; }
+.ipad-logo-img   { width: 82px; height: 82px; }
 
-@media (max-width: 768px) {
-  .imac-bezel  { border-radius: 14px !important; padding: 9px !important; }
-  .imac-screen { height: 260px !important; }
-  .imac-title  { font-size: 20px !important; }
-  .imac-sub    { font-size: 14px !important; }
-}
 @media (max-width: 480px) {
-  .imac-bezel      { border-radius: 12px !important; padding: 7px !important; }
-  .imac-screen     { height: 220px !important; }
-  .imac-title      { font-size: 18px !important; }
-  .imac-sub        { font-size: 13px !important; }
-  .imac-icon       { font-size: 36px !important; }
-  .imac-stand-wrap { display: none !important; }
+  .ipad-frame     { width: 90% !important; }
+  .ipad-screen    { height: 240px !important; }
+  .ipad-title     { font-size: 18px !important; letter-spacing: 1px !important; }
+  .ipad-sub       { font-size: 13px !important; }
+  .ipad-icon      { font-size: 38px !important; }
+  .ipad-logo-wrap { width: 70px !important; height: 70px !important; }
+  .ipad-logo-img  { width: 56px !important; height: 56px !important; }
 }
 
 /* ── Нейробаня ── */
