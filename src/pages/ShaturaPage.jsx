@@ -8,6 +8,16 @@ const GOLD   = '#F5A623'
 const BG     = '#FFF8F0'
 const WEB3   = '2c502e1a-5b57-43a0-b56f-9ffa8c423793'
 
+const SHIMMER_STYLE = {
+  background: 'linear-gradient(90deg, #E8621A 0%, #FFD700 50%, #E8621A 100%)',
+  backgroundSize: '200% auto',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
+  animation: 'shaturaShimmer 3s linear infinite',
+  display: 'inline-block',
+}
+
 const formatPhone = (input) => {
   const raw = input.replace(/\D/g, '')
   if (!raw) return ''
@@ -34,19 +44,20 @@ const ADDRESSES = [
 ]
 
 const ADVANTAGES = [
-  { icon: '🛋️', text: 'Мебель в наличии: спальни, гостиные, прихожие, шкафы-купе' },
-  { icon: '📐', text: 'Готовые и индивидуальные дизайн-проекты квартир' },
-  { icon: '🌿', text: 'Экологичные материалы, современные решения' },
-  { icon: '🏪', text: 'Три шоурума в Красноярске' },
+  'Мебель в наличии: спальни, гостиные, прихожие, шкафы-купе',
+  'Готовые и индивидуальные дизайн-проекты квартир',
+  'Экологичные материалы, современные решения',
+  'Три шоурума в Красноярске',
 ]
 
 export default function ShaturaPage({ onBack }) {
   const company = companies.find(c => c.id === 'shatura')
-  const [activeBtn, setActiveBtn] = useState('certificate')
-  const [form, setForm]           = useState({ name: '', phone: '', address: '' })
-  const [touched, setTouched]     = useState({ name: false, phone: false, address: false })
-  const [step, setStep]           = useState('form')
-  const [submitted, setSubmitted] = useState(null)
+  const [activeBtn, setActiveBtn]     = useState('certificate')
+  const [form, setForm]               = useState({ name: '', phone: '', address: '' })
+  const [touched, setTouched]         = useState({ name: false, phone: false, address: false })
+  const [step, setStep]               = useState('form')
+  const [submitted, setSubmitted]     = useState(null)
+  const [hoveredCard, setHoveredCard] = useState(null)
   const formRef = useRef(null)
 
   if (!company) return null
@@ -154,6 +165,27 @@ export default function ShaturaPage({ onBack }) {
   /* ── MAIN PAGE ── */
   return (
     <div style={{ minHeight: '100vh', background: BG, fontFamily: 'Inter, system-ui, sans-serif' }}>
+
+      {/* CSS-анимации */}
+      <style>{`
+        @keyframes shaturaShimmer {
+          0%   { background-position: 0% center; }
+          50%  { background-position: 100% center; }
+          100% { background-position: 0% center; }
+        }
+        @keyframes shaturaStarPulse {
+          0%, 100% { opacity: 0.3; }
+          50%       { opacity: 1; }
+        }
+        .shatura-freebie-card {
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .shatura-freebie-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 28px rgba(0,0,0,0.12) !important;
+        }
+      `}</style>
+
       <PartnerBackButton onClick={onBack} />
 
       {/* ── ШАПКА ── */}
@@ -172,11 +204,11 @@ export default function ShaturaPage({ onBack }) {
           pointerEvents: 'none',
         }} />
 
-        {/* Логотип */}
+        {/* Логотип 160×160 */}
         <div style={{
-          width: 130, height: 130, borderRadius: 24, margin: '0 auto 20px',
+          width: 160, height: 160, borderRadius: 20, margin: '0 auto 20px',
           background: '#fff', border: '1px solid #F0E8DC',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           overflow: 'hidden', position: 'relative',
         }}>
@@ -186,33 +218,62 @@ export default function ShaturaPage({ onBack }) {
             style={{ width: '86%', height: '86%', objectFit: 'contain', display: 'block' }}
             onError={e => {
               e.currentTarget.style.display = 'none'
-              e.currentTarget.parentElement.innerHTML = '<span style="font-size:32px;font-weight:900;color:#3D3931">ША</span>'
+              e.currentTarget.parentElement.innerHTML = '<span style="font-size:36px;font-weight:900;color:#3D3931">ША</span>'
             }}
           />
         </div>
 
-        {/* Бейдж */}
+        {/* Бейдж с shimmer */}
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: 6,
-          background: 'rgba(232,98,26,0.1)', border: '1px solid rgba(232,98,26,0.25)',
-          borderRadius: 20, padding: '5px 14px', marginBottom: 14,
+          background: 'rgba(232,98,26,0.08)', border: '1px solid rgba(232,98,26,0.2)',
+          borderRadius: 20, padding: '6px 16px', marginBottom: 16,
         }}>
-          <span style={{ fontSize: 10, fontWeight: 700, color: ACCENT, letterSpacing: '0.1em' }}>
+          <span style={{
+            fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
+            ...SHIMMER_STYLE,
+          }}>
             ПАРТНЁР ГИДА НОВОСЁЛА · КРАСНОЯРСК
           </span>
         </div>
 
+        {/* Заголовок "Шатура" */}
         <h1 style={{
-          fontSize: 'clamp(26px, 6vw, 36px)', fontWeight: 900,
-          color: '#1A1816', margin: '0 0 8px', lineHeight: 1.15,
+          fontSize: 48, fontWeight: 800,
+          color: '#1A1A1A', margin: '0 0 10px', lineHeight: 1.1,
+          textShadow: '0 2px 4px rgba(0,0,0,0.2)',
         }}>
           Шатура
         </h1>
-        <p style={{ fontSize: 15, color: '#6B6560', margin: '0 0 6px' }}>
-          Мебель для всего дома · с 1961 года
+
+        {/* "Мебель для всего дома" */}
+        <p style={{ fontSize: 18, color: '#333', margin: '0 0 6px', fontWeight: 500 }}>
+          Мебель для всего дома
         </p>
-        <p style={{ fontSize: 13, color: '#A09890', margin: 0 }}>
-          ⭐⭐⭐⭐⭐ Бренд года 2025
+
+        {/* "с 1961 года" shimmer */}
+        <p style={{ margin: '0 0 14px' }}>
+          <span style={{
+            fontSize: 22, fontWeight: 700,
+            ...SHIMMER_STYLE,
+          }}>
+            с 1961 года
+          </span>
+        </p>
+
+        {/* Звёзды + "Бренд года 2025" */}
+        <p style={{ margin: 0, fontSize: 14 }}>
+          {[0, 1, 2, 3, 4].map(i => (
+            <span
+              key={i}
+              style={{
+                display: 'inline-block',
+                animation: `shaturaStarPulse 1.5s ease-in-out ${i * 0.2}s infinite`,
+              }}
+            >⭐</span>
+          ))}
+          {' '}
+          <span style={{ color: '#333', fontWeight: 600, fontSize: 14 }}>Бренд года 2025</span>
         </p>
       </div>
 
@@ -221,9 +282,9 @@ export default function ShaturaPage({ onBack }) {
         {/* ── БЛОК ПОДАРКА ── */}
         <div style={{
           background: `linear-gradient(135deg, ${ACCENT} 0%, ${GOLD} 100%)`,
-          borderRadius: 24, padding: '32px 24px',
+          borderRadius: 24, padding: '40px 28px',
           marginBottom: 24, textAlign: 'center',
-          boxShadow: '0 12px 40px rgba(232,98,26,0.3)',
+          boxShadow: '0 12px 40px rgba(232,98,26,0.35)',
           position: 'relative', overflow: 'hidden',
         }}>
           <div style={{
@@ -231,20 +292,20 @@ export default function ShaturaPage({ onBack }) {
             width: 180, height: 180, borderRadius: '50%',
             background: 'rgba(255,255,255,0.1)', pointerEvents: 'none',
           }} />
-          <div style={{ fontSize: 56, marginBottom: 10, lineHeight: 1 }}>🎁</div>
-          <p style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.8)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 8px' }}>
+          <div style={{ fontSize: 48, marginBottom: 12, lineHeight: 1 }}>🎁</div>
+          <p style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.8)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>
             Подарок для новосёла
           </p>
-          <p style={{ fontSize: 42, fontWeight: 900, color: '#fff', margin: '0 0 6px', lineHeight: 1, letterSpacing: '-0.02em' }}>
+          <p style={{ fontSize: 52, fontWeight: 900, color: '#fff', margin: '0 0 6px', lineHeight: 1, letterSpacing: '-0.03em' }}>
             30 000 ₽
           </p>
-          <p style={{ fontSize: 16, fontWeight: 700, color: '#fff', margin: '0 0 10px' }}>
+          <p style={{ fontSize: 16, fontWeight: 700, color: '#fff', margin: '0 0 12px' }}>
             на мебель для нового дома
           </p>
           <div style={{
             display: 'inline-block',
             background: 'rgba(255,255,255,0.2)',
-            borderRadius: 20, padding: '6px 16px',
+            borderRadius: 20, padding: '6px 18px',
           }}>
             <span style={{ fontSize: 12, color: '#fff', fontWeight: 600 }}>
               * до 10% от суммы заказа
@@ -261,18 +322,28 @@ export default function ShaturaPage({ onBack }) {
           gap: 12, marginBottom: 24,
         }}>
           {FREEBIES.map((f, i) => (
-            <div key={i} style={{
-              background: '#fff', borderRadius: 18,
-              border: '1px solid #F0E8DC',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.06)',
-              padding: '20px 16px',
-              display: 'flex', flexDirection: 'column', alignItems: 'flex-start',
-            }}>
+            <div
+              key={i}
+              className="shatura-freebie-card"
+              onMouseEnter={() => setHoveredCard(i)}
+              onMouseLeave={() => setHoveredCard(null)}
+              style={{
+                background: '#fff', borderRadius: 18,
+                border: '1px solid #F0E8DC',
+                boxShadow: hoveredCard === i
+                  ? '0 8px 28px rgba(0,0,0,0.12)'
+                  : '0 4px 20px rgba(0,0,0,0.08)',
+                padding: '20px 16px',
+                display: 'flex', flexDirection: 'column', alignItems: 'flex-start',
+                transform: hoveredCard === i ? 'translateY(-4px)' : 'none',
+                transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+              }}
+            >
               <div style={{
-                width: 44, height: 44, borderRadius: 12,
+                width: 48, height: 48, borderRadius: 12,
                 background: 'rgba(232,98,26,0.1)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 22, marginBottom: 12,
+                fontSize: 24, marginBottom: 12,
               }}>
                 {f.icon}
               </div>
@@ -290,17 +361,20 @@ export default function ShaturaPage({ onBack }) {
         <div style={{
           background: '#fff', borderRadius: 20,
           border: '1px solid #F0E8DC',
-          boxShadow: '0 4px 16px rgba(0,0,0,0.05)',
-          padding: '20px', marginBottom: 24,
+          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          padding: '22px', marginBottom: 24,
         }}>
           <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A09890', margin: '0 0 16px' }}>
             Почему выбирают Шатуру
           </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {ADVANTAGES.map((a, i) => (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {ADVANTAGES.map((text, i) => (
               <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <span style={{ fontSize: 20, flexShrink: 0, lineHeight: 1.3 }}>{a.icon}</span>
-                <span style={{ fontSize: 14, color: '#1A1816', lineHeight: 1.5 }}>{a.text}</span>
+                <span style={{
+                  fontSize: 18, flexShrink: 0, lineHeight: 1.4,
+                  color: ACCENT, fontWeight: 900,
+                }}>✓</span>
+                <span style={{ fontSize: 16, color: '#333', lineHeight: 1.5 }}>{text}</span>
               </div>
             ))}
           </div>
@@ -324,9 +398,7 @@ export default function ShaturaPage({ onBack }) {
             onClick={() => handleCta('certificate')}
             style={{
               width: '100%', height: 58, borderRadius: 16, border: 'none',
-              background: activeBtn === 'certificate'
-                ? `linear-gradient(90deg, ${ACCENT} 0%, ${GOLD} 100%)`
-                : `linear-gradient(90deg, ${ACCENT} 0%, ${GOLD} 100%)`,
+              background: `linear-gradient(90deg, ${ACCENT} 0%, ${GOLD} 100%)`,
               color: '#fff', fontSize: 16, fontWeight: 800, cursor: 'pointer',
               boxShadow: '0 8px 28px rgba(232,98,26,0.35)',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
@@ -341,8 +413,7 @@ export default function ShaturaPage({ onBack }) {
               style={{
                 height: 50, borderRadius: 14, cursor: 'pointer', fontSize: 13, fontWeight: 700,
                 background: activeBtn === 'measure' ? 'rgba(232,98,26,0.08)' : '#fff',
-                color: ACCENT,
-                border: `2px solid ${ACCENT}`,
+                color: ACCENT, border: `2px solid ${ACCENT}`,
               }}
             >
               📐 Записаться на замер
@@ -352,8 +423,7 @@ export default function ShaturaPage({ onBack }) {
               style={{
                 height: 50, borderRadius: 14, cursor: 'pointer', fontSize: 13, fontWeight: 700,
                 background: activeBtn === 'designer' ? 'rgba(232,98,26,0.08)' : '#fff',
-                color: ACCENT,
-                border: `2px solid ${ACCENT}`,
+                color: ACCENT, border: `2px solid ${ACCENT}`,
               }}
             >
               🚗 Вызвать дизайнера
