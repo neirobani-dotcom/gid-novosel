@@ -416,6 +416,13 @@ img.map-iframe:hover { opacity: 0.92; }
   to   { opacity: 1; }
 }
 
+/* ── Анимация пульсации суммы подарка ── */
+@keyframes gift-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.06); }
+}
+.gift-pulse { animation: gift-pulse 2s ease-in-out infinite; display: inline-block; }
+
 /* ── Pinterest галерея ── */
 .gallery-hero { height: 300px; }
 .gallery-rest { grid-template-columns: repeat(3, 1fr); }

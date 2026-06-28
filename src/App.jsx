@@ -20,6 +20,7 @@ import GidHubSection from './components/GidHubSection'
 import GidVoditelya from './pages/GidVoditelya'
 import GidEmpty from './pages/GidEmpty'
 import SmdPage from './pages/SmdPage'
+import SibmebelPage from './pages/SibmebelPage'
 import InstructionModal from './components/InstructionModal'
 import './index.css'
 
@@ -101,6 +102,7 @@ export default function App() {
     if (p === '/gid-biznes') return 'gid-biznes'
     if (p === '/gid-zdorovya') return 'gid-zdorovya'
     if (p === '/gifts/smd') return 'smd'
+    if (p === '/gifts/sibmebel') return 'sibmebel'
     return 'home'
   })
   const [giftPartnerId, setGiftPartnerId] = useState(null)
@@ -134,6 +136,7 @@ export default function App() {
       else if (p === '/gid-biznes') setPage('gid-biznes')
       else if (p === '/gid-zdorovya') setPage('gid-zdorovya')
       else if (p === '/gifts/smd') setPage('smd')
+      else if (p === '/gifts/sibmebel') setPage('sibmebel')
       else setPage('home')
     }
     window.addEventListener('popstate', handlePop)
@@ -173,6 +176,9 @@ export default function App() {
   )
   if (page === 'smd') return (
     <SmdPage onBack={() => navigateTo('home', '/')} />
+  )
+  if (page === 'sibmebel') return (
+    <SibmebelPage onBack={() => navigateTo('home', '/')} />
   )
   if (page === 'company' && selected) return (
     <CompanyPage
@@ -441,6 +447,7 @@ export default function App() {
                 company={company}
                 onClick={c => {
                   if (c.id === 'smd') { navigateTo('smd', '/gifts/smd'); return }
+                  if (c.id === 'sibmebel') { navigateTo('sibmebel', '/gifts/sibmebel'); return }
                   setSelected(c); prevPageRef.current = 'home'; setPage('company')
                 }}
               />
