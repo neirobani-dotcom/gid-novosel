@@ -8,7 +8,7 @@ const CERT_CODE = 'GNS-PCL-2026'
 const WEB3FORMS_KEY = '2c502e1a-5b57-43a0-b56f-9ffa8c423793'
 const IMAGES = Array.from({ length: 11 }, (_, i) => `/partners/proclimat/${i + 1}.jpeg`)
 
-const BG = '#0d1117'
+const BG = '#F7F4F0'
 const CARD = '#141b26'
 const ACCENT = '#00d4ff'
 const BORDER = 'rgba(0,212,255,0.2)'
@@ -98,16 +98,17 @@ export default function ProclimatPage({ onBack }) {
 
       {/* ── БЛОК 1: ШАПКА ── */}
       <div style={{
-        background: 'linear-gradient(160deg, #0d1117 0%, #0a1628 60%, #061020 100%)',
+        background: 'linear-gradient(160deg, #eaf6ff 0%, #f4fbff 60%, #F7F4F0 100%)',
         padding: '60px 20px 48px',
         textAlign: 'center',
         position: 'relative',
         overflow: 'hidden',
+        borderBottom: '1px solid #EDE8E0',
       }}>
         <div style={{
           position: 'absolute', top: -80, left: '50%', transform: 'translateX(-50%)',
           width: 400, height: 400, borderRadius: '50%',
-          background: `radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 65%)`,
+          background: `radial-gradient(circle, rgba(0,212,255,0.1) 0%, transparent 65%)`,
           pointerEvents: 'none',
         }} />
 
@@ -117,8 +118,9 @@ export default function ProclimatPage({ onBack }) {
           style={{
             width: 120, height: 120, objectFit: 'contain',
             borderRadius: 20, display: 'block', margin: '0 auto 20px',
-            border: `2px solid ${BORDER}`,
-            boxShadow: `0 0 30px rgba(0,212,255,0.25)`,
+            border: '2px solid #EDE8E0',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+            background: '#fff',
             position: 'relative',
           }}
           onError={e => { e.currentTarget.style.display = 'none' }}
@@ -129,13 +131,13 @@ export default function ProclimatPage({ onBack }) {
           background: `rgba(0,212,255,0.12)`, border: `1px solid rgba(0,212,255,0.35)`,
           borderRadius: 20, padding: '6px 14px', marginBottom: 16, position: 'relative',
         }}>
-          <span style={{ fontSize: 10, fontWeight: 700, color: ACCENT, letterSpacing: '0.12em', fontFamily: FONT }}>
+          <span style={{ fontSize: 10, fontWeight: 700, color: '#0099bb', letterSpacing: '0.12em', fontFamily: FONT }}>
             ПАРТНЁР ГИДА НОВОСЁЛА · КРАСНОЯРСК
           </span>
         </div>
 
         <h1 style={{
-          ...baseText, fontSize: 'clamp(24px, 6vw, 34px)', fontWeight: 900,
+          fontFamily: FONT, color: '#1a1a1a', fontSize: 'clamp(24px, 6vw, 34px)', fontWeight: 900,
           margin: '0 0 10px', lineHeight: 1.2, position: 'relative',
         }}>
           Чистый воздух в вашей новой квартире
@@ -143,7 +145,7 @@ export default function ProclimatPage({ onBack }) {
 
         <p style={{
           fontFamily: FONT, color: ACCENT, fontSize: 'clamp(14px, 4vw, 18px)',
-          fontWeight: 600, margin: '0 0 20px', position: 'relative',
+          fontWeight: 700, margin: '0 0 20px', position: 'relative',
         }}>
           с первого дня — тихо, незаметно, навсегда
         </p>
@@ -151,7 +153,7 @@ export default function ProclimatPage({ onBack }) {
         <a
           href="tel:+79232962500"
           style={{
-            fontFamily: FONT, color: '#fff', fontWeight: 700, fontSize: 18,
+            fontFamily: FONT, color: '#1a1a1a', fontWeight: 700, fontSize: 18,
             textDecoration: 'none', letterSpacing: '0.04em', position: 'relative',
           }}
         >
@@ -191,10 +193,10 @@ export default function ProclimatPage({ onBack }) {
 
         {/* ── БЛОК 3: ТРИ ПОДАРКА ── */}
         <div style={{ marginBottom: 16 }}>
-          <h2 style={{ ...baseText, fontSize: 'clamp(18px, 5vw, 24px)', fontWeight: 900, margin: '0 0 6px' }}>
+          <h2 style={{ fontFamily: FONT, color: '#1a1a1a', fontSize: 'clamp(18px, 5vw, 24px)', fontWeight: 900, margin: '0 0 6px' }}>
             Три подарка — только через Гид Новосёла
           </h2>
-          <p style={{ fontFamily: FONT, color: 'rgba(255,255,255,0.5)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
+          <p style={{ fontFamily: FONT, color: '#8A8480', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
             Эти условия согласованы эксклюзивно. На сайте ПроКлимат их нет.
           </p>
 
@@ -219,7 +221,7 @@ export default function ProclimatPage({ onBack }) {
                 <h3 style={{ ...baseText, fontSize: 16, fontWeight: 800, margin: '10px 0 8px', lineHeight: 1.3 }}>
                   До 10 000 ₽ на установку кондиционера
                 </h3>
-                <p style={{ fontFamily: FONT, color: 'rgba(255,255,255,0.6)', fontSize: 13, margin: '0 0 14px', lineHeight: 1.5 }}>
+                <p style={{ fontFamily: FONT, color: '#fff', fontSize: 13, margin: '0 0 14px', lineHeight: 1.5 }}>
                   Скидка применяется при заказе монтажа. Не более 10% от суммы заказа.
                 </p>
               </div>
@@ -228,11 +230,12 @@ export default function ProclimatPage({ onBack }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
               <span style={{
                 fontFamily: FONT, fontSize: 11, fontWeight: 700, color: '#fff',
-                background: `rgba(0,212,255,0.2)`, borderRadius: 20, padding: '4px 10px',
+                background: `rgba(0,212,255,0.3)`, borderRadius: 20, padding: '4px 10px',
+                border: `1px solid rgba(0,212,255,0.5)`,
               }}>
                 ГидНовосела
               </span>
-              <span style={{ fontFamily: FONT, fontSize: 11, color: 'rgba(255,255,255,0.45)' }}>до 31.12.2026</span>
+              <span style={{ fontFamily: FONT, fontSize: 11, color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>до 31.12.2026</span>
             </div>
           </div>
 
@@ -272,7 +275,7 @@ export default function ProclimatPage({ onBack }) {
               ].map((item, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
                   <span style={{ color: '#22C55E', fontWeight: 800, flexShrink: 0, fontSize: 15, lineHeight: 1.4 }}>✓</span>
-                  <span style={{ fontFamily: FONT, color: 'rgba(255,255,255,0.8)', fontSize: 13, lineHeight: 1.45 }}>{item}</span>
+                  <span style={{ fontFamily: FONT, color: '#fff', fontSize: 13, lineHeight: 1.45 }}>{item}</span>
                 </div>
               ))}
             </div>
@@ -284,7 +287,7 @@ export default function ProclimatPage({ onBack }) {
               }}>
                 ГидНовосела
               </span>
-              <span style={{ fontFamily: FONT, fontSize: 11, color: 'rgba(255,255,255,0.45)' }}>до 31.12.2026</span>
+              <span style={{ fontFamily: FONT, fontSize: 11, color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>до 31.12.2026</span>
             </div>
           </div>
 
@@ -309,7 +312,7 @@ export default function ProclimatPage({ onBack }) {
                 <h3 style={{ ...baseText, fontSize: 16, fontWeight: 800, margin: '10px 0 8px', lineHeight: 1.3 }}>
                   Скидка 10% — закладные на кондиционер
                 </h3>
-                <p style={{ fontFamily: FONT, color: 'rgba(255,255,255,0.6)', fontSize: 13, margin: '0 0 14px', lineHeight: 1.5 }}>
+                <p style={{ fontFamily: FONT, color: '#fff', fontSize: 13, margin: '0 0 14px', lineHeight: 1.5 }}>
                   Закладные — это трассы для кондиционера, которые прокладываются до штукатурки. После ремонта — в 2-3 раза дороже. Активируй прямо сейчас!
                 </p>
               </div>
@@ -322,7 +325,7 @@ export default function ProclimatPage({ onBack }) {
               }}>
                 ГидНовосела
               </span>
-              <span style={{ fontFamily: FONT, fontSize: 11, color: 'rgba(255,255,255,0.45)' }}>до 31.12.2026</span>
+              <span style={{ fontFamily: FONT, fontSize: 11, color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>до 31.12.2026</span>
             </div>
           </div>
         </div>
@@ -351,7 +354,7 @@ export default function ProclimatPage({ onBack }) {
 
         {/* ── БЛОК 5: КАК ЭТО РАБОТАЕТ ── */}
         <div style={{ marginBottom: 16 }}>
-          <h2 style={{ ...baseText, fontSize: 'clamp(16px, 4.5vw, 22px)', fontWeight: 900, margin: '0 0 16px' }}>
+          <h2 style={{ fontFamily: FONT, color: '#1a1a1a', fontSize: 'clamp(16px, 4.5vw, 22px)', fontWeight: 900, margin: '0 0 16px' }}>
             Четыре шага до комфортного воздуха
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -388,7 +391,7 @@ export default function ProclimatPage({ onBack }) {
 
         {/* ── БЛОК 6: ПОЧЕМУ ПРОКЛИМАТ ── */}
         <div style={{ marginBottom: 16 }}>
-          <h2 style={{ ...baseText, fontSize: 'clamp(16px, 4.5vw, 22px)', fontWeight: 900, margin: '0 0 6px' }}>
+          <h2 style={{ fontFamily: FONT, color: '#1a1a1a', fontSize: 'clamp(16px, 4.5vw, 22px)', fontWeight: 900, margin: '0 0 6px' }}>
             Выбирают не за цену — за надёжность
           </h2>
           <div style={{
@@ -457,7 +460,7 @@ export default function ProclimatPage({ onBack }) {
 
         {/* ── БЛОК 8: ГАЛЕРЕЯ ── */}
         <div style={{ marginBottom: 16 }}>
-          <h2 style={{ ...baseText, fontSize: 'clamp(16px, 4.5vw, 22px)', fontWeight: 900, margin: '0 0 14px' }}>
+          <h2 style={{ fontFamily: FONT, color: '#1a1a1a', fontSize: 'clamp(16px, 4.5vw, 22px)', fontWeight: 900, margin: '0 0 14px' }}>
             Наши работы
           </h2>
           <PinterestGallery images={IMAGES} onPhotoClick={i => setLbIndex(i)} />
