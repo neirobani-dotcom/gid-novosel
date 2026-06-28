@@ -15,7 +15,7 @@ export default function SmdPage({ onBack }) {
   const [failedImgs, setFailedImgs] = useState(new Set())
 
   const giftAmount = doors * 3000
-  const images = Array.from({ length: 20 }, (_, i) => `/smd/${i + 1}.jpeg`)
+  const images = Array.from({ length: 20 }, (_, i) => `/partners/smd/${i + 1}.jpeg`)
 
   if (!company) return null
 
