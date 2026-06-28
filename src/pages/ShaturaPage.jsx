@@ -21,40 +21,20 @@ const SHIMMER_STYLE = {
 
 const GALLERIES = [
   {
-    title: 'Готовые наборы кухни Шатура',
-    photos: [
-      '/partners/shatura/nabor-kuhni/photo-06-29 at 03.02.55 (1).jpeg',
-      '/partners/shatura/nabor-kuhni/photo-06-29 at 03.02.55.jpeg',
-      '/partners/shatura/nabor-kuhni/photo-06-29 at 03.02.56 (1).jpeg',
-      '/partners/shatura/nabor-kuhni/photo-06-29 at 03.02.56.jpeg',
-    ],
+    title: 'Готовые наборы кухни',
+    photos: Array.from({ length: 4 }, (_, i) => `/partners/shatura/nabor-kuhni/${i + 1}.jpeg`),
   },
   {
-    title: 'Кухни на заказ по индивидуальным размерам',
-    photos: [
-      '/partners/shatura/kuhni-zakaz/WhatsApp Image 2026-06-29 at 03.14.00 (1).jpeg',
-      '/partners/shatura/kuhni-zakaz/WhatsApp Image 2026-06-29 at 03.14.00.jpeg',
-      '/partners/shatura/kuhni-zakaz/WhatsApp Image 2026-06-29 at 03.14.01 (1).jpeg',
-      '/partners/shatura/kuhni-zakaz/WhatsApp Image 2026-06-29 at 03.14.01 (2).jpeg',
-      '/partners/shatura/kuhni-zakaz/WhatsApp Image 2026-06-29 at 03.14.01.jpeg',
-      '/partners/shatura/kuhni-zakaz/WhatsApp Image 2026-06-29 at 03.14.02.jpeg',
-    ],
+    title: 'Кухни на заказ',
+    photos: Array.from({ length: 6 }, (_, i) => `/partners/shatura/kuhni-zakaz/${i + 1}.jpeg`),
   },
   {
     title: 'Спальни Шатура',
-    photos: [
-      '/partners/shatura/spalni/WhatsApp Image 2026-06-29 at 03.23.51.jpeg',
-      '/partners/shatura/spalni/WhatsApp Image 2026-06-29 at 03.23.52 (1).jpeg',
-      '/partners/shatura/spalni/WhatsApp Image 2026-06-29 at 03.23.52 (2).jpeg',
-      '/partners/shatura/spalni/WhatsApp Image 2026-06-29 at 03.23.52.jpeg',
-      '/partners/shatura/spalni/WhatsApp Image 2026-06-29 at 03.23.53.jpeg',
-    ],
+    photos: Array.from({ length: 5 }, (_, i) => `/partners/shatura/spalni/${i + 1}.jpeg`),
   },
   {
-    title: 'Выездной замер бесплатно',
-    photos: [
-      '/partners/shatura/zamer/WhatsApp Image 2026-06-29 at 03.28.31.jpeg',
-    ],
+    title: 'Выездной замер',
+    photos: ['/partners/shatura/zamer/1.jpeg'],
   },
 ]
 
@@ -440,10 +420,10 @@ export default function ShaturaPage({ onBack }) {
               {gallery.photos.map((src, pi) => (
                 <img
                   key={pi}
-                  src={encodeURI(src)}
+                  src={src}
                   alt={`${gallery.title} — фото ${pi + 1}`}
                   style={{
-                    height: 400, width: 'auto', flexShrink: 0,
+                    height: 300, width: 'auto', flexShrink: 0,
                     borderRadius: 12,
                     boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
                     objectFit: 'cover',
