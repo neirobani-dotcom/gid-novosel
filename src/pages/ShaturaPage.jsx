@@ -74,7 +74,10 @@ export default function ShaturaPage({ onBack }) {
   const [step, setStep]               = useState('form')
   const [submitted, setSubmitted]     = useState(null)
   const [hoveredCard, setHoveredCard] = useState(null)
-  const formRef = useRef(null)
+  const formRef          = useRef(null)
+  const galleryKuhniRef  = useRef(null)
+  const gallerySpalniRef = useRef(null)
+  const galleryZamerRef  = useRef(null)
 
   if (!company) return null
 
@@ -288,7 +291,7 @@ export default function ShaturaPage({ onBack }) {
       </div>
 
       {/* ── СЛАЙДЕР ФОТО ── */}
-      <PhotoSlider images={ALL_PHOTOS} height={280} borderRadius={0} />
+      <PhotoSlider images={ALL_PHOTOS} height={400} borderRadius={16} />
 
       <div style={{ maxWidth: 600, margin: '0 auto', padding: '24px 16px 48px' }}>
 
@@ -400,41 +403,80 @@ export default function ShaturaPage({ onBack }) {
         </div>
 
         {/* ── ГАЛЕРЕЯ: КУХНИ ── */}
-        <div style={{ marginBottom: 24 }}>
-          <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A09890', margin: '0 0 12px' }}>
-            Кухни Шатура
-          </p>
-          <div className="shatura-gallery" style={{ display: 'flex', gap: 12, overflowX: 'auto' }}>
-            {GALLERY_KUHNI.map((src, i) => (
-              <img key={i} src={src} alt={`Кухни Шатура ${i + 1}`}
-                style={{ height: 280, width: 'auto', minWidth: 200, borderRadius: 12, objectFit: 'cover', flexShrink: 0, boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }} />
-            ))}
+        <div style={{ marginBottom: 32 }}>
+          <p style={{ fontSize: 17, fontWeight: 800, color: ACCENT, margin: '0 0 14px' }}>Кухни Шатура</p>
+          <div style={{ position: 'relative' }}>
+            <button onClick={() => galleryKuhniRef.current?.scrollBy({ left: -300, behavior: 'smooth' })} style={{
+              position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 2,
+              width: 36, height: 36, borderRadius: '50%', border: 'none',
+              background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+              cursor: 'pointer', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>‹</button>
+            <div ref={galleryKuhniRef} className="shatura-gallery"
+              style={{ display: 'flex', gap: 12, overflowX: 'auto', padding: '4px 44px' }}>
+              {GALLERY_KUHNI.map((src, i) => (
+                <img key={i} src={src} alt={`Кухни Шатура ${i + 1}`}
+                  style={{ width: 280, height: 200, borderRadius: 12, objectFit: 'cover', flexShrink: 0, boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }} />
+              ))}
+            </div>
+            <button onClick={() => galleryKuhniRef.current?.scrollBy({ left: 300, behavior: 'smooth' })} style={{
+              position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 2,
+              width: 36, height: 36, borderRadius: '50%', border: 'none',
+              background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+              cursor: 'pointer', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>›</button>
           </div>
         </div>
 
         {/* ── ГАЛЕРЕЯ: СПАЛЬНИ ── */}
-        <div style={{ marginBottom: 24 }}>
-          <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A09890', margin: '0 0 12px' }}>
-            Спальни Шатура
-          </p>
-          <div className="shatura-gallery" style={{ display: 'flex', gap: 12, overflowX: 'auto' }}>
-            {GALLERY_SPALNI.map((src, i) => (
-              <img key={i} src={src} alt={`Спальни Шатура ${i + 1}`}
-                style={{ height: 280, width: 'auto', minWidth: 200, borderRadius: 12, objectFit: 'cover', flexShrink: 0, boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }} />
-            ))}
+        <div style={{ marginBottom: 32 }}>
+          <p style={{ fontSize: 17, fontWeight: 800, color: ACCENT, margin: '0 0 14px' }}>Спальни Шатура</p>
+          <div style={{ position: 'relative' }}>
+            <button onClick={() => gallerySpalniRef.current?.scrollBy({ left: -300, behavior: 'smooth' })} style={{
+              position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 2,
+              width: 36, height: 36, borderRadius: '50%', border: 'none',
+              background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+              cursor: 'pointer', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>‹</button>
+            <div ref={gallerySpalniRef} className="shatura-gallery"
+              style={{ display: 'flex', gap: 12, overflowX: 'auto', padding: '4px 44px' }}>
+              {GALLERY_SPALNI.map((src, i) => (
+                <img key={i} src={src} alt={`Спальни Шатура ${i + 1}`}
+                  style={{ width: 280, height: 200, borderRadius: 12, objectFit: 'cover', flexShrink: 0, boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }} />
+              ))}
+            </div>
+            <button onClick={() => gallerySpalniRef.current?.scrollBy({ left: 300, behavior: 'smooth' })} style={{
+              position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 2,
+              width: 36, height: 36, borderRadius: '50%', border: 'none',
+              background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+              cursor: 'pointer', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>›</button>
           </div>
         </div>
 
         {/* ── ГАЛЕРЕЯ: ЗАМЕР ── */}
-        <div style={{ marginBottom: 24 }}>
-          <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A09890', margin: '0 0 12px' }}>
-            Выездной замер бесплатно
-          </p>
-          <div className="shatura-gallery" style={{ display: 'flex', gap: 12, overflowX: 'auto' }}>
-            {GALLERY_ZAMER.map((src, i) => (
-              <img key={i} src={src} alt={`Замер ${i + 1}`}
-                style={{ height: 280, width: 'auto', minWidth: 200, borderRadius: 12, objectFit: 'cover', flexShrink: 0, boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }} />
-            ))}
+        <div style={{ marginBottom: 32 }}>
+          <p style={{ fontSize: 17, fontWeight: 800, color: ACCENT, margin: '0 0 14px' }}>Выездной замер бесплатно</p>
+          <div style={{ position: 'relative' }}>
+            <button onClick={() => galleryZamerRef.current?.scrollBy({ left: -300, behavior: 'smooth' })} style={{
+              position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 2,
+              width: 36, height: 36, borderRadius: '50%', border: 'none',
+              background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+              cursor: 'pointer', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>‹</button>
+            <div ref={galleryZamerRef} className="shatura-gallery"
+              style={{ display: 'flex', gap: 12, overflowX: 'auto', padding: '4px 44px' }}>
+              {GALLERY_ZAMER.map((src, i) => (
+                <img key={i} src={src} alt={`Замер ${i + 1}`}
+                  style={{ width: 280, height: 200, borderRadius: 12, objectFit: 'cover', flexShrink: 0, boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }} />
+              ))}
+            </div>
+            <button onClick={() => galleryZamerRef.current?.scrollBy({ left: 300, behavior: 'smooth' })} style={{
+              position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 2,
+              width: 36, height: 36, borderRadius: '50%', border: 'none',
+              background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+              cursor: 'pointer', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>›</button>
           </div>
         </div>
 
