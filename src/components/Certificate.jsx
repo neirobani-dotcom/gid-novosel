@@ -267,12 +267,38 @@ function FormStep({ company, certCode, onClose, onSubmit }) {
 // ── Certificate step ─────────────────────────────────────────────────────────
 function CertStep({ company, certCode, recipient, onClose }) {
   const [showHint, setShowHint] = useState(false)
+  const [showFlash, setShowFlash] = useState(false)
   const gifts = company.gifts || [company.giftLabel]
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = '' }
   }, [])
+
+  const sendScreenshotReport = async () => {
+    try {
+      const fd = new FormData()
+      fd.append('access_key', WEB3FORMS_KEY)
+      fd.append('to', 'neirobanya@mail.ru')
+      fd.append('subject', `📸 Скриншот сертификата — ${company.name}`)
+      fd.append('from_name', 'Гид Новосёла')
+      fd.append('message', [
+        `Получатель: ${recipient.lastName} ${recipient.firstName}`,
+        `Телефон: ${recipient.phone}`,
+        `Дата активации: ${getTodayStr()}`,
+        `Партнёр: ${company.name}`,
+        `Код сертификата: ${certCode}`,
+      ].join('\n'))
+      await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
+    } catch (_) {}
+  }
+
+  const handleScreenshot = () => {
+    setShowHint(true)
+    setShowFlash(true)
+    sendScreenshotReport()
+    setTimeout(() => setShowFlash(false), 3000)
+  }
 
   return (
     <div
@@ -501,6 +527,26 @@ function CertStep({ company, certCode, recipient, onClose }) {
               height: 5,
               background: 'linear-gradient(90deg, #FF4500, #E8621A, #FF8C00, #E8621A, #FF4500)',
             }} />
+
+            {/* Flash overlay — появляется при нажатии Скриншот */}
+            {showFlash && (
+              <div className="cert-flash-overlay" style={{
+                position: 'absolute', inset: 0,
+                background: 'rgba(0,0,0,0.72)',
+                display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'center',
+                zIndex: 20,
+                borderRadius: 20,
+              }}>
+                <div style={{ fontSize: 68, marginBottom: 16, lineHeight: 1 }}>📱</div>
+                <div style={{ fontSize: 20, fontWeight: 800, color: '#fff', textAlign: 'center', marginBottom: 10, padding: '0 24px' }}>
+                  Сфотографируйте экран!
+                </div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.82)', textAlign: 'center', padding: '0 28px', lineHeight: 1.55 }}>
+                  Покажите сертификат партнёру для получения подарка
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -539,7 +585,7 @@ function CertStep({ company, certCode, recipient, onClose }) {
             ) : (
               <button
                 className="cert-btn-screenshot"
-                onClick={() => setShowHint(true)}
+                onClick={handleScreenshot}
                 style={{
                   flex: 1, height: 52,
                   background: 'linear-gradient(135deg, #FF8C42, #E8621A)',
