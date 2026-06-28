@@ -120,145 +120,124 @@ function FormStep({ company, certCode, onClose, onSubmit }) {
   })
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        top: 0, left: 0,
-        width: '100vw', height: '100vh',
-        background: 'rgba(0,0,0,0.92)',
-        zIndex: 10000,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        overflowY: 'auto',
-        padding: '20px',
-        boxSizing: 'border-box',
-        willChange: 'opacity',
-        transform: 'translateZ(0)',
-        WebkitTransform: 'translateZ(0)',
-      }}
-      onClick={onClose}
-    >
-      <div
-        onClick={e => e.stopPropagation()}
-        style={{
-          width: '100%', maxWidth: 400,
-          background: '#FFFEF9',
-          borderRadius: 20, border: '2px solid #E8621A',
-          padding: '28px 24px 24px',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-          willChange: 'transform',
-          transform: 'translateZ(0)',
-          WebkitTransform: 'translateZ(0)',
-          isolation: 'isolate',
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-          <img src="/site-logo.png" alt="Гид Новосёла" style={{ width: 28, height: 28, objectFit: 'contain' }} />
-          <span style={{ fontSize: 12, fontWeight: 800, color: '#E8621A', letterSpacing: '0.5px' }}>ГИД НОВОСЁЛА</span>
+    <div className="cert-form-overlay" onClick={onClose}>
+      <div className="cert-form-modal" onClick={e => e.stopPropagation()}>
+
+        {/* ── Крестик закрыть ── */}
+        <button className="cert-form-close-btn" onClick={onClose}>×</button>
+
+        {/* ── Прокручиваемый контент ── */}
+        <div className="cert-form-scrollable">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            <img src="/site-logo.png" alt="Гид Новосёла" style={{ width: 26, height: 26, objectFit: 'contain' }} />
+            <span style={{ fontSize: 11, fontWeight: 800, color: '#E8621A', letterSpacing: '0.5px' }}>ГИД НОВОСЁЛА</span>
+          </div>
+
+          <h2 style={{ fontSize: 20, fontWeight: 800, color: '#1a1a1a', margin: '0 0 4px' }}>
+            Получите ваш сертификат
+          </h2>
+          <p style={{ fontSize: 13, color: '#888', margin: '0 0 18px', lineHeight: 1.4 }}>
+            Введите данные — сертификат откроется сразу
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingBottom: 4 }}>
+            <div style={{ position: 'relative' }}>
+              <input
+                type="text"
+                placeholder="Фамилия"
+                value={lastName}
+                onChange={e => {
+                  setLastName(e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z\s-]/g, ''))
+                  if (!lnT) setLNT(true)
+                }}
+                style={fieldStyle(lnValid, lnT)}
+              />
+              {lnT && (
+                <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 15, fontWeight: 700, color: lnValid ? '#22C55E' : '#EF4444' }}>
+                  {lnValid ? '✓' : '!'}
+                </span>
+              )}
+            </div>
+
+            <div style={{ position: 'relative' }}>
+              <input
+                type="text"
+                placeholder="Имя"
+                value={firstName}
+                onChange={e => {
+                  setFirstName(e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z\s-]/g, ''))
+                  if (!fnT) setFNT(true)
+                }}
+                style={fieldStyle(fnValid, fnT)}
+              />
+              {fnT && (
+                <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 15, fontWeight: 700, color: fnValid ? '#22C55E' : '#EF4444' }}>
+                  {fnValid ? '✓' : '!'}
+                </span>
+              )}
+            </div>
+
+            <div style={{ position: 'relative' }}>
+              <input
+                type="tel"
+                placeholder="+7 (___) ___-__-__"
+                value={phone}
+                onChange={e => {
+                  setPhone(formatPhone(e.target.value))
+                  if (!phT) setPHT(true)
+                }}
+                style={fieldStyle(phValid, phT)}
+              />
+              {phT && (
+                <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 15, fontWeight: 700, color: phValid ? '#22C55E' : '#EF4444' }}>
+                  {phValid ? '✓' : '!'}
+                </span>
+              )}
+            </div>
+
+            <input
+              type="text"
+              value={'Дата: ' + getTodayStr()}
+              readOnly
+              style={{
+                width: '100%', padding: '11px 12px', borderRadius: 10,
+                border: '1.5px solid #E0D5C5', background: '#F5F0E8',
+                fontSize: 16, color: '#999', outline: 'none', cursor: 'default',
+                boxSizing: 'border-box',
+              }}
+            />
+          </div>
         </div>
 
-        <h2 style={{ fontSize: 20, fontWeight: 800, color: '#1a1a1a', margin: '0 0 4px' }}>
-          Получите ваш сертификат
-        </h2>
-        <p style={{ fontSize: 13, color: '#888', margin: '0 0 20px', lineHeight: 1.4 }}>
-          Введите данные — сертификат откроется сразу
-        </p>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <div style={{ position: 'relative' }}>
-            <input
-              type="text"
-              placeholder="Фамилия"
-              value={lastName}
-              onChange={e => {
-                setLastName(e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z\s-]/g, ''))
-                if (!lnT) setLNT(true)
-              }}
-              style={fieldStyle(lnValid, lnT)}
-            />
-            {lnT && (
-              <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 15, fontWeight: 700, color: lnValid ? '#22C55E' : '#EF4444' }}>
-                {lnValid ? '✓' : '!'}
-              </span>
-            )}
-          </div>
-
-          <div style={{ position: 'relative' }}>
-            <input
-              type="text"
-              placeholder="Имя"
-              value={firstName}
-              onChange={e => {
-                setFirstName(e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z\s-]/g, ''))
-                if (!fnT) setFNT(true)
-              }}
-              style={fieldStyle(fnValid, fnT)}
-            />
-            {fnT && (
-              <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 15, fontWeight: 700, color: fnValid ? '#22C55E' : '#EF4444' }}>
-                {fnValid ? '✓' : '!'}
-              </span>
-            )}
-          </div>
-
-          <div style={{ position: 'relative' }}>
-            <input
-              type="tel"
-              placeholder="+7 (___) ___-__-__"
-              value={phone}
-              onChange={e => {
-                setPhone(formatPhone(e.target.value))
-                if (!phT) setPHT(true)
-              }}
-              style={fieldStyle(phValid, phT)}
-            />
-            {phT && (
-              <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 15, fontWeight: 700, color: phValid ? '#22C55E' : '#EF4444' }}>
-                {phValid ? '✓' : '!'}
-              </span>
-            )}
-          </div>
-
-          <input
-            type="text"
-            value={'Дата: ' + getTodayStr()}
-            readOnly
+        {/* ── Кнопки — зафиксированы внизу ── */}
+        <div className="cert-form-footer">
+          <button
+            onClick={handleSubmit}
             style={{
-              width: '100%', padding: '11px 12px', borderRadius: 10,
-              border: '1.5px solid #E0D5C5', background: '#F5F0E8',
-              fontSize: 16, color: '#999', outline: 'none', cursor: 'default',
-              boxSizing: 'border-box',
+              width: '100%', padding: '14px',
+              borderRadius: 12, border: 'none',
+              cursor: formValid ? 'pointer' : 'not-allowed',
+              background: formValid
+                ? 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 100%)'
+                : '#D0C8BC',
+              color: '#fff', fontSize: 15, fontWeight: 700,
+              transition: 'background 0.2s',
             }}
-          />
+          >
+            {formValid ? 'Получить сертификат →' : 'Заполните все поля'}
+          </button>
+          <button
+            onClick={onClose}
+            style={{
+              width: '100%', marginTop: 8, padding: '8px',
+              background: 'transparent', border: 'none',
+              color: '#aaa', fontSize: 13, cursor: 'pointer',
+            }}
+          >
+            Отмена
+          </button>
         </div>
 
-        <button
-          onClick={handleSubmit}
-          style={{
-            width: '100%', marginTop: 18, padding: '13px',
-            borderRadius: 12, border: 'none',
-            cursor: formValid ? 'pointer' : 'not-allowed',
-            background: formValid
-              ? 'linear-gradient(90deg, #E8621A 0%, #FF9B2F 100%)'
-              : '#D0C8BC',
-            color: '#fff', fontSize: 15, fontWeight: 700,
-            transition: 'background 0.2s',
-          }}
-        >
-          {formValid ? 'Получить сертификат →' : 'Заполните все поля'}
-        </button>
-
-        <button
-          onClick={onClose}
-          style={{
-            width: '100%', marginTop: 8, padding: 10,
-            background: 'transparent', border: 'none',
-            color: '#aaa', fontSize: 13, cursor: 'pointer',
-          }}
-        >
-          Отмена
-        </button>
       </div>
     </div>
   )

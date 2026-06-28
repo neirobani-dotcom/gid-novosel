@@ -1,3 +1,98 @@
+/* ── FormStep responsive modal ─────────────────────────────────────────────── */
+.cert-form-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.cert-form-modal {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  max-height: calc(100vh - 40px);
+  background: #FFFEF9;
+  border-radius: 20px;
+  border: 2px solid #E8621A;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cert-form-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.08);
+  border: none;
+  font-size: 20px;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.cert-form-scrollable {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 24px 24px 8px;
+}
+
+.cert-form-footer {
+  flex-shrink: 0;
+  padding: 12px 24px 20px;
+  background: #FFFEF9;
+  border-top: 1px solid #F0EBE3;
+}
+
+@media (max-width: 480px) {
+  .cert-form-overlay {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .cert-form-modal {
+    max-width: 100%;
+    max-height: 100%;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    border-top: 3px solid #E8621A;
+  }
+
+  .cert-form-scrollable {
+    padding: 16px 16px 8px;
+  }
+
+  .cert-form-scrollable h2 {
+    font-size: 18px !important;
+  }
+
+  .cert-form-scrollable p {
+    font-size: 12px !important;
+  }
+
+  .cert-form-footer {
+    padding: 10px 16px 24px;
+  }
+}
+
+/* ── end FormStep ─────────────────────────────────────────────────────────── */
+
 @keyframes cert-flash-anim {
   0%   { opacity: 0; }
   12%  { opacity: 1; }
