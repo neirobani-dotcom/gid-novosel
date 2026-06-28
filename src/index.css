@@ -489,45 +489,30 @@ img.map-iframe:hover { opacity: 0.92; }
   }
 }
 
-/* ── Apple Keynote баннер ── */
-@keyframes akParticle0 {
-  0%, 100% { transform: translate(0px, 0px);    opacity: 0.35; }
-  50%       { transform: translate(18px, -22px); opacity: 0.15; }
-}
-@keyframes akParticle1 {
-  0%, 100% { transform: translate(0px, 0px);     opacity: 0.3; }
-  50%       { transform: translate(-14px, 20px);  opacity: 0.1; }
-}
-@keyframes akParticle2 {
-  0%, 100% { transform: translate(0px, 0px);    opacity: 0.4; }
-  50%       { transform: translate(22px, 16px);  opacity: 0.12; }
-}
-@keyframes akParticle3 {
-  0%, 100% { transform: translate(0px, 0px);     opacity: 0.25; }
-  50%       { transform: translate(-20px, -18px); opacity: 0.08; }
+/* ── Премиум баннер 2026 ── */
+@keyframes pbFloat {
+  0%   { transform: translateY(0);     opacity: 0; }
+  10%  { opacity: 0.3; }
+  90%  { opacity: 0.15; }
+  100% { transform: translateY(-110%); opacity: 0; }
 }
 
-.ak-screen       { height: 280px; }
-.ak-logo-wrap    { width: 160px; height: 160px; }
-.ak-logo-img     { width: 136px; height: 136px; }
-.ak-logo-initials { font-size: 30px; }
-.ak-title        { font-size: 28px; }
-.ak-sub          { font-size: 16px; }
-
-@media (max-width: 768px) {
-  .ak-screen    { height: 260px; }
-  .ak-logo-wrap { width: 140px; height: 140px; }
-  .ak-logo-img  { width: 118px; height: 118px; }
-  .ak-logo-initials { font-size: 26px; }
-}
+.pb-screen       { height: 320px; }
+.pb-body         { padding: 20px 24px 12px; gap: 0; }
+.pb-logo-wrap    { width: 150px; height: 150px; }
+.pb-logo-img     { width: 126px; height: 126px; }
+.pb-logo-initials { font-size: 28px; }
+.pb-title        { font-size: 30px; }
+.pb-sub          { font-size: 17px; }
 
 @media (max-width: 480px) {
-  .ak-screen    { height: 240px; }
-  .ak-logo-wrap { width: 120px; height: 120px; }
-  .ak-logo-img  { width: 100px; height: 100px; }
-  .ak-logo-initials { font-size: 22px; }
-  .ak-title     { font-size: 22px; letter-spacing: 1px; }
-  .ak-sub       { font-size: 14px; }
+  .pb-screen    { height: 200px; }
+  .pb-body      { padding: 12px 16px 8px; }
+  .pb-logo-wrap { width: 110px; height: 110px; }
+  .pb-logo-img  { width: 90px;  height: 90px; }
+  .pb-logo-initials { font-size: 20px; }
+  .pb-title     { font-size: 22px; letter-spacing: 1px; margin-bottom: 6px !important; }
+  .pb-sub       { font-size: 14px; }
 }
 
 /* ── Нейробаня ── */
