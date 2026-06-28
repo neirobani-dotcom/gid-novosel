@@ -34,8 +34,7 @@ export default function MatrixTitle({ className }) {
     )
 
     const draw = () => {
-      ctx.fillStyle = 'rgba(0,0,0,0.05)'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
       ctx.font = `${colSize}px monospace`
 
       drops.forEach((y, i) => {

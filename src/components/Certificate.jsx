@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import './Certificate.css'
 
 const WEB3FORMS_KEY = '2c502e1a-5b57-43a0-b56f-9ffa8c423793'
@@ -580,21 +581,17 @@ export default function Certificate({ company, certCode, onClose }) {
   const [step, setStep] = useState('form')
   const [recipient, setRecipient] = useState(null)
 
-  if (step === 'form') {
-    return (
-      <FormStep
-        company={company}
-        certCode={certCode}
-        onClose={onClose}
-        onSubmit={(data) => {
-          setRecipient(data)
-          setStep('cert')
-        }}
-      />
-    )
-  }
-
-  return (
+  const content = step === 'form' ? (
+    <FormStep
+      company={company}
+      certCode={certCode}
+      onClose={onClose}
+      onSubmit={(data) => {
+        setRecipient(data)
+        setStep('cert')
+      }}
+    />
+  ) : (
     <CertStep
       company={company}
       certCode={certCode}
@@ -602,4 +599,6 @@ export default function Certificate({ company, certCode, onClose }) {
       onClose={onClose}
     />
   )
+
+  return createPortal(content, document.body)
 }
