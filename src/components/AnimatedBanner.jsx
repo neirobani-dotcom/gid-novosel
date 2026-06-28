@@ -15,14 +15,15 @@ const slides = [
   { icon: '✨', title: 'ГИД НОВОСЁЛА',     subtitle: '53 ЖК Красноярска · 10 партнёров · Все подарки бесплатно', logo: '/site-logo.png',                 initials: 'ГН', color: '#E8621A' },
 ]
 
-// Частицы летят снизу вверх — детерминированные позиции
-const PARTICLES = Array.from({ length: 25 }, (_, i) => ({
-  x:        ((i * 4.7 + 2) % 94) + 3,
-  startY:   85 + (i % 5) * 3,
-  size:     3 + (i % 3),
-  delay:    -(i * 0.55),
-  duration: 7 + (i % 7) * 1.2,
-  opacity:  0.2 + (i % 3) * 0.05,
+// Частицы летят хаотично в разные стороны
+const PARTICLES = Array.from({ length: 60 }, (_, i) => ({
+  x:        ((i * 3.7 + 1.3) % 94) + 3,
+  y:        ((i * 5.9 + 7.1) % 88) + 6,
+  size:     3 + (i % 5),
+  delay:    -(i * 0.28),
+  duration: 6 + (i % 8) * 1.1,
+  opacity:  0.25 + (i % 4) * 0.07,
+  dir:      i % 4,
 }))
 
 export default function AnimatedBanner() {
@@ -74,33 +75,20 @@ export default function AnimatedBanner() {
           pointerEvents: 'none', zIndex: 1,
         }} />
 
-        {/* Частицы — летят снизу вверх */}
+        {/* Частицы — хаотичное движение */}
         {PARTICLES.map((p, i) => (
           <div key={i} style={{
             position: 'absolute',
             left: `${p.x}%`,
-            top: `${p.startY}%`,
+            top: `${p.y}%`,
             width: p.size, height: p.size,
             borderRadius: '50%',
             background: '#E8621A',
             opacity: p.opacity,
-            animation: `pbFloat ${p.duration}s ${p.delay}s linear infinite`,
+            animation: `pbDrift${p.dir} ${p.duration}s ${p.delay}s ease-in-out infinite`,
             pointerEvents: 'none', zIndex: 2,
           }} />
         ))}
-
-        {/* ── Оранжевая шапка ── */}
-        <div style={{
-          position: 'relative', zIndex: 3,
-          height: 36,
-          background: '#E8621A',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <span style={{
-            color: '#fff', fontWeight: 700, fontSize: 12,
-            letterSpacing: '4px', textTransform: 'uppercase',
-          }}>✦ Партнёры Гид Новосёла ✦</span>
-        </div>
 
         {/* ── Контент слайда ── */}
         <div className="pb-body" style={{
