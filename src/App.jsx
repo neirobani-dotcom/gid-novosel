@@ -23,6 +23,7 @@ import SmdPage from './pages/SmdPage'
 import SibmebelPage from './pages/SibmebelPage'
 import NeirobanyaPage from './pages/NeirobanyaPage'
 import ProclimatPage from './pages/ProclimatPage'
+import ShaturaPage from './pages/ShaturaPage'
 import PartnerNavArrows from './components/PartnerNavArrows'
 import AnimatedBanner from './components/AnimatedBanner'
 import InstructionModal from './components/InstructionModal'
@@ -109,6 +110,7 @@ export default function App() {
     if (p === '/gifts/sibmebel') return 'sibmebel'
     if (p === '/gifts/neirobanya') return 'neirobanya'
     if (p === '/gifts/proclimat') return 'proclimat'
+    if (p === '/gifts/shatura') return 'shatura'
     return 'home'
   })
   const [giftPartnerId, setGiftPartnerId] = useState(null)
@@ -139,6 +141,7 @@ export default function App() {
     else if (company.id === 'sibmebel') { navigateTo('sibmebel', '/gifts/sibmebel') }
     else if (company.id === 'neirobanya') { navigateTo('neirobanya', '/gifts/neirobanya') }
     else if (company.id === 'proclimat') { navigateTo('proclimat', '/gifts/proclimat') }
+    else if (company.id === 'shatura') { navigateTo('shatura', '/gifts/shatura') }
     else { setSelected(company); prevPageRef.current = 'home'; setPage('company') }
   }
 
@@ -154,6 +157,7 @@ export default function App() {
       else if (p === '/gifts/sibmebel') setPage('sibmebel')
       else if (p === '/gifts/neirobanya') setPage('neirobanya')
       else if (p === '/gifts/proclimat') setPage('proclimat')
+      else if (p === '/gifts/shatura') setPage('shatura')
       else setPage('home')
     }
     window.addEventListener('popstate', handlePop)
@@ -190,6 +194,12 @@ export default function App() {
       partnerId={giftPartnerId}
       onBack={() => setPage('gifts-boxes')}
     />
+  )
+  if (page === 'shatura') return (
+    <>
+      <ShaturaPage onBack={() => navigateTo('home', '/')} />
+      <PartnerNavArrows currentId="shatura" onNavigate={navigateToPartner} />
+    </>
   )
   if (page === 'neirobanya') return (
     <>
@@ -491,6 +501,7 @@ export default function App() {
                   if (c.id === 'sibmebel') { navigateTo('sibmebel', '/gifts/sibmebel'); return }
                   if (c.id === 'neirobanya') { navigateTo('neirobanya', '/gifts/neirobanya'); return }
                   if (c.id === 'proclimat') { navigateTo('proclimat', '/gifts/proclimat'); return }
+                  if (c.id === 'shatura') { navigateTo('shatura', '/gifts/shatura'); return }
                   setSelected(c); prevPageRef.current = 'home'; setPage('company')
                 }}
               />
