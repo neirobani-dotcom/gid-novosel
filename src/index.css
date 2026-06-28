@@ -515,11 +515,11 @@ img.map-iframe:hover { opacity: 0.92; }
 .ad-text         { text-align: left; }
 
 @media (max-width: 480px) {
-  .ad-screen    { height: 180px !important; }
-  .ad-content   { flex-direction: column !important; gap: 10px !important; padding: 12px 16px 0 !important; justify-content: flex-start !important; height: calc(100% - 18px) !important; }
-  .ad-logo-wrap { width: 80px !important; height: 80px !important; }
-  .ad-logo-img  { width: 64px !important; height: 64px !important; }
-  .ad-logo-initials { font-size: 16px !important; }
+  .ad-screen    { height: 220px !important; }
+  .ad-content   { flex-direction: column !important; gap: 8px !important; padding: 10px 16px 0 !important; justify-content: flex-start !important; height: calc(100% - 18px) !important; }
+  .ad-logo-wrap { width: 72px !important; height: 72px !important; }
+  .ad-logo-img  { width: 58px !important; height: 58px !important; }
+  .ad-logo-initials { font-size: 15px !important; }
   .ad-title     { font-size: 22px !important; letter-spacing: 1px !important; }
   .ad-sub       { font-size: 13px !important; }
   .ad-text      { text-align: center !important; }
