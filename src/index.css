@@ -489,40 +489,45 @@ img.map-iframe:hover { opacity: 0.92; }
   }
 }
 
-/* ── Рекламный монитор ── */
-@keyframes adScan {
-  0%   { left: -35%; }
-  100% { left: 110%; }
+/* ── Apple Keynote баннер ── */
+@keyframes akParticle0 {
+  0%, 100% { transform: translate(0px, 0px);    opacity: 0.35; }
+  50%       { transform: translate(18px, -22px); opacity: 0.15; }
 }
-@keyframes adParticle {
-  0%   { transform: translate(0, 0) scale(1);    opacity: 0; }
-  20%  { opacity: 1; }
-  80%  { opacity: 0.5; }
-  100% { transform: translate(30px, -120px) scale(0.3); opacity: 0; }
+@keyframes akParticle1 {
+  0%, 100% { transform: translate(0px, 0px);     opacity: 0.3; }
+  50%       { transform: translate(-14px, 20px);  opacity: 0.1; }
 }
-@keyframes adProgress {
-  from { width: 0%; }
-  to   { width: 100%; }
+@keyframes akParticle2 {
+  0%, 100% { transform: translate(0px, 0px);    opacity: 0.4; }
+  50%       { transform: translate(22px, 16px);  opacity: 0.12; }
+}
+@keyframes akParticle3 {
+  0%, 100% { transform: translate(0px, 0px);     opacity: 0.25; }
+  50%       { transform: translate(-20px, -18px); opacity: 0.08; }
 }
 
-.ad-screen       { height: 260px; }
-.ad-content      { gap: 28px; height: calc(100% - 18px); }
-.ad-logo-wrap    { width: 120px; height: 120px; }
-.ad-logo-img     { width: 98px; height: 98px; }
-.ad-logo-initials { font-size: 22px; }
-.ad-title        { font-size: 32px; }
-.ad-sub          { font-size: 18px; }
-.ad-text         { text-align: left; }
+.ak-screen       { height: 280px; }
+.ak-logo-wrap    { width: 160px; height: 160px; }
+.ak-logo-img     { width: 136px; height: 136px; }
+.ak-logo-initials { font-size: 30px; }
+.ak-title        { font-size: 28px; }
+.ak-sub          { font-size: 16px; }
+
+@media (max-width: 768px) {
+  .ak-screen    { height: 260px; }
+  .ak-logo-wrap { width: 140px; height: 140px; }
+  .ak-logo-img  { width: 118px; height: 118px; }
+  .ak-logo-initials { font-size: 26px; }
+}
 
 @media (max-width: 480px) {
-  .ad-screen    { height: 220px !important; }
-  .ad-content   { flex-direction: column !important; gap: 8px !important; padding: 10px 16px 0 !important; justify-content: flex-start !important; height: calc(100% - 18px) !important; }
-  .ad-logo-wrap { width: 72px !important; height: 72px !important; }
-  .ad-logo-img  { width: 58px !important; height: 58px !important; }
-  .ad-logo-initials { font-size: 15px !important; }
-  .ad-title     { font-size: 22px !important; letter-spacing: 1px !important; }
-  .ad-sub       { font-size: 13px !important; }
-  .ad-text      { text-align: center !important; }
+  .ak-screen    { height: 240px; }
+  .ak-logo-wrap { width: 120px; height: 120px; }
+  .ak-logo-img  { width: 100px; height: 100px; }
+  .ak-logo-initials { font-size: 22px; }
+  .ak-title     { font-size: 22px; letter-spacing: 1px; }
+  .ak-sub       { font-size: 14px; }
 }
 
 /* ── Нейробаня ── */

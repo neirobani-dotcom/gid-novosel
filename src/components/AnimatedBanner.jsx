@@ -15,21 +15,22 @@ const slides = [
   { icon: '✨', title: 'ГИД НОВОСЁЛА',     subtitle: '53 ЖК Красноярска · 10 партнёров · Все подарки бесплатно', logo: '/site-logo.png',                 initials: 'ГН', color: '#E8621A' },
 ]
 
-// Частицы — детерминированные позиции
-const PARTICLES = Array.from({ length: 15 }, (_, i) => ({
-  x:        ((i * 7.3 + 3) % 94) + 3,
-  y:        ((i * 11.7 + 8) % 80) + 5,
-  size:     2 + (i % 3),
-  delay:    -(i * 0.8),
-  duration: 6 + (i % 5) * 1.4,
-  opacity:  0.3 + (i % 3) * 0.2,
+// Частицы — детерминированные позиции и векторы движения
+const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
+  x:        ((i * 6.1 + 5)  % 90) + 5,
+  y:        ((i * 9.3 + 12) % 80) + 10,
+  size:     4 + (i % 3),
+  delay:    -(i * 0.65),
+  duration: 8 + (i % 6) * 1.5,
+  dx:       ((i % 5) - 2) * 18,
+  dy:       ((i % 4) - 2) * 22,
+  opacity:  0.3 + (i % 3) * 0.05,
 }))
 
 export default function AnimatedBanner() {
-  const [idx, setIdx]           = useState(0)
-  const [visible, setVisible]   = useState(true)
-  const [imgOk, setImgOk]       = useState(true)
-  const [progressKey, setProgressKey] = useState(0)
+  const [idx, setIdx]         = useState(0)
+  const [visible, setVisible] = useState(true)
+  const [imgOk, setImgOk]     = useState(true)
 
   useEffect(() => {
     let tid
@@ -38,16 +39,15 @@ export default function AnimatedBanner() {
       tid = setTimeout(() => {
         setIdx(i => (i + 1) % slides.length)
         setImgOk(true)
-        setProgressKey(k => k + 1)
         setVisible(true)
-      }, 450)
+      }, 500)
     }, 3000)
     return () => { clearInterval(iv); clearTimeout(tid) }
   }, [])
 
   const goTo = (i) => {
     setVisible(false)
-    setTimeout(() => { setIdx(i); setImgOk(true); setProgressKey(k => k + 1); setVisible(true) }, 450)
+    setTimeout(() => { setIdx(i); setImgOk(true); setVisible(true) }, 500)
   }
 
   const slide    = slides[idx]
@@ -56,26 +56,16 @@ export default function AnimatedBanner() {
   return (
     <div style={{ padding: '12px 16px 0', maxWidth: 640, margin: '0 auto' }}>
 
-      {/* ── РЕКЛАМНЫЙ ЭКРАН ── */}
-      <div className="ad-screen" style={{
+      {/* ── KEYNOTE ЭКРАН ── */}
+      <div className="ak-screen" style={{
         position: 'relative',
         width: '100%',
         background: '#0a0a0a',
-        borderRadius: 8,
-        border: '3px solid #E8621A',
-        boxShadow: '0 0 20px rgba(232,98,26,0.5), 0 0 40px rgba(232,98,26,0.15)',
+        borderRadius: 16,
         overflow: 'hidden',
         userSelect: 'none',
         fontFamily: '"Montserrat", -apple-system, sans-serif',
       }}>
-
-        {/* Сканирующий луч */}
-        <div style={{
-          position: 'absolute', top: 0, bottom: 0, width: '35%',
-          background: 'linear-gradient(90deg, transparent, rgba(232,98,26,0.06), rgba(255,150,50,0.1), rgba(232,98,26,0.06), transparent)',
-          animation: 'adScan 5s linear infinite',
-          pointerEvents: 'none', zIndex: 1,
-        }} />
 
         {/* Частицы */}
         {PARTICLES.map((p, i) => (
@@ -86,52 +76,54 @@ export default function AnimatedBanner() {
             borderRadius: '50%',
             background: '#E8621A',
             opacity: p.opacity,
-            animation: `adParticle ${p.duration}s ${p.delay}s linear infinite`,
+            animation: `akParticle${i % 4} ${p.duration}s ${p.delay}s ease-in-out infinite`,
             pointerEvents: 'none', zIndex: 1,
           }} />
         ))}
 
-        {/* Угловые акценты */}
-        {[
-          { top: 0, left: 0, borderTop: '2px solid #E8621A', borderLeft: '2px solid #E8621A' },
-          { top: 0, right: 0, borderTop: '2px solid #E8621A', borderRight: '2px solid #E8621A' },
-          { bottom: 18, left: 0, borderBottom: '2px solid #E8621A', borderLeft: '2px solid #E8621A' },
-          { bottom: 18, right: 0, borderBottom: '2px solid #E8621A', borderRight: '2px solid #E8621A' },
-        ].map((s, i) => (
-          <div key={i} style={{ position: 'absolute', width: 16, height: 16, zIndex: 3, ...s }} />
-        ))}
-
         {/* Контент слайда */}
-        <div className="ad-content" style={{
+        <div style={{
           position: 'relative', zIndex: 2,
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '0 24px',
+          padding: '28px 24px 10px',
+          height: 'calc(100% - 28px)',
           opacity: visible ? 1 : 0,
-          transform: visible ? 'translateX(0)' : 'translateX(-12px)',
-          transition: 'opacity 0.45s cubic-bezier(0.4,0,0.2,1), transform 0.45s cubic-bezier(0.4,0,0.2,1)',
+          transform: visible ? 'scale(1)' : 'scale(0.97)',
+          transition: 'opacity 0.5s cubic-bezier(0.4,0,0.2,1), transform 0.5s cubic-bezier(0.4,0,0.2,1)',
         }}>
 
+          {/* Метка сверху */}
+          <div style={{
+            fontSize: 11, fontWeight: 700,
+            color: '#888', letterSpacing: '3px',
+            textTransform: 'uppercase', marginBottom: 16,
+          }}>
+            Партнёр Гид Новосёла
+          </div>
+
           {/* Логотип */}
-          <div className="ad-logo-wrap" style={{
-            background: 'rgba(255,255,255,0.95)',
-            borderRadius: 14,
+          <div className="ak-logo-wrap" style={{
+            background: 'rgba(255,255,255,0.97)',
+            borderRadius: 24,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             flexShrink: 0,
-            boxShadow: '0 4px 20px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.4)',
             overflow: 'hidden',
+            marginBottom: 20,
           }}>
             {showLogo ? (
               <img
                 src={slide.logo}
                 alt={slide.title}
                 onError={() => setImgOk(false)}
-                className="ad-logo-img"
+                className="ak-logo-img"
                 style={{ objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <div className="ad-logo-initials" style={{
+              <div className="ak-logo-initials" style={{
                 background: slide.color,
                 width: '100%', height: '100%',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -142,65 +134,41 @@ export default function AnimatedBanner() {
             )}
           </div>
 
-          {/* Текст */}
-          <div className="ad-text" style={{ minWidth: 0 }}>
-            <div style={{
-              fontSize: 10, fontWeight: 700, color: 'rgba(232,98,26,0.6)',
-              letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 6,
-            }}>
-              Партнёр Гид Новосёла
-            </div>
-            <h2 className="ad-title" style={{
-              color: '#fff', fontWeight: 900,
-              letterSpacing: '3px', margin: '0 0 8px',
-              lineHeight: 1.1, textTransform: 'uppercase',
-            }}>
-              {slide.title}
-            </h2>
-            <p className="ad-sub" style={{
-              color: '#E8621A', fontWeight: 400,
-              margin: 0, lineHeight: 1.4,
-            }}>
-              {slide.subtitle}
-            </p>
-          </div>
+          {/* Название */}
+          <h2 className="ak-title" style={{
+            color: '#fff', fontWeight: 900,
+            letterSpacing: '2px', margin: '0 0 10px',
+            lineHeight: 1.1, textTransform: 'uppercase',
+            textAlign: 'center',
+          }}>
+            {slide.title}
+          </h2>
+
+          {/* Подарок */}
+          <p className="ak-sub" style={{
+            color: '#E8621A', fontWeight: 400,
+            margin: 0, lineHeight: 1.4,
+            textAlign: 'center',
+          }}>
+            {slide.subtitle}
+          </p>
         </div>
 
-        {/* Нижняя панель — точки + прогресс */}
+        {/* Точки-индикаторы */}
         <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0,
-          height: 18, zIndex: 3,
-          display: 'flex', flexDirection: 'column',
+          display: 'flex', justifyContent: 'center', alignItems: 'center',
+          gap: 5, paddingBottom: 12, position: 'relative', zIndex: 3,
         }}>
-          {/* Точки-индикаторы */}
-          <div style={{
-            display: 'flex', justifyContent: 'center', alignItems: 'center',
-            gap: 4, flex: 1,
-          }}>
-            {slides.map((_, i) => (
-              <div key={i} onClick={() => goTo(i)} style={{
-                width: i === idx ? 16 : 4,
-                height: 4,
-                borderRadius: 2,
-                background: i === idx ? '#E8621A' : 'rgba(255,255,255,0.18)',
-                transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
-                cursor: 'pointer',
-              }} />
-            ))}
-          </div>
-
-          {/* Прогресс-полоса */}
-          <div style={{ height: 2, background: 'rgba(232,98,26,0.15)' }}>
-            <div
-              key={progressKey}
-              style={{
-                height: '100%',
-                background: 'linear-gradient(90deg, #E8621A, #FF9B2F)',
-                animation: 'adProgress 3s linear forwards',
-                boxShadow: '0 0 6px rgba(232,98,26,0.6)',
-              }}
-            />
-          </div>
+          {slides.map((_, i) => (
+            <div key={i} onClick={() => goTo(i)} style={{
+              width: i === idx ? 18 : 5,
+              height: 5,
+              borderRadius: 3,
+              background: i === idx ? '#fff' : '#555',
+              transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
+              cursor: 'pointer',
+            }} />
+          ))}
         </div>
       </div>
     </div>
