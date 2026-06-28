@@ -318,6 +318,7 @@ function CertStep({ company, certCode, recipient, onClose }) {
         transform: 'translateZ(0)',
         WebkitTransform: 'translateZ(0)',
       }}
+      onClick={e => e.stopPropagation()}
     >
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
