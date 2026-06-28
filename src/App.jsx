@@ -12,7 +12,6 @@ import AdminPage from './pages/AdminPage'
 import CountdownTimer from './components/CountdownTimer'
 import VisitorCounter from './components/VisitorCounter'
 import AnimatedText from './components/AnimatedText'
-import ParticlesCanvas from './components/ParticlesCanvas'
 import PopupWidget from './components/PopupWidget'
 import WhatsAppButton from './components/WhatsAppButton'
 import ScrollToTop from './components/ScrollToTop'
@@ -248,35 +247,41 @@ export default function App() {
       <AnimatedBanner />
 
       {/* ── ГЕРОЙ ── */}
-      <section style={{ background: '#1A0F00', paddingBottom: 40, position: 'relative', overflow: 'hidden' }}>
-        <ParticlesCanvas />
+      <section style={{ background: '#F7F4F0', paddingBottom: 40, position: 'relative', overflow: 'hidden' }}>
 
-        <div style={{ maxWidth: 640, margin: '0 auto', padding: '40px 20px 0', position: 'relative', zIndex: 1 }}>
+        <div style={{ maxWidth: 640, margin: '0 auto', padding: '40px 20px 0' }}>
           {/* Бейдж города */}
           <div className="hero-title" style={{ marginBottom: 10 }}>
             <span style={{
               display: 'inline-flex', alignItems: 'center', gap: 5,
-              background: 'rgba(232,98,26,0.15)',
-              border: '1px solid rgba(232,98,26,0.35)',
+              background: '#FFF0DC',
               borderRadius: 20, padding: '5px 12px',
-              fontSize: 12, fontWeight: 600, color: '#F5A623',
+              fontSize: 12, fontWeight: 600, color: '#C25820',
             }}>
               📍 Красноярск
             </span>
           </div>
 
-          {/* Лого-текст */}
-          <div className="hero-title" style={{ marginBottom: 10 }}>
-            <span className="hero-title-matrix" style={{ color: '#E8621A', fontWeight: 900 }}>
-              Гид Новосёла
-            </span>
+          {/* Заголовок с эффектом свечения */}
+          <div className="hero-title" style={{ marginBottom: 16 }}>
+            <h2 style={{
+              fontSize: 'clamp(36px, 10vw, 56px)',
+              fontWeight: 900,
+              color: '#E8621A',
+              letterSpacing: '-0.02em',
+              lineHeight: 1.1,
+              margin: 0,
+              textShadow: '0 0 20px rgba(232, 98, 26, 0.5), 0 0 40px rgba(232, 98, 26, 0.3), 0 0 60px rgba(232, 98, 26, 0.15)',
+            }}>
+              ГИД НОВОСЁЛА
+            </h2>
           </div>
 
           {/* Заголовок */}
           <h1 className="hero-title" style={{
             fontSize: 'clamp(26px, 7vw, 38px)',
             fontWeight: 900,
-            color: '#FFFFFF',
+            color: '#1A1816',
             lineHeight: 1.4,
             letterSpacing: '-0.03em',
             marginBottom: 14,
@@ -290,7 +295,7 @@ export default function App() {
 
           {/* Подзаголовок */}
           <p className="hero-sub" style={{
-            fontSize: 16, color: '#C0A898', lineHeight: 1.6,
+            fontSize: 16, color: '#6B6560', lineHeight: 1.6,
             marginBottom: 24, maxWidth: '38ch',
           }}>
             <AnimatedText text="Скидки и подарки от лучших компаний города — для тех, кто обустраивает новый дом" delay={3000} />
@@ -306,7 +311,7 @@ export default function App() {
               `✓ Подарки на сумму ${totalGifts.toLocaleString('ru-RU')} ₽`,
               '✓ Бесплатно для новосёлов',
             ].map((t, i) => (
-              <span key={i} style={{ fontSize: 13, color: '#4ADE80', fontWeight: 600 }}>{t}</span>
+              <span key={i} style={{ fontSize: 13, color: '#22C55E', fontWeight: 600 }}>{t}</span>
             ))}
           </div>
 
