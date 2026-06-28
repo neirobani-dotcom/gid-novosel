@@ -22,6 +22,7 @@ import GidEmpty from './pages/GidEmpty'
 import SmdPage from './pages/SmdPage'
 import SibmebelPage from './pages/SibmebelPage'
 import NeirobanyaPage from './pages/NeirobanyaPage'
+import ProclimatPage from './pages/ProclimatPage'
 import PartnerNavArrows from './components/PartnerNavArrows'
 import AnimatedBanner from './components/AnimatedBanner'
 import InstructionModal from './components/InstructionModal'
@@ -107,6 +108,7 @@ export default function App() {
     if (p === '/gifts/smd') return 'smd'
     if (p === '/gifts/sibmebel') return 'sibmebel'
     if (p === '/gifts/neirobanya') return 'neirobanya'
+    if (p === '/gifts/proclimat') return 'proclimat'
     return 'home'
   })
   const [giftPartnerId, setGiftPartnerId] = useState(null)
@@ -136,6 +138,7 @@ export default function App() {
     if (company.id === 'smd') { navigateTo('smd', '/gifts/smd') }
     else if (company.id === 'sibmebel') { navigateTo('sibmebel', '/gifts/sibmebel') }
     else if (company.id === 'neirobanya') { navigateTo('neirobanya', '/gifts/neirobanya') }
+    else if (company.id === 'proclimat') { navigateTo('proclimat', '/gifts/proclimat') }
     else { setSelected(company); prevPageRef.current = 'home'; setPage('company') }
   }
 
@@ -150,6 +153,7 @@ export default function App() {
       else if (p === '/gifts/smd') setPage('smd')
       else if (p === '/gifts/sibmebel') setPage('sibmebel')
       else if (p === '/gifts/neirobanya') setPage('neirobanya')
+      else if (p === '/gifts/proclimat') setPage('proclimat')
       else setPage('home')
     }
     window.addEventListener('popstate', handlePop)
@@ -191,6 +195,12 @@ export default function App() {
     <>
       <NeirobanyaPage onBack={() => navigateTo('home', '/')} />
       <PartnerNavArrows currentId="neirobanya" onNavigate={navigateToPartner} />
+    </>
+  )
+  if (page === 'proclimat') return (
+    <>
+      <ProclimatPage onBack={() => navigateTo('home', '/')} />
+      <PartnerNavArrows currentId="proclimat" onNavigate={navigateToPartner} />
     </>
   )
   if (page === 'smd') return (
@@ -480,6 +490,7 @@ export default function App() {
                   if (c.id === 'smd') { navigateTo('smd', '/gifts/smd'); return }
                   if (c.id === 'sibmebel') { navigateTo('sibmebel', '/gifts/sibmebel'); return }
                   if (c.id === 'neirobanya') { navigateTo('neirobanya', '/gifts/neirobanya'); return }
+                  if (c.id === 'proclimat') { navigateTo('proclimat', '/gifts/proclimat'); return }
                   setSelected(c); prevPageRef.current = 'home'; setPage('company')
                 }}
               />
