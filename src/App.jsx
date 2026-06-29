@@ -570,7 +570,7 @@ export default function App() {
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 20 }}>
             {[
               { num: companies.length.toString(), label: 'компаний-партнёров' },
-              { num: '283 000 ₽', label: 'подарков на сумму' },
+              { num: `${totalGifts.toLocaleString('ru-RU')} ₽`, label: 'подарков на сумму' },
               { num: '47', label: 'новосёлов получили' },
             ].map((stat, i) => (
               <FadeInSection key={i} delay={i * 100}>
