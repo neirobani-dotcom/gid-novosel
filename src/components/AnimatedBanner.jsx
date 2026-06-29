@@ -1,7 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
-// ── Добавь нового партнёра сюда — он появится в анимации автоматически ──
-const slides = [
+const VIDEOS = [
+  { src: '/videos/proklimat.mp4',  label: 'ПроКлимат' },
+  { src: '/videos/proklimat2.mp4', label: 'ПроКлимат' },
+]
+
+// ── СКРЫТО — логотипы партнёров (оставлены для возврата) ──
+const _slides = [
   { icon: '🏠', title: 'ГИД НОВОСЁЛА',    subtitle: 'Всё для вашего нового дома — в одном месте',             logo: '/site-logo.png',                    initials: 'ГН', color: '#E8621A' },
   { icon: '🛋️', title: 'СИБМЕБЕЛЬ',        subtitle: 'Шкафы-купе и кухни на заказ — скидки для новосёлов',    logo: '/partners/sibmebel/logo.jpeg',       initials: 'СМ', color: '#1A3A5C' },
   { icon: '🪟', title: 'ОЛКОН',            subtitle: 'Окна и балконы — 15 000 ₽ в подарок',                   logo: '/partners/olkon/logo.png',           initials: 'ОЛ', color: '#2D7A2D' },
@@ -15,168 +20,96 @@ const slides = [
   { icon: '✨', title: 'ГИД НОВОСЁЛА',     subtitle: '53 ЖК Красноярска · 10 партнёров · Все подарки бесплатно', logo: '/site-logo.png',                 initials: 'ГН', color: '#E8621A' },
 ]
 
-// Частицы летят хаотично в разные стороны
-const PARTICLES = Array.from({ length: 60 }, (_, i) => ({
-  x:        ((i * 3.7 + 1.3) % 94) + 3,
-  y:        ((i * 5.9 + 7.1) % 88) + 6,
-  size:     3 + (i % 5),
-  delay:    -(i * 0.28),
-  duration: 6 + (i % 8) * 1.1,
-  opacity:  0.25 + (i % 4) * 0.07,
-  dir:      i % 4,
-}))
-
 export default function AnimatedBanner() {
-  const [idx, setIdx]         = useState(0)
-  const [visible, setVisible] = useState(true)
-  const [imgOk, setImgOk]     = useState(true)
+  const [idx, setIdx] = useState(0)
+  const videoRefs = useRef([])
 
   useEffect(() => {
-    let tid
     const iv = setInterval(() => {
-      setVisible(false)
-      tid = setTimeout(() => {
-        setIdx(i => (i + 1) % slides.length)
-        setImgOk(true)
-        setVisible(true)
-      }, 500)
-    }, 3500)
-    return () => { clearInterval(iv); clearTimeout(tid) }
+      setIdx(i => (i + 1) % VIDEOS.length)
+    }, 15000)
+    return () => clearInterval(iv)
   }, [])
 
-  const goTo = (i) => {
-    setVisible(false)
-    setTimeout(() => { setIdx(i); setImgOk(true); setVisible(true) }, 500)
-  }
+  useEffect(() => {
+    videoRefs.current.forEach((v, i) => {
+      if (!v) return
+      if (i === idx) {
+        v.currentTime = 0
+        v.play().catch(() => {})
+      }
+    })
+  }, [idx])
 
-  const slide    = slides[idx]
-  const showLogo = slide.logo && imgOk
+  const goTo = (i) => setIdx(i)
 
   return (
     <div style={{ padding: '12px 16px 0', maxWidth: 640, margin: '0 auto' }}>
 
-      {/* ── ПРЕМИУМ БАННЕР 2026 ── */}
       <div className="pb-screen" style={{
         position: 'relative',
         width: '100%',
-        background: 'linear-gradient(160deg, #0d0d0d 0%, #1a0a00 100%)',
+        background: '#0d0d0d',
         borderRadius: 20,
         overflow: 'hidden',
         userSelect: 'none',
         fontFamily: '"Montserrat", -apple-system, sans-serif',
       }}>
 
-        {/* CSS-сетка поверх фона */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-          opacity: 0.05,
-          pointerEvents: 'none', zIndex: 1,
-        }} />
-
-        {/* Частицы — хаотичное движение */}
-        {PARTICLES.map((p, i) => (
-          <div key={i} style={{
-            position: 'absolute',
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: p.size, height: p.size,
-            borderRadius: '50%',
-            background: '#E8621A',
-            opacity: p.opacity,
-            animation: `pbDrift${p.dir} ${p.duration}s ${p.delay}s ease-in-out infinite`,
-            pointerEvents: 'none', zIndex: 2,
-          }} />
+        {/* ── ВИДЕО ── */}
+        {VIDEOS.map((v, i) => (
+          <video
+            key={i}
+            ref={el => { videoRefs.current[i] = el }}
+            src={v.src}
+            autoPlay={i === 0}
+            muted
+            loop
+            playsInline
+            style={{
+              position: 'absolute', inset: 0,
+              width: '100%', height: '100%',
+              objectFit: 'cover',
+              opacity: i === idx ? 1 : 0,
+              transition: 'opacity 0.6s ease',
+              zIndex: 1,
+            }}
+          />
         ))}
 
-        {/* ── Контент слайда ── */}
-        <div className="pb-body" style={{
-          position: 'relative', zIndex: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          opacity: visible ? 1 : 0,
-          transform: visible ? 'scale(1)' : 'scale(0.95)',
-          transition: 'opacity 0.5s cubic-bezier(0.4,0,0.2,1), transform 0.5s cubic-bezier(0.4,0,0.2,1)',
+        {/* ── Подпись партнёра — нижний левый угол ── */}
+        <div style={{
+          position: 'absolute', bottom: 36, left: 16,
+          zIndex: 3,
+          background: 'rgba(0,0,0,0.45)',
+          borderRadius: 8, padding: '4px 12px',
         }}>
-
-          {/* Логотип */}
-          <div className="pb-logo-wrap" style={{
-            background: 'rgba(255,255,255,0.97)',
-            borderRadius: 20,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            flexShrink: 0,
-            boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
-            overflow: 'hidden',
-            marginBottom: 18,
-          }}>
-            {showLogo ? (
-              <img
-                src={slide.logo}
-                alt={slide.title}
-                onError={() => setImgOk(false)}
-                className="pb-logo-img"
-                style={{ objectFit: 'contain', display: 'block' }}
-              />
-            ) : (
-              <div className="pb-logo-initials" style={{
-                background: slide.color,
-                width: '100%', height: '100%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontWeight: 900, color: '#fff',
-              }}>
-                {slide.initials}
-              </div>
-            )}
-          </div>
-
-          {/* Название */}
-          <h2 className="pb-title" style={{
-            color: '#fff', fontWeight: 900,
-            letterSpacing: '3px', margin: '0 0 10px',
-            lineHeight: 1.1, textTransform: 'uppercase',
-            textAlign: 'center',
-            textShadow: '0 0 20px rgba(255,255,255,0.3)',
-          }}>
-            {slide.title}
-          </h2>
-
-          {/* Подарок */}
-          <p className="pb-sub" style={{
-            color: '#E8621A', fontWeight: 600,
-            margin: 0, lineHeight: 1.4,
-            textAlign: 'center',
-            textShadow: '0 0 10px rgba(232,98,26,0.5)',
-          }}>
-            {slide.subtitle}
-          </p>
+          <span style={{ color: '#fff', fontSize: 13, fontWeight: 700, letterSpacing: '0.04em' }}>
+            {VIDEOS[idx].label}
+          </span>
         </div>
 
-        {/* ── Нижняя панель ── */}
+        {/* ── Точки-навигация ── */}
         <div style={{
-          position: 'relative', zIndex: 3,
+          position: 'absolute', bottom: 10, left: 0, right: 0,
           display: 'flex', flexDirection: 'column',
-          alignItems: 'center', gap: 4,
-          paddingBottom: 12,
+          alignItems: 'center', gap: 3, zIndex: 3,
         }}>
-          {/* Точки */}
           <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-            {slides.map((_, i) => (
+            {VIDEOS.map((_, i) => (
               <div key={i} onClick={() => goTo(i)} style={{
                 width: i === idx ? 20 : 8,
                 height: 8,
                 borderRadius: 4,
-                background: i === idx ? '#fff' : '#444',
+                background: i === idx ? '#fff' : 'rgba(255,255,255,0.35)',
                 transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
                 cursor: 'pointer',
               }} />
             ))}
           </div>
-          {/* Подсказка */}
-          <span style={{ color: '#666', fontSize: 10, letterSpacing: '1px' }}>Листай →</span>
+          <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 10, letterSpacing: '1px' }}>Листай →</span>
         </div>
+
       </div>
     </div>
   )
