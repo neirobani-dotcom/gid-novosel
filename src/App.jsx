@@ -25,6 +25,7 @@ import ProclimatPage from './pages/ProclimatPage'
 import ShaturaPage from './pages/ShaturaPage'
 import ElitstroiPage from './pages/ElitstroiPage'
 import KafelPage from './pages/KafelPage'
+import BecomePage from './pages/BecomePage'
 import PartnerNavArrows from './components/PartnerNavArrows'
 import AnimatedBanner from './components/AnimatedBanner'
 import InstructionModal from './components/InstructionModal'
@@ -114,6 +115,7 @@ export default function App() {
     if (p === '/gifts/shatura') return 'shatura'
     if (p === '/gifts/elitstroy') return 'elitstroy'
     if (p === '/gifts/kafel') return 'kafel'
+    if (p === '/become-partner') return 'become-partner'
     return 'home'
   })
   const [giftPartnerId, setGiftPartnerId] = useState(null)
@@ -128,9 +130,7 @@ export default function App() {
   const categories = ['Все', ...new Set(mainCompanies.map(c => c.category))]
   const visibleCompanies = filter === 'Все' ? mainCompanies : mainCompanies.filter(c => c.category === filter)
 
-  const scrollToPartners = () => {
-    document.getElementById(PARTNER_SECTION_ID)?.scrollIntoView({ behavior: 'smooth' })
-  }
+  const scrollToPartners = () => navigateTo('become-partner', '/become-partner')
 
   useEffect(() => { window.scrollTo(0, 0) }, [page])
 
@@ -167,6 +167,7 @@ export default function App() {
       else if (p === '/gifts/shatura') setPage('shatura')
       else if (p === '/gifts/elitstroy') setPage('elitstroy')
       else if (p === '/gifts/kafel') setPage('kafel')
+      else if (p === '/become-partner') setPage('become-partner')
       else setPage('home')
     }
     window.addEventListener('popstate', handlePop)
@@ -221,6 +222,9 @@ export default function App() {
       <KafelPage onBack={() => navigateTo('home', '/')} />
       <PartnerNavArrows currentId="kafel" onNavigate={navigateToPartner} />
     </>
+  )
+  if (page === 'become-partner') return (
+    <BecomePage onBack={() => navigateTo('home', '/')} />
   )
   if (page === 'neirobanya') return (
     <>
