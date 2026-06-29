@@ -24,6 +24,7 @@ import NeirobanyaPage from './pages/NeirobanyaPage'
 import ProclimatPage from './pages/ProclimatPage'
 import ShaturaPage from './pages/ShaturaPage'
 import ElitstroiPage from './pages/ElitstroiPage'
+import KafelPage from './pages/KafelPage'
 import PartnerNavArrows from './components/PartnerNavArrows'
 import AnimatedBanner from './components/AnimatedBanner'
 import InstructionModal from './components/InstructionModal'
@@ -112,6 +113,7 @@ export default function App() {
     if (p === '/gifts/proclimat') return 'proclimat'
     if (p === '/gifts/shatura') return 'shatura'
     if (p === '/gifts/elitstroy') return 'elitstroy'
+    if (p === '/gifts/kafel') return 'kafel'
     return 'home'
   })
   const [giftPartnerId, setGiftPartnerId] = useState(null)
@@ -146,6 +148,7 @@ export default function App() {
     else if (company.id === 'proclimat') { navigateTo('proclimat', '/gifts/proclimat') }
     else if (company.id === 'shatura') { navigateTo('shatura', '/gifts/shatura') }
     else if (company.id === 'elitstroy') { navigateTo('elitstroy', '/gifts/elitstroy') }
+    else if (company.id === 'kafel') { navigateTo('kafel', '/gifts/kafel') }
     else { setSelected(company); prevPageRef.current = 'home'; setPage('company') }
   }
 
@@ -163,6 +166,7 @@ export default function App() {
       else if (p === '/gifts/proclimat') setPage('proclimat')
       else if (p === '/gifts/shatura') setPage('shatura')
       else if (p === '/gifts/elitstroy') setPage('elitstroy')
+      else if (p === '/gifts/kafel') setPage('kafel')
       else setPage('home')
     }
     window.addEventListener('popstate', handlePop)
@@ -210,6 +214,12 @@ export default function App() {
     <>
       <ElitstroiPage onBack={() => navigateTo('home', '/')} />
       <PartnerNavArrows currentId="elitstroy" onNavigate={navigateToPartner} />
+    </>
+  )
+  if (page === 'kafel') return (
+    <>
+      <KafelPage onBack={() => navigateTo('home', '/')} />
+      <PartnerNavArrows currentId="kafel" onNavigate={navigateToPartner} />
     </>
   )
   if (page === 'neirobanya') return (
@@ -521,6 +531,7 @@ export default function App() {
                   if (c.id === 'proclimat') { navigateTo('proclimat', '/gifts/proclimat'); return }
                   if (c.id === 'shatura') { navigateTo('shatura', '/gifts/shatura'); return }
                   if (c.id === 'elitstroy') { navigateTo('elitstroy', '/gifts/elitstroy'); return }
+                  if (c.id === 'kafel') { navigateTo('kafel', '/gifts/kafel'); return }
                   setSelected(c); prevPageRef.current = 'home'; setPage('company')
                 }}
               />
