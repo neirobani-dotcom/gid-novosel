@@ -123,6 +123,17 @@ export const gifts = [
     ],
   },
   {
+    partnerId: 'elitstroy',
+    name: 'ЭлитСтрой',
+    color: '#1A4E8A',
+    colorGradient: 'linear-gradient(135deg, #1A4E8A 0%, #2E7DD1 100%)',
+    items: [
+      { id: 'es-1', title: 'Скидка 10% на весь ассортимент керамогранита', condition: 'Действует до 31 декабря 2026 года' },
+      { id: 'es-2', title: 'Дизайн-проект бесплатно при покупке керамогранита', condition: 'Действует до 31 декабря 2026 года' },
+      { id: 'es-3', title: 'Сертификат 10 000 ₽ на сантехнику и санфаянс', condition: 'Действует до 31 декабря 2026 года' },
+    ],
+  },
+  {
     partnerId: 'kafel',
     name: 'Наш Кафель',
     color: '#6B7280',
