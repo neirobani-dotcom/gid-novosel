@@ -54,7 +54,7 @@ export default function SiteHeader({ onPartnerClick }) {
               alignItems: 'center',
             }}
           >
-            Стать партнёром
+            Получить предложение
           </button>
         </div>
       </header>
