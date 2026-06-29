@@ -271,6 +271,58 @@ export default function BecomePage({ onBack }) {
           </button>
         </div>
 
+        {/* ══ РАЗДЕЛ — PDF ГАЙД ══ */}
+        <div style={{
+          background: '#1a1a1a', borderRadius: 12,
+          padding: '28px 24px', marginBottom: 48,
+          display: 'flex', gap: 32, alignItems: 'center',
+          flexWrap: 'wrap',
+        }}>
+          <div style={{ flex: 1, minWidth: 220 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: ACCENT, margin: '0 0 10px' }}>
+              БЕСПЛАТНО
+            </p>
+            <h3 style={{ fontSize: 18, fontWeight: 900, color: '#fff', margin: '0 0 6px', lineHeight: 1.3 }}>
+              Руководство для бизнеса — как привлечь новосёлов
+            </h3>
+            <p style={{ fontSize: 12, color: '#6B6560', margin: '0 0 18px' }}>
+              3 страницы · PDF · Скачать бесплатно
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 22 }}>
+              {[
+                'Почему новосёлы — лучшие клиенты',
+                'Как работает платформа шаг за шагом',
+                'Что получает партнёр',
+                'Как начать за 24 часа',
+              ].map((item, i) => (
+                <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                  <span style={{ color: ACCENT, fontWeight: 900, flexShrink: 0, lineHeight: 1.5 }}>✓</span>
+                  <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)', lineHeight: 1.5 }}>{item}</span>
+                </div>
+              ))}
+            </div>
+            <a
+              href="/gid-novosel-partner-guide.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                height: 48, paddingInline: 24, borderRadius: 12,
+                background: `linear-gradient(90deg, ${ACCENT} 0%, #F5A623 100%)`,
+                color: '#fff', fontSize: 15, fontWeight: 800,
+                textDecoration: 'none',
+                boxShadow: `0 6px 20px rgba(232,98,26,0.4)`,
+              }}
+            >
+              📄 Скачать бесплатный гайд
+            </a>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <span style={{ fontSize: 80, lineHeight: 1, opacity: 0.9 }}>📋</span>
+          </div>
+        </div>
+
         {/* ══ РАЗДЕЛ 4 — КАК ЭТО РАБОТАЕТ ══ */}
         <div style={{
           background: 'linear-gradient(135deg, #1A1816 0%, #2D1A0A 100%)',
