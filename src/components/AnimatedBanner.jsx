@@ -21,7 +21,8 @@ const _slides = [
 ]
 
 export default function AnimatedBanner() {
-  const [idx, setIdx] = useState(0)
+  const [idx, setIdx]     = useState(0)
+  const [muted, setMuted] = useState(true)
   const videoRefs = useRef([])
 
   useEffect(() => {
@@ -40,6 +41,10 @@ export default function AnimatedBanner() {
       }
     })
   }, [idx])
+
+  useEffect(() => {
+    videoRefs.current.forEach(v => { if (v) v.muted = muted })
+  }, [muted])
 
   const goTo = (i) => setIdx(i)
 
@@ -76,6 +81,24 @@ export default function AnimatedBanner() {
             }}
           />
         ))}
+
+        {/* ── Кнопка звука ── */}
+        <button
+          onClick={() => setMuted(m => !m)}
+          style={{
+            position: 'absolute', top: 12, right: 12, zIndex: 4,
+            width: 36, height: 36, borderRadius: '50%', border: 'none',
+            background: 'rgba(0,0,0,0.5)', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 18, backdropFilter: 'blur(4px)',
+            transition: 'background 0.15s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.75)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,0.5)'}
+          title={muted ? 'Включить звук' : 'Выключить звук'}
+        >
+          {muted ? '🔇' : '🔊'}
+        </button>
 
         {/* ── Подпись партнёра — нижний левый угол ── */}
         <div style={{
