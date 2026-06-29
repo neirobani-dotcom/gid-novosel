@@ -138,9 +138,10 @@ export default function BecomePage({ onBack }) {
 
       <style>{`
         @media (max-width: 600px) {
-          .bp-stats { grid-template-columns: 1fr 1fr !important; }
-          .bp-why   { grid-template-columns: 1fr !important; }
-          .bp-logos { grid-template-columns: repeat(3, 1fr) !important; }
+          .bp-stats  { grid-template-columns: 1fr 1fr !important; }
+          .bp-why    { grid-template-columns: 1fr !important; }
+          .bp-logos  { grid-template-columns: repeat(3, 1fr) !important; }
+          .bp-bignum { grid-template-columns: 1fr !important; gap: 28px !important; }
         }
       `}</style>
 
@@ -230,6 +231,44 @@ export default function BecomePage({ onBack }) {
               <p style={{ fontSize: 13, color: '#6B6560', margin: 0, lineHeight: 1.65 }}>{w.text}</p>
             </div>
           ))}
+        </div>
+
+        {/* ══ РАЗДЕЛ — ЦИФРЫ ══ */}
+        <div style={{
+          background: '#1a1a1a', borderRadius: 24,
+          padding: '36px 24px 32px', marginBottom: 48, textAlign: 'center',
+        }}>
+          <h2 style={{ fontSize: 20, fontWeight: 900, color: '#fff', margin: '0 0 8px' }}>
+            Цифры которые говорят сами за себя
+          </h2>
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', margin: '0 0 36px' }}>
+            Новосёлы — самая активная аудитория для местного бизнеса
+          </p>
+
+          <div className="bp-bignum" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginBottom: 32 }}>
+            {[
+              { val: 'В 5 раз',  desc: 'больше тратят новосёлы в первый год по сравнению с обычными жителями' },
+              { val: '1 из 1',   desc: 'только одна компания вашей сферы в программе — конкуренты не попадут к вашим клиентам' },
+              { val: '30 сек',   desc: 'за столько активирует новосёл свой сертификат и становится вашим клиентом' },
+            ].map((s, i) => (
+              <div key={i}>
+                <p style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 900, color: ACCENT, margin: '0 0 10px', lineHeight: 1 }}>{s.val}</p>
+                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)', margin: 0, lineHeight: 1.6 }}>{s.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <button
+            onClick={() => setTimeout(() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)}
+            style={{
+              height: 50, paddingInline: 32, borderRadius: 14, border: 'none',
+              background: `linear-gradient(90deg, ${ACCENT} 0%, #F5A623 100%)`,
+              color: '#fff', fontSize: 15, fontWeight: 800, cursor: 'pointer',
+              boxShadow: `0 6px 24px rgba(232,98,26,0.4)`,
+            }}
+          >
+            Хочу таких клиентов
+          </button>
         </div>
 
         {/* ══ РАЗДЕЛ 4 — КАК ЭТО РАБОТАЕТ ══ */}
