@@ -11,9 +11,17 @@ export default function GiftsPage({ onBack, onSelect }) {
       <div className="sticky top-0 z-10 flex items-center gap-3 px-4 py-3"
       style={{ background: 'rgba(247,244,240,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #EDE8E0' }}>
         <button onClick={onBack}
-          className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
-          style={{ background: '#FFF', border: '1px solid #EDE8E0', color: '#6B6560' }}>
-          ←
+          className="flex items-center gap-1 flex-shrink-0"
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer', padding: '6px 4px',
+            color: '#E8621A', fontSize: 16, fontWeight: 700,
+            transition: 'color 0.15s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.color = '#c45415'; e.currentTarget.querySelector('.arr').style.transform = 'translateX(-3px)' }}
+          onMouseLeave={e => { e.currentTarget.style.color = '#E8621A'; e.currentTarget.querySelector('.arr').style.transform = 'translateX(0)' }}
+        >
+          <span className="arr" style={{ display: 'inline-block', fontWeight: 900, transition: 'transform 0.18s ease' }}>←</span>
+          <span style={{ textDecoration: 'underline', textUnderlineOffset: 3 }}>На главную</span>
         </button>
         <div className="flex-shrink-0" style={{ background: 'transparent', padding: '3px 8px', lineHeight: 0 }}>
           <img src="/site-logo.png" alt="Гид Новосёла" style={{ width: '280px', background: 'transparent', display: 'block' }} className="logo-neon" />
