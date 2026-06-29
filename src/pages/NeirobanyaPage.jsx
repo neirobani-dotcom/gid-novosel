@@ -134,9 +134,47 @@ export default function NeirobanyaPage({ onBack }) {
           }}>
             <span style={{ fontSize: 13, color: '#fff', fontWeight: 600 }}>
               Вы экономите{' '}
-              <span style={{ color: '#E8621A', fontWeight: 900, fontSize: 18 }}>400 ₽</span>
+              <span style={{ color: '#E8621A', fontWeight: 900, fontSize: 18 }}>5 000 ₽</span>
             </span>
           </div>
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', margin: '14px 0 0', lineHeight: 1.6 }}>
+            При бронировании от 6 часов — горячая или холодная купель в подарок по вашему выбору
+          </p>
+        </div>
+
+        {/* ── ПОДАРОК 2 ── */}
+        <div style={{
+          background: '#1a1a1a',
+          borderRadius: 20,
+          border: '2px solid #E8621A',
+          boxShadow: '0 0 30px rgba(232,98,26,0.25), 0 8px 32px rgba(0,0,0,0.3)',
+          padding: '28px 20px 24px',
+          marginBottom: 20,
+          textAlign: 'center',
+        }}>
+          <p style={{ fontSize: 11, fontWeight: 700, color: 'rgba(232,98,26,0.7)', letterSpacing: '0.1em', margin: '0 0 12px', textTransform: 'uppercase' }}>
+            Подарок новосёлу
+          </p>
+          <div style={{ fontSize: 32, fontWeight: 900, color: '#E8621A', lineHeight: 1.2, margin: '0 0 10px' }}>
+            🎁 Подарок на 1 000 000 ₽
+          </div>
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.75)', margin: '0 0 16px', lineHeight: 1.6 }}>
+            Это бесценный вклад в ваш бизнес. Наша команда за 3–12 часов настроит всё так, что вы начнёте зарабатывать от 1 000 000 рублей в месяц. Большинство предпринимателей не знают, как это сделать правильно — Нейробаня знает.
+          </p>
+          <a
+            href="https://wa.me/79538420707"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              padding: '14px 28px', borderRadius: 14,
+              background: 'linear-gradient(90deg, #E8621A 0%, #F5A623 100%)',
+              color: '#fff', fontSize: 15, fontWeight: 800, textDecoration: 'none',
+              boxShadow: '0 6px 20px rgba(232,98,26,0.4)',
+            }}
+          >
+            💬 Получить консультацию
+          </a>
         </div>
 
         {/* ── БЕСПЛАТНО ДЛЯ ВАС ── */}
