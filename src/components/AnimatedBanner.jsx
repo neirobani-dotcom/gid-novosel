@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 
 const VIDEOS = [
-  { src: '/videos/proklimat.mp4',  label: 'ПроКлимат' },
   { src: '/videos/proklimat2.mp4', label: 'ПроКлимат' },
+  { src: '/videos/tas.mp4',        label: 'Академия штор ТАС' },
 ]
 
 // ── СКРЫТО — логотипы партнёров (оставлены для возврата) ──
