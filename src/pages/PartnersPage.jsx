@@ -223,7 +223,24 @@ export default function PartnersPage({ onBack }) {
                   </li>
                 ))}
               </ul>
-              {orangeBtn('📄 Скачать бесплатный гайд', null, '/gid-novosel-partner-guide.pdf')}
+              <a
+                href="/gid-novosel-partner-guide.pdf"
+                download="gid-novosel-partner-guide.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-block', padding: '15px 40px', borderRadius: 12,
+                  background: `linear-gradient(90deg, ${ACCENT} 0%, #FF9B2F 100%)`,
+                  color: '#fff', fontSize: 16, fontWeight: 700, cursor: 'pointer',
+                  fontFamily: FONT, textDecoration: 'none',
+                  boxShadow: '0 4px 20px rgba(232,98,26,0.28)',
+                  transition: 'filter 0.15s',
+                }}
+                onMouseEnter={e => e.currentTarget.style.filter = 'brightness(0.9)'}
+                onMouseLeave={e => e.currentTarget.style.filter = ''}
+              >
+                📄 Скачать бесплатный гайд
+              </a>
             </div>
             {/* PDF значок */}
             <div style={{ flex: '0 1 auto' }}>
