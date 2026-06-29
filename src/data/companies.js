@@ -394,7 +394,7 @@ export const companies = [
     id: 'neirobanya',
     name: 'Нейробаня',
     category: 'Баня и восстановление',
-    giftAmount: 1005000,
+    giftAmount: 100000,
     giftLabel: '4-й час в бане — в подарок',
     giftCondition: '* При бронировании от 3 часов. Подарок — 4-й час бесплатно.',
     giftTarget: 'в бане',
