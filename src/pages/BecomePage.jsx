@@ -235,25 +235,43 @@ export default function BecomePage({ onBack }) {
 
         {/* ══ РАЗДЕЛ — ЦИФРЫ ══ */}
         <div style={{
-          background: '#1a1a1a', borderRadius: 24,
-          padding: '36px 24px 32px', marginBottom: 48, textAlign: 'center',
+          background: '#1a1a1a',
+          margin: '0 -16px 48px',
+          padding: '80px 40px',
+          textAlign: 'center',
         }}>
-          <h2 style={{ fontSize: 20, fontWeight: 900, color: '#fff', margin: '0 0 8px' }}>
+          <h2 style={{
+            fontSize: 'clamp(24px, 4vw, 32px)', fontWeight: 900, color: '#fff',
+            margin: '0 0 12px', fontFamily: '"Montserrat", sans-serif',
+          }}>
             Цифры которые говорят сами за себя
           </h2>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', margin: '0 0 36px' }}>
+          <p style={{
+            fontSize: 16, color: '#999999', margin: '0 0 50px',
+            fontFamily: '"Montserrat", sans-serif',
+          }}>
             Новосёлы — самая активная аудитория для местного бизнеса
           </p>
 
-          <div className="bp-bignum" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginBottom: 32 }}>
+          <div className="bp-bignum" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginBottom: 50 }}>
             {[
               { val: 'В 5 раз',  desc: 'больше тратят новосёлы в первый год по сравнению с обычными жителями' },
               { val: '1 из 1',   desc: 'только одна компания вашей сферы в программе — конкуренты не попадут к вашим клиентам' },
-              { val: '30 сек',   desc: 'за столько активирует новосёл свой сертификат и становится вашим клиентом' },
+              { val: '30 сек',   desc: 'за столько новосёл активирует сертификат и становится вашим клиентом' },
             ].map((s, i) => (
-              <div key={i}>
-                <p style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 900, color: ACCENT, margin: '0 0 10px', lineHeight: 1 }}>{s.val}</p>
-                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)', margin: 0, lineHeight: 1.6 }}>{s.desc}</p>
+              <div key={i} style={{
+                background: '#2a2a2a', borderRadius: 16, padding: 40,
+                textAlign: 'center',
+              }}>
+                <p style={{
+                  fontSize: 48, fontWeight: 900, color: ACCENT,
+                  margin: '0 0 12px', lineHeight: 1,
+                  fontFamily: '"Montserrat", sans-serif',
+                }}>{s.val}</p>
+                <p style={{
+                  fontSize: 14, color: '#fff', margin: 0, lineHeight: 1.6,
+                  fontFamily: '"Montserrat", sans-serif',
+                }}>{s.desc}</p>
               </div>
             ))}
           </div>
@@ -261,13 +279,16 @@ export default function BecomePage({ onBack }) {
           <button
             onClick={() => setTimeout(() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)}
             style={{
-              height: 50, paddingInline: 32, borderRadius: 14, border: 'none',
-              background: `linear-gradient(90deg, ${ACCENT} 0%, #F5A623 100%)`,
-              color: '#fff', fontSize: 15, fontWeight: 800, cursor: 'pointer',
-              boxShadow: `0 6px 24px rgba(232,98,26,0.4)`,
+              padding: '16px 40px', borderRadius: 8, border: 'none',
+              background: ACCENT, color: '#fff',
+              fontSize: 16, fontWeight: 700, cursor: 'pointer',
+              fontFamily: '"Montserrat", sans-serif',
+              transition: 'background 0.15s',
             }}
+            onMouseEnter={e => e.currentTarget.style.background = '#c45415'}
+            onMouseLeave={e => e.currentTarget.style.background = ACCENT}
           >
-            Хочу таких клиентов
+            Хочу таких клиентов →
           </button>
         </div>
 
