@@ -34,6 +34,8 @@ export default function PartnersPage({ onBack }) {
   const [errors,  setErrors]  = useState(INIT_ERRORS)
   const [touched, setTouched] = useState(INIT_TOUCHED)
   const [status,  setStatus]  = useState('idle')
+  const [consent, setConsent] = useState(false)
+  const [consentT, setConsentT] = useState(false)
 
   const validate = (name, val) => {
     const f = FIELDS.find(f => f.name === name)
@@ -55,7 +57,8 @@ export default function PartnersPage({ onBack }) {
     const newErrors  = Object.fromEntries(FIELDS.map(f => [f.name, !f.validate(values[f.name])]))
     setTouched(newTouched)
     setErrors(newErrors)
-    if (!allValid) return
+    setConsentT(true)
+    if (!allValid || !consent) return
     setStatus('sending')
     const body = `Новая заявка партнёра — Гид Новосёла\n\nКомпания: ${values.company}\nКонтакт: ${values.contact}\nТелефон: ${values.phone}\nEmail: ${values.email}\nДеятельность: ${values.about}\nПодарок: ${values.gift}\n\nСайт: gidnovosela.ru`
     try {
@@ -328,6 +331,22 @@ export default function PartnersPage({ onBack }) {
                     )}
                   </div>
                 ))}
+
+                {/* Согласие на обработку данных */}
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', marginBottom: 16 }}>
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={e => { setConsent(e.target.checked); setConsentT(true) }}
+                    style={{ marginTop: 2, flexShrink: 0, accentColor: ACCENT, width: 16, height: 16 }}
+                  />
+                  <span style={{ fontSize: 12, color: consentT && !consent ? '#EF4444' : '#6B6560', lineHeight: 1.5 }}>
+                    Я согласен(а) с{' '}
+                    <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{ color: ACCENT, textDecoration: 'underline' }}>
+                      политикой обработки персональных данных
+                    </a>
+                  </span>
+                </label>
 
                 {status === 'error' && (
                   <p style={{ fontSize: 12, color: '#EF4444', marginBottom: 12, textAlign: 'center' }}>

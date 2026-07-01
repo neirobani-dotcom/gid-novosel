@@ -86,6 +86,8 @@ function FormStep({ company, certCode, onClose, onSubmit }) {
   const [lnT, setLNT] = useState(false)
   const [fnT, setFNT] = useState(false)
   const [phT, setPHT] = useState(false)
+  const [consent, setConsent] = useState(false)
+  const [consentT, setConsentT] = useState(false)
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -95,7 +97,7 @@ function FormStep({ company, certCode, onClose, onSubmit }) {
   const lnValid = lastName.trim().length >= 2
   const fnValid = firstName.trim().length >= 2
   const phValid = phone.replace(/\D/g, '').length === 11
-  const formValid = lnValid && fnValid && phValid
+  const formValid = lnValid && fnValid && phValid && consent
 
   const border = (valid, touched) => touched
     ? `1.5px solid ${valid ? '#22C55E' : '#EF4444'}`
@@ -105,7 +107,7 @@ function FormStep({ company, certCode, onClose, onSubmit }) {
     : '#FDFBF8'
 
   const handleSubmit = () => {
-    setLNT(true); setFNT(true); setPHT(true)
+    setLNT(true); setFNT(true); setPHT(true); setConsentT(true)
     if (!formValid) return
     sendReport({ lastName: lastName.trim(), firstName: firstName.trim(), phone, partnerName: company.name, certCode })
     onSubmit({ lastName: lastName.trim(), firstName: firstName.trim(), phone })
@@ -206,6 +208,22 @@ function FormStep({ company, certCode, onClose, onSubmit }) {
                 boxSizing: 'border-box',
               }}
             />
+
+            {/* Согласие на обработку данных */}
+            <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', marginTop: 4 }}>
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={e => { setConsent(e.target.checked); setConsentT(true) }}
+                style={{ marginTop: 2, flexShrink: 0, accentColor: '#E8621A', width: 16, height: 16 }}
+              />
+              <span style={{ fontSize: 12, color: consentT && !consent ? '#EF4444' : '#888', lineHeight: 1.5 }}>
+                Я согласен(а) с{' '}
+                <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{ color: '#E8621A', textDecoration: 'underline' }}>
+                  политикой обработки персональных данных
+                </a>
+              </span>
+            </label>
           </div>
         </div>
 

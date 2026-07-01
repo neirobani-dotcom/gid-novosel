@@ -30,6 +30,7 @@ import PartnersPage from './pages/PartnersPage'
 import PrivacyPage from './pages/PrivacyPage'
 import PartnerNavArrows from './components/PartnerNavArrows'
 import AnimatedBanner from './components/AnimatedBanner'
+import CookieBanner from './components/CookieBanner'
 import InstructionModal from './components/InstructionModal'
 import './index.css'
 
@@ -594,6 +595,9 @@ export default function App() {
       {/* ── ВСПЛЫВАШКА (30 сек) ── */}
       <PopupWidget onGiftsClick={() => setPage('gifts-boxes')} />
 
+      {/* ── COOKIE БАННЕР ── */}
+      <CookieBanner />
+
       {/* ── ФУТЕР ── */}
       <footer id="become-partner" style={{ background: '#2D2D2D', marginTop: 40, padding: '32px 20px 24px' }}>
         <div style={{ maxWidth: 640, margin: '0 auto' }}>
@@ -627,7 +631,14 @@ export default function App() {
             <div style={{ borderTop: '1px solid #3D3D3D', paddingTop: 16, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
               <div>
                 <p style={{ fontSize: 12, color: '#6B6560' }}>📧 neirobanya@mail.ru</p>
-                <p style={{ fontSize: 11, color: '#4A4A4A', marginTop: 6 }}>© 2026 Гид Новосёла. Все права защищены.</p>
+                <p style={{ fontSize: 12, color: '#6B6560', marginTop: 4 }}>📞 +7 (953) 842-07-07</p>
+                <p style={{ fontSize: 11, color: '#4A4A4A', marginTop: 8, lineHeight: 1.7 }}>
+                  ИП Ленивцев Сергей Владимирович<br />
+                  ИНН: 246005368375 · ОГРНИП: 326246800069624<br />
+                  660000, Красноярский край, г. Красноярск,<br />
+                  ул. Куйбышева, д. 85, кв. 239
+                </p>
+                <p style={{ fontSize: 11, color: '#4A4A4A', marginTop: 8 }}>© 2026 Гид Новосёла. Все права защищены.</p>
                 <button
                   onClick={() => navigateTo('privacy', '/privacy')}
                   style={{ background: 'none', border: 'none', padding: 0, marginTop: 6, cursor: 'pointer', fontSize: 11, color: '#6B6560', textDecoration: 'underline', fontFamily: 'inherit' }}
