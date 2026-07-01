@@ -277,7 +277,7 @@ export default function App() {
     <div className="min-h-screen" style={{ background: '#F7F4F0' }}>
 
       {/* ── STICKY ШАПКА ── */}
-      <SiteHeader onPartnerClick={scrollToPartners} />
+      <SiteHeader onPartnerClick={() => setPage('gifts-boxes')} />
 
       {/* ── СЧЁТЧИК-БАННЕР ── */}
       <CountdownTimer />
