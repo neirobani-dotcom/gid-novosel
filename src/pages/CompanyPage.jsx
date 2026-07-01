@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { logToSheets } from '../utils/logToSheets'
 import PhotoSlider from '../components/PhotoSlider'
 import RassrochkaCalculator from '../components/RassrochkaCalculator'
 import Lightbox from '../components/Lightbox'
@@ -106,6 +107,7 @@ export default function CompanyPage({ company, onBack }) {
         Компания: company.name, Имя: form.name, Телефон: form.phone, 'Адрес/ЖК': form.address,
       }),
     }).then(r => r.json()).then(d => console.log('[web3forms]', d)).catch(e => console.error(e))
+    logToSheets({ name: form.name, phone: form.phone, zhk: form.address })
     setSubmitted({ name: form.name, phone: form.phone, address: form.address })
     setForm({ name: '', phone: '', address: '' })
     setStep('success')

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
+import { logToSheets } from '../utils/logToSheets'
 import './Certificate.css'
 
 const WEB3FORMS_KEY = '2c502e1a-5b57-43a0-b56f-9ffa8c423793'
@@ -110,6 +111,7 @@ function FormStep({ company, certCode, onClose, onSubmit }) {
     setLNT(true); setFNT(true); setPHT(true); setConsentT(true)
     if (!formValid) return
     sendReport({ lastName: lastName.trim(), firstName: firstName.trim(), phone, partnerName: company.name, certCode })
+    logToSheets({ name: `${firstName.trim()} ${lastName.trim()}`, phone })
     onSubmit({ lastName: lastName.trim(), firstName: firstName.trim(), phone })
   }
 

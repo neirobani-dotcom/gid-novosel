@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { logToSheets } from '../utils/logToSheets'
 import PartnerBackButton from '../components/PartnerBackButton'
 import Lightbox from '../components/Lightbox'
 import { companies } from '../data/companies'
@@ -135,6 +136,7 @@ export default function KafelPage({ onBack }) {
         Компания: 'Наш Кафель', Имя: form.name, Телефон: form.phone, 'Адрес/ЖК': form.address,
       }),
     }).catch(() => {})
+    logToSheets({ name: form.name, phone: form.phone, zhk: form.address })
 
     setForm({ name: '', phone: '', address: '' })
     setStep('success')

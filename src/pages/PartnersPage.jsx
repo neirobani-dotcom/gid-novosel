@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { logToSheets } from '../utils/logToSheets'
 
 const ACCENT = '#E8621A'
 const WEB3   = '2c502e1a-5b57-43a0-b56f-9ffa8c423793'
@@ -69,6 +70,7 @@ export default function PartnersPage({ onBack }) {
       fd.append('message',    body)
       const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
       const data = await res.json()
+      if (data.success) logToSheets({ name: values.contact, phone: values.phone })
       setStatus(data.success ? 'success' : 'error')
     } catch {
       setStatus('error')

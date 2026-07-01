@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { logToSheets } from '../utils/logToSheets'
 import PartnerBackButton from '../components/PartnerBackButton'
 import { companies } from '../data/companies'
 
@@ -104,6 +105,7 @@ export default function BecomePage({ onBack }) {
         'Подарок для новосёлов': form.gift,
       }),
     }).catch(() => {})
+    logToSheets({ name: form.name, phone: form.phone })
 
     setStep('success')
   }

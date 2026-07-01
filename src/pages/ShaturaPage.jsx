@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { logToSheets } from '../utils/logToSheets'
 import PartnerBackButton from '../components/PartnerBackButton'
 import ContactButtons from '../components/ContactButtons'
 import PhotoSlider from '../components/PhotoSlider'
@@ -132,6 +133,7 @@ export default function ShaturaPage({ onBack }) {
         'Тип заявки': activeBtn,
       }),
     }).catch(() => {})
+    logToSheets({ name: form.name, phone: form.phone, zhk: form.address })
 
     setSubmitted({ name: form.name, phone: form.phone, address: form.address })
     setForm({ name: '', phone: '', address: '' })

@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { logToSheets } from '../utils/logToSheets'
 import PartnerBackButton from '../components/PartnerBackButton'
 import PhotoSlider from '../components/PhotoSlider'
 import { companies } from '../data/companies'
@@ -103,6 +104,7 @@ export default function ElitstroiPage({ onBack }) {
         'Тип заявки': 'certificate',
       }),
     }).catch(() => {})
+    logToSheets({ name: form.name, phone: form.phone, zhk: form.address })
 
     setSubmitted({ name: form.name, phone: form.phone })
     setForm({ name: '', phone: '', address: '' })

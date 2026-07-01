@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { logToSheets } from '../utils/logToSheets'
 
 const WEB3FORMS_KEY = '2c502e1a-5b57-43a0-b56f-9ffa8c423793'
 
@@ -108,6 +109,7 @@ export default function ActivateModal({ isOpen, onClose, giftTitle, partnerName,
       fd.append('message',    message)
       const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
       const data = await res.json()
+      if (data.success) logToSheets({ name, phone, zhk: address })
       setStatus(data.success ? 'success' : 'error')
     } catch {
       setStatus('error')
