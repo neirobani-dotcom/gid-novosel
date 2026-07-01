@@ -27,6 +27,7 @@ import ElitstroiPage from './pages/ElitstroiPage'
 import KafelPage from './pages/KafelPage'
 import BecomePage from './pages/BecomePage'
 import PartnersPage from './pages/PartnersPage'
+import PrivacyPage from './pages/PrivacyPage'
 import PartnerNavArrows from './components/PartnerNavArrows'
 import AnimatedBanner from './components/AnimatedBanner'
 import InstructionModal from './components/InstructionModal'
@@ -118,6 +119,7 @@ export default function App() {
     if (p === '/gifts/kafel') return 'kafel'
     if (p === '/become-partner') return 'become-partner'
     if (p === '/partners') return 'partners'
+    if (p === '/privacy') return 'privacy'
     return 'home'
   })
   const [giftPartnerId, setGiftPartnerId] = useState(null)
@@ -171,6 +173,7 @@ export default function App() {
       else if (p === '/gifts/kafel') setPage('kafel')
       else if (p === '/become-partner') setPage('become-partner')
       else if (p === '/partners') setPage('partners')
+      else if (p === '/privacy') setPage('privacy')
       else setPage('home')
     }
     window.addEventListener('popstate', handlePop)
@@ -231,6 +234,9 @@ export default function App() {
   )
   if (page === 'partners') return (
     <PartnersPage onBack={() => navigateTo('home', '/')} />
+  )
+  if (page === 'privacy') return (
+    <PrivacyPage onBack={() => navigateTo('home', '/')} />
   )
   if (page === 'neirobanya') return (
     <>
@@ -622,6 +628,12 @@ export default function App() {
               <div>
                 <p style={{ fontSize: 12, color: '#6B6560' }}>📧 neirobanya@mail.ru</p>
                 <p style={{ fontSize: 11, color: '#4A4A4A', marginTop: 6 }}>© 2026 Гид Новосёла. Все права защищены.</p>
+                <button
+                  onClick={() => navigateTo('privacy', '/privacy')}
+                  style={{ background: 'none', border: 'none', padding: 0, marginTop: 6, cursor: 'pointer', fontSize: 11, color: '#6B6560', textDecoration: 'underline', fontFamily: 'inherit' }}
+                >
+                  Политика обработки персональных данных
+                </button>
               </div>
               <button
                 onClick={scrollToPartners}
